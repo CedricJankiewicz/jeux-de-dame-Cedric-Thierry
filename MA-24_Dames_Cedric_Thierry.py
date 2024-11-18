@@ -3,7 +3,7 @@ Program name : Jeu de Dames
 Author : Cédric Jankiewicz et Thierry Perroud
 Date : 08.11.2024
 """
-
+#test push
 import pygame
 
 def display_grid():
