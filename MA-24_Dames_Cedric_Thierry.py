@@ -1,7 +1,7 @@
 """
 Program name : Jeu de Dames
 Author : Cédric Jankiewicz et Thierry Perroud
-Date : 08.11.2024
+Date : 18.11.2024
 """
 
 import pygame
@@ -58,6 +58,42 @@ def move_down():
         display_grid()
         screen.blit(pawn, (x, y))
 
+def move_up_left():
+    global x,y
+    if x > 5 and y > 5:
+        x -= 100
+        y -= 100
+        screen.fill((0, 0, 0))
+        display_grid()
+        screen.blit(pawn, (x, y))
+
+def move_up_right():
+    global x,y
+    if x < 905 and y > 5:
+        x += 100
+        y -= 100
+        screen.fill((0, 0, 0))
+        display_grid()
+        screen.blit(pawn, (x, y))
+
+def move_down_left():
+    global x,y
+    if x > 5 and y < 905:
+        x -= 100
+        y += 100
+        screen.fill((0, 0, 0))
+        display_grid()
+        screen.blit(pawn, (x, y))
+
+def move_down_right():
+    global x,y
+    if x < 905 and y < 905:
+        x += 100
+        y += 100
+        screen.fill((0, 0, 0))
+        display_grid()
+        screen.blit(pawn, (x, y))
+
 #variable
 x=5
 y=5
@@ -91,17 +127,13 @@ while running:
             elif event.key == pygame.K_DOWN:
                 move_down()
             elif event.key == pygame.K_q:
-                move_up()
-                move_left()
+                move_up_left()
             elif event.key == pygame.K_e:
-                move_up()
-                move_right()
+                move_up_right()
             elif event.key == pygame.K_a:
-                move_down()
-                move_left()
+                move_down_left()
             elif event.key == pygame.K_d:
-                move_down()
-                move_right()
+                move_down_right()
             elif event.key == pygame.K_ESCAPE:
                 running = False
     pygame.display.update()
