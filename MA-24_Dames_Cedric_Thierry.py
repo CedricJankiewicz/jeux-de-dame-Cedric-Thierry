@@ -94,9 +94,44 @@ def move_down_right():
         display_grid()
         screen.blit(pawn, (x, y))
 
+def select_pawn():
+    global x,y,selected
+    if x <= event.pos[0] <= x + 100 and y <= event.pos[1] <= y + 100:
+        pygame.draw.rect(screen, (255, 0, 100), (x, y, 100, 100), 5)
+        selected = 1
+
+def move_pawn():
+    global x,y,selected
+    if x <= event.pos[0] <= x + 100 and y+100 <= event.pos[1] <= y+200 and selected == 1:
+        selected = 0
+        move_down()
+    if x +100 <= event.pos[0] <= x + 200 and y+100 <= event.pos[1] <= y+200 and selected == 1:
+        selected = 0
+        move_down_right()
+    if x +100 <= event.pos[0] <= x + 200 and y <= event.pos[1] <= y+100 and selected == 1:
+        selected = 0
+        move_right()
+    if x +100 <= event.pos[0] <= x + 200 and y - 100 <= event.pos[1] <= y and selected == 1:
+        selected = 0
+        move_up_right()
+    if x <= event.pos[0] <= x + 100 and y - 100 <= event.pos[1] <= y and selected == 1:
+        selected = 0
+        move_up()
+    if x - 100 <= event.pos[0] <= x and y - 100 <= event.pos[1] <= y and selected == 1:
+        selected = 0
+        move_up_left()
+    if x - 100 <= event.pos[0] <= x and y <= event.pos[1] <= y + 100 and selected == 1:
+        selected = 0
+        move_left()
+    if x - 100 <= event.pos[0] <= x and y+100 <= event.pos[1] <= y+200 and selected == 1:
+        selected = 0
+        move_down_left()
+
+
 #variable
 x=5
 y=5
+selected=0
 #initialisation de la librairie
 pygame.init()
 
@@ -136,6 +171,9 @@ while running:
                 move_down_right()
             elif event.key == pygame.K_ESCAPE:
                 running = False
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            select_pawn()
+            move_pawn()
     pygame.display.update()
 
 pygame.quit()
