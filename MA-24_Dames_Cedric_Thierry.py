@@ -18,67 +18,57 @@ class Pawn:
     def move_right(self):
         if self.x < 905:
             self.x += 100
-            screen.fill((0, 0, 0))
-            display_grid()
-            display_pawns()
+            draw_board()
 
     def move_left(self):
         if self.x > 5:
             self.x -= 100
-            screen.fill((0, 0, 0))
-            display_grid()
-            display_pawns()
+            draw_board()
 
     def move_up(self):
         if self.y > 5:
             self.y -= 100
-            screen.fill((0, 0, 0))
-            display_grid()
-            display_pawns()
+            draw_board()
 
     def move_down(self):
-        if self.y < 5:
+        if self.y < 905:
             self.y += 100
-            screen.fill((0, 0, 0))
-            display_grid()
-            display_pawns()
+            draw_board()
 
     def move_up_left(self):
         if self.x > 5 and self.y > 5:
             self.x -= 100
             self.y -= 100
-            screen.fill((0, 0, 0))
-            display_grid()
-            display_pawns()
+            draw_board()
 
     def move_up_right(self):
         if self.x < 905 and self.y > 5:
             self.x += 100
             self.y -= 100
-            screen.fill((0, 0, 0))
-            display_grid()
-            display_pawns()
+            draw_board()
 
     def move_down_left(self):
         if self.x > 5 and self.y < 905:
             self.x -= 100
             self.y += 100
-            screen.fill((0, 0, 0))
-            display_grid()
-            display_pawns()
+            draw_board()
 
     def move_down_right(self):
         if self.x < 905 and self.y < 905:
             self.x += 100
             self.y += 100
-            screen.fill((0, 0, 0))
-            display_grid()
-            display_pawns()
+            draw_board()
 
     def select_pawn(self):
         if self.x <= event.pos[0] <= self.x + 100 and self.y <= event.pos[1] <= self.y + 100:
-            pygame.draw.rect(screen, (255, 0, 100), (self.x, self.y, 100, 100), 5)
-            self.selected = 1
+            if self.selected == 0:
+                draw_board()
+                pygame.draw.rect(screen, (255, 0, 100), (self.x, self.y, 100, 100), 5)
+                unselect_all()
+                self.selected = 1
+            else:
+                draw_board()
+                self.selected = 0
 
     def move_pawn(self):
         if self.x <= event.pos[0] <= self.x + 100 and self.y + 100 <= event.pos[1] <= self.y + 200 and self.selected == 1:
@@ -130,108 +120,14 @@ def display_pawns():
     screen.blit(pawn1.pawn, (pawn1.x, pawn1.y))
     screen.blit(pawn2.pawn, (pawn2.x, pawn2.y))
 
-"""
-def move_right():
-        global x
-        if x < 905:
-            x+=100
-            screen.fill((0, 0, 0))
-            display_grid()
-            screen.blit(pawn, (x, y))
+def unselect_all():
+    pawn1.selected = 0
+    pawn2.selected = 0
 
-def move_left():
-        global x
-        if x > 5:
-            x-=100
-            screen.fill((0, 0, 0))
-            display_grid()
-            screen.blit(pawn, (x, y))
-
-def move_up():
-    global y
-    if y > 5:
-        y -= 100
-        screen.fill((0, 0, 0))
-        display_grid()
-        screen.blit(pawn, (x, y))
-
-def move_down():
-    global y
-    if y < 905:
-        y += 100
-        screen.fill((0, 0, 0))
-        display_grid()
-        screen.blit(pawn, (x, y))
-
-def move_up_left():
-    global x,y
-    if x > 5 and y > 5:
-        x -= 100
-        y -= 100
-        screen.fill((0, 0, 0))
-        display_grid()
-        screen.blit(pawn, (x, y))
-
-def move_up_right():
-    global x,y
-    if x < 905 and y > 5:
-        x += 100
-        y -= 100
-        screen.fill((0, 0, 0))
-        display_grid()
-        screen.blit(pawn, (x, y))
-
-def move_down_left():
-    global x,y
-    if x > 5 and y < 905:
-        x -= 100
-        y += 100
-        screen.fill((0, 0, 0))
-        display_grid()
-        screen.blit(pawn, (x, y))
-
-def move_down_right():
-    global x,y
-    if x < 905 and y < 905:
-        x += 100
-        y += 100
-        screen.fill((0, 0, 0))
-        display_grid()
-        screen.blit(pawn, (x, y))
-
-def select_pawn():
-    global x,y,selected
-    if x <= event.pos[0] <= x + 100 and y <= event.pos[1] <= y + 100:
-        pygame.draw.rect(screen, (255, 0, 100), (x, y, 100, 100), 5)
-        selected = 1
-
-def move_pawn():
-    global x,y,selected
-    if x <= event.pos[0] <= x + 100 and y+100 <= event.pos[1] <= y+200 and selected == 1:
-        selected = 0
-        move_down()
-    if x +100 <= event.pos[0] <= x + 200 and y+100 <= event.pos[1] <= y+200 and selected == 1:
-        selected = 0
-        move_down_right()
-    if x +100 <= event.pos[0] <= x + 200 and y <= event.pos[1] <= y+100 and selected == 1:
-        selected = 0
-        move_right()
-    if x +100 <= event.pos[0] <= x + 200 and y - 100 <= event.pos[1] <= y and selected == 1:
-        selected = 0
-        move_up_right()
-    if x <= event.pos[0] <= x + 100 and y - 100 <= event.pos[1] <= y and selected == 1:
-        selected = 0
-        move_up()
-    if x - 100 <= event.pos[0] <= x and y - 100 <= event.pos[1] <= y and selected == 1:
-        selected = 0
-        move_up_left()
-    if x - 100 <= event.pos[0] <= x and y <= event.pos[1] <= y + 100 and selected == 1:
-        selected = 0
-        move_left()
-    if x - 100 <= event.pos[0] <= x and y+100 <= event.pos[1] <= y+200 and selected == 1:
-        selected = 0
-        move_down_left()
-"""
+def draw_board():
+    screen.fill((0, 0, 0))
+    display_grid()
+    display_pawns()
 
 #initialisation de la librairie
 pygame.init()
@@ -243,9 +139,7 @@ pawn1 = Pawn(5,5)
 pawn2 = Pawn(105,5)
 
 #création de la grille
-display_grid()
-
-display_pawns()
+draw_board()
 
 running=True
 
