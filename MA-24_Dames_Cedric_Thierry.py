@@ -59,18 +59,26 @@ class Pawn:
                 self.selected = 0
 
     def move_pawn(self):
-        if self.x + 100 <= event.pos[0] <= self.x + 200 and self.y + 100 <= event.pos[1] <= self.y + 200 and self.selected == 1:
-            self.selected = 0
-            self.move_down_right()
-        if self.x + 100 <= event.pos[0] <= self.x + 200 and self.y - 100 <= event.pos[1] <= self.y and self.selected == 1:
-            self.selected = 0
-            self.move_up_right()
         if self.x - 100 <= event.pos[0] <= self.x and self.y - 100 <= event.pos[1] <= self.y and self.selected == 1:
+            if self.color == "black":
+                return
             self.selected = 0
             self.move_up_left()
+        if self.x + 100 <= event.pos[0] <= self.x + 200 and self.y - 100 <= event.pos[1] <= self.y and self.selected == 1:
+            if self.color == "black":
+                return
+            self.selected = 0
+            self.move_up_right()
         if self.x - 100 <= event.pos[0] <= self.x and self.y + 100 <= event.pos[1] <= self.y + 200 and self.selected == 1:
+            if self.color == "white":
+                return
             self.selected = 0
             self.move_down_left()
+        if self.x + 100 <= event.pos[0] <= self.x + 200 and self.y + 100 <= event.pos[1] <= self.y + 200 and self.selected == 1:
+            if self.color == "white":
+                return
+            self.selected = 0
+            self.move_down_right()
 
 def display_grid():
     location_y = 5
