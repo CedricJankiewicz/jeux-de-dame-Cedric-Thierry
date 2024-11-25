@@ -59,26 +59,31 @@ class Pawn:
                 self.selected = 0
 
     def move_pawn(self):
+        global turn
         if self.x - 100 <= event.pos[0] <= self.x and self.y - 100 <= event.pos[1] <= self.y and self.selected == 1:
             if self.color == "black":
                 return
             self.selected = 0
             self.move_up_left()
+            turn +=1
         if self.x + 100 <= event.pos[0] <= self.x + 200 and self.y - 100 <= event.pos[1] <= self.y and self.selected == 1:
             if self.color == "black":
                 return
             self.selected = 0
             self.move_up_right()
+            turn += 1
         if self.x - 100 <= event.pos[0] <= self.x and self.y + 100 <= event.pos[1] <= self.y + 200 and self.selected == 1:
             if self.color == "white":
                 return
             self.selected = 0
             self.move_down_left()
+            turn += 1
         if self.x + 100 <= event.pos[0] <= self.x + 200 and self.y + 100 <= event.pos[1] <= self.y + 200 and self.selected == 1:
             if self.color == "white":
                 return
             self.selected = 0
             self.move_down_right()
+            turn += 1
 
 def display_grid():
     location_y = 5
@@ -143,11 +148,12 @@ def init_pawns():
     init_white_pawns(5, 905, 15, 20)
 
 def select_pawns():
-    for i in range (0, 20):
-        black_pawn[i].select_pawn()
-
-    for i in range (0, 20):
-        white_pawn[i].select_pawn()
+    if turn % 2 == 0:
+        for i in range (0, 20):
+            black_pawn[i].select_pawn()
+    if turn % 2 == 1:
+        for i in range (0, 20):
+            white_pawn[i].select_pawn()
 
 def move_pawns():
     for i in range (0, 20):
@@ -164,6 +170,8 @@ screen = pygame.display.set_mode((1010,1010))
 
 black_pawn = [Pawn] * 20
 white_pawn = [Pawn] * 20
+
+turn = 1
 
 init_pawns()
 
