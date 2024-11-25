@@ -7,37 +7,21 @@ Date : 18.11.2024
 import pygame
 
 class Pawn:
+    x = 0
+    y = 0
+    color = ""
+    selected = 0
+    pawn = None
 
     def __init__(self, x, y, color):
         self.x = x
         self.y = y
         self.color = color
-        self.selected = 0
         if self.color == "black":
             self.pawn = pygame.image.load(".resources\\MA-24_pion_black.png")
         elif self.color == "white":
             self.pawn = pygame.image.load(".resources\\MA-24_pion_white.png")
         self.pawn = pygame.transform.scale(self.pawn, (100, 100))
-
-    def move_right(self):
-        if self.x < 905:
-            self.x += 100
-            draw_board()
-
-    def move_left(self):
-        if self.x > 5:
-            self.x -= 100
-            draw_board()
-
-    def move_up(self):
-        if self.y > 5:
-            self.y -= 100
-            draw_board()
-
-    def move_down(self):
-        if self.y < 905:
-            self.y += 100
-            draw_board()
 
     def move_up_left(self):
         if self.x > 5 and self.y > 5:
@@ -75,27 +59,15 @@ class Pawn:
                 self.selected = 0
 
     def move_pawn(self):
-        if self.x <= event.pos[0] <= self.x + 100 and self.y + 100 <= event.pos[1] <= self.y + 200 and self.selected == 1:
-            self.selected = 0
-            self.move_down()
         if self.x + 100 <= event.pos[0] <= self.x + 200 and self.y + 100 <= event.pos[1] <= self.y + 200 and self.selected == 1:
             self.selected = 0
             self.move_down_right()
-        if self.x + 100 <= event.pos[0] <= self.x + 200 and self.y <= event.pos[1] <= self.y + 100 and self.selected == 1:
-            self.selected = 0
-            self.move_right()
         if self.x + 100 <= event.pos[0] <= self.x + 200 and self.y - 100 <= event.pos[1] <= self.y and self.selected == 1:
             self.selected = 0
             self.move_up_right()
-        if self.x <= event.pos[0] <= self.x + 100 and self.y - 100 <= event.pos[1] <= self.y and self.selected == 1:
-            self.selected = 0
-            self.move_up()
         if self.x - 100 <= event.pos[0] <= self.x and self.y - 100 <= event.pos[1] <= self.y and self.selected == 1:
             self.selected = 0
             self.move_up_left()
-        if self.x - 100 <= event.pos[0] <= self.x and self.y <= event.pos[1] <= self.y + 100 and self.selected == 1:
-            self.selected = 0
-            self.move_left()
         if self.x - 100 <= event.pos[0] <= self.x and self.y + 100 <= event.pos[1] <= self.y + 200 and self.selected == 1:
             self.selected = 0
             self.move_down_left()
