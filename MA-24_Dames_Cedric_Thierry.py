@@ -8,11 +8,15 @@ import pygame
 
 class Pawn:
 
-    def __init__(self, x, y):
+    def __init__(self, x, y, color):
         self.x = x
         self.y = y
+        self.color = color
         self.selected = 0
-        self.pawn = pygame.image.load(".resources\\MA-24_pion.png")
+        if self.color == "black":
+            self.pawn = pygame.image.load(".resources\\MA-24_pion.png")
+        elif self.color == "white":
+            self.pawn = pygame.image.load(".resources\\MA-24_pion.png")
         self.pawn = pygame.transform.scale(self.pawn, (100, 100))
 
     def move_right(self):
@@ -135,8 +139,8 @@ pygame.init()
 #création de la fenêtre
 screen = pygame.display.set_mode((1010,1010))
 
-pawn1 = Pawn(5,5)
-pawn2 = Pawn(105,5)
+pawn1 = Pawn(5,5, "black")
+pawn2 = Pawn(105,5, "black")
 
 #création de la grille
 draw_board()
@@ -147,27 +151,6 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-        elif event.type == pygame.KEYDOWN:
-            """
-            if event.key == pygame.K_RIGHT:
-                move_right()
-            elif event.key == pygame.K_LEFT:
-                move_left()
-            elif event.key == pygame.K_UP:
-                move_up()
-            elif event.key == pygame.K_DOWN:
-                move_down()
-            elif event.key == pygame.K_q:
-                move_up_left()
-            elif event.key == pygame.K_e:
-                move_up_right()
-            elif event.key == pygame.K_a:
-                move_down_left()
-            elif event.key == pygame.K_d:
-                move_down_right()
-            elif event.key == pygame.K_ESCAPE:
-                running = False
-            """
         elif event.type == pygame.MOUSEBUTTONDOWN:
             pawn1.select_pawn()
             pawn1.move_pawn()
