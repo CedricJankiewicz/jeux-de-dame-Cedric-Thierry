@@ -12,6 +12,7 @@ class Pawn:
     color = ""
     selected = 0
     pawn = None
+    captured = 0
 
     def __init__(self, x, y, color):
         self.x = x
@@ -49,6 +50,9 @@ class Pawn:
 
     def select_pawn(self):
         if self.x <= event.pos[0] <= self.x + 100 and self.y <= event.pos[1] <= self.y + 100:
+            if self.captured == 1:
+                return
+
             if self.selected == 0:
                 draw_board()
                 pygame.draw.rect(screen, (255, 0, 100), (self.x, self.y, 100, 100), 5)
@@ -61,26 +65,152 @@ class Pawn:
     def move_pawn(self):
         global turn
         if self.x - 100 <= event.pos[0] <= self.x and self.y - 100 <= event.pos[1] <= self.y and self.selected == 1:
+            can_capture = check_if_pawn_can_capture(-100, -100)
+            has_captured = 0
+
             if self.color == "black":
+                for i in range (20):
+                    if (white_pawn[i].x <= event.pos[0] <= white_pawn[i].x + 100 and
+                        white_pawn[i].y <= event.pos[1] <= white_pawn[i].y + 100 and
+                        white_pawn[i].captured == 0 and can_capture):
+
+                        white_pawn[i].captured = 1
+                        self.selected = 0
+                        self.move_up_left()
+                        self.move_up_left()
+                        turn += 1
                 return
+
+            elif self.color == "white":
+                for i in range (20):
+                    if (black_pawn[i].x <= event.pos[0] <= black_pawn[i].x + 100 and
+                        black_pawn[i].y <= event.pos[1] <= black_pawn[i].y + 100 and
+                        black_pawn[i].captured == 0 and can_capture):
+
+                        has_captured = 1
+                        black_pawn[i].captured = 1
+                        self.selected = 0
+                        self.move_up_left()
+                        self.move_up_left()
+                        turn += 1
+
+                if has_captured == 0:
+                    return
+
             self.selected = 0
             self.move_up_left()
-            turn +=1
-        if self.x + 100 <= event.pos[0] <= self.x + 200 and self.y - 100 <= event.pos[1] <= self.y and self.selected == 1:
+            turn += 1
+
+        if (self.x + 100 <= event.pos[0] <= self.x + 200 and self.y - 100 <= event.pos[1] <= self.y and
+                self.selected == 1):
+            can_capture = check_if_pawn_can_capture(100, -100)
+            has_captured = 0
+
             if self.color == "black":
+                for i in range (20):
+                    if (white_pawn[i].x <= event.pos[0] <= white_pawn[i].x + 100 and
+                        white_pawn[i].y <= event.pos[1] <= white_pawn[i].y + 100 and
+                        white_pawn[i].captured == 0 and can_capture):
+
+                        white_pawn[i].captured = 1
+                        self.selected = 0
+                        self.move_up_right()
+                        self.move_up_right()
+                        turn += 1
                 return
+
+            elif self.color == "white":
+                for i in range (20):
+                    if (black_pawn[i].x <= event.pos[0] <= black_pawn[i].x + 100 and
+                        black_pawn[i].y <= event.pos[1] <= black_pawn[i].y + 100 and
+                        black_pawn[i].captured == 0 and can_capture):
+
+                        has_captured = 1
+                        black_pawn[i].captured = 1
+                        self.selected = 0
+                        self.move_up_right()
+                        self.move_up_right()
+                        turn += 1
+
+                if has_captured == 1:
+                    return
+
             self.selected = 0
             self.move_up_right()
             turn += 1
-        if self.x - 100 <= event.pos[0] <= self.x and self.y + 100 <= event.pos[1] <= self.y + 200 and self.selected == 1:
+
+        if (self.x - 100 <= event.pos[0] <= self.x and self.y + 100 <= event.pos[1] <= self.y + 200 and
+                self.selected == 1):
+            can_capture = check_if_pawn_can_capture(-100, 100)
+            has_captured = 0
+
             if self.color == "white":
+                for i in range (20):
+                    if (black_pawn[i].x <= event.pos[0] <= black_pawn[i].x + 100 and
+                        black_pawn[i].y <= event.pos[1] <= black_pawn[i].y + 100 and
+                        black_pawn[i].captured == 0 and can_capture):
+
+                        black_pawn[i].captured = 1
+                        self.selected = 0
+                        self.move_down_left()
+                        self.move_down_left()
+                        turn += 1
                 return
+
+            elif self.color == "black":
+                for i in range (20):
+                    if (white_pawn[i].x <= event.pos[0] <= white_pawn[i].x + 100 and
+                        white_pawn[i].y <= event.pos[1] <= white_pawn[i].y + 100 and
+                        white_pawn[i].captured == 0 and can_capture):
+
+                        has_captured = 1
+                        white_pawn[i].captured = 1
+                        self.selected = 0
+                        self.move_down_left()
+                        self.move_down_left()
+                        turn += 1
+
+                if has_captured == 0:
+                    return
+
             self.selected = 0
             self.move_down_left()
             turn += 1
-        if self.x + 100 <= event.pos[0] <= self.x + 200 and self.y + 100 <= event.pos[1] <= self.y + 200 and self.selected == 1:
+
+        if (self.x + 100 <= event.pos[0] <= self.x + 200 and self.y + 100 <= event.pos[1] <= self.y + 200 and
+                self.selected == 1):
+            can_capture = check_if_pawn_can_capture(100, 100)
+            has_captured = 0
+
             if self.color == "white":
+                for i in range (20):
+                    if (black_pawn[i].x <= event.pos[0] <= black_pawn[i].x + 100 and
+                        black_pawn[i].y <= event.pos[1] <= black_pawn[i].y + 100 and
+                        black_pawn[i].captured == 0 and can_capture):
+
+                        black_pawn[i].captured = 1
+                        self.selected = 0
+                        self.move_down_right()
+                        self.move_down_right()
+                        turn += 1
                 return
+
+            elif self.color == "black":
+                for i in range (20):
+                    if (white_pawn[i].x <= event.pos[0] <= white_pawn[i].x + 100 and
+                        white_pawn[i].y <= event.pos[1] <= white_pawn[i].y + 100 and
+                        white_pawn[i].captured == 0 and can_capture):
+
+                        has_captured = 1
+                        white_pawn[i].captured = 1
+                        self.selected = 0
+                        self.move_down_right()
+                        self.move_down_right()
+                        turn += 1
+
+                if has_captured == 0:
+                    return
+
             self.selected = 0
             self.move_down_right()
             turn += 1
@@ -90,33 +220,35 @@ def display_grid():
     for i in range(0,5):
         location_x = 5
         for j in range(0,5):
-                pygame.draw.rect(screen, (255, 255, 255), (location_x, location_y, 100, 100), 0)
-                location_x +=100
-                pygame.draw.rect(screen, (150, 150, 150), (location_x, location_y, 100, 100), 0)
-                location_x +=100
+            pygame.draw.rect(screen, (255, 255, 255), (location_x, location_y, 100, 100), 0)
+            location_x +=100
+            pygame.draw.rect(screen, (150, 150, 150), (location_x, location_y, 100, 100), 0)
+            location_x +=100
 
         location_y += 100
         location_x = 5
         for j in range(0,5):
-                pygame.draw.rect(screen, (150, 150, 150), (location_x, location_y, 100, 100), 0)
-                location_x +=100
-                pygame.draw.rect(screen, (255, 255, 255), (location_x, location_y, 100, 100), 0)
-                location_x +=100
+            pygame.draw.rect(screen, (150, 150, 150), (location_x, location_y, 100, 100), 0)
+            location_x +=100
+            pygame.draw.rect(screen, (255, 255, 255), (location_x, location_y, 100, 100), 0)
+            location_x +=100
 
         location_y += 100
 
 def display_pawns():
-    for i in range (0, 20):
-        screen.blit(black_pawn[i].pawn, (black_pawn[i].x, black_pawn[i].y))
+    for i in range (20):
+        if black_pawn[i].captured == 0:
+            screen.blit(black_pawn[i].pawn, (black_pawn[i].x, black_pawn[i].y))
 
-    for i in range (0, 20):
-        screen.blit(white_pawn[i].pawn, (white_pawn[i].x, white_pawn[i].y))
+    for i in range (20):
+        if white_pawn[i].captured == 0:
+            screen.blit(white_pawn[i].pawn, (white_pawn[i].x, white_pawn[i].y))
 
 def unselect_all():
-    for i in range (0, 20):
+    for i in range (20):
         black_pawn[i].selected = 0
 
-    for i in range (0, 20):
+    for i in range (20):
         white_pawn[i].selected = 0
 
 def draw_board():
@@ -130,13 +262,11 @@ def init_black_pawns(x, y, low_range, high_range):
         x += 200
 
 def init_white_pawns(x, y, low_range, high_range):
-
     for i in range(low_range, high_range):
         white_pawn[i] = Pawn(x, y, "white")
         x += 200
 
 def init_pawns():
-
     init_black_pawns(105, 5, 0, 5)
     init_black_pawns(5, 105, 5, 10)
     init_black_pawns(105, 205, 10, 15)
@@ -149,18 +279,32 @@ def init_pawns():
 
 def select_pawns():
     if turn % 2 == 0:
-        for i in range (0, 20):
+        for i in range (20):
             black_pawn[i].select_pawn()
     if turn % 2 == 1:
-        for i in range (0, 20):
+        for i in range (20):
             white_pawn[i].select_pawn()
 
 def move_pawns():
-    for i in range (0, 20):
+    for i in range (20):
         black_pawn[i].move_pawn()
 
-    for i in range (0, 20):
+    for i in range (20):
         white_pawn[i].move_pawn()
+
+def check_if_pawn_can_capture(pos_x, pos_y):
+    blocked = 0
+    for i in range(20):
+        if (black_pawn[i].x <= event.pos[0] + pos_x <= black_pawn[i].x + 100 and
+                black_pawn[i].y <= event.pos[1] + pos_y <= black_pawn[i].y + 100 and black_pawn[i].captured == 0 or
+                white_pawn[i].x <= event.pos[0] + pos_x <= white_pawn[i].x + 100 and
+                white_pawn[i].y <= event.pos[1] + pos_y <= white_pawn[i].y + 100 and white_pawn[i].captured == 0):
+            blocked += 1
+
+    if blocked == 0:
+        return True
+    else:
+        return False
 
 #initialisation de la librairie
 pygame.init()
