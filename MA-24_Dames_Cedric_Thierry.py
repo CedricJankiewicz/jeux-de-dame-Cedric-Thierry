@@ -94,7 +94,7 @@ class Pawn:
                         self.move_up_left()
                         turn += 1
 
-                if has_captured == 0:
+                if has_captured == 1:
                     return
 
             self.selected = 0
@@ -170,7 +170,7 @@ class Pawn:
                         self.move_down_left()
                         turn += 1
 
-                if has_captured == 0:
+                if has_captured == 1:
                     return
 
             self.selected = 0
@@ -208,7 +208,7 @@ class Pawn:
                         self.move_down_right()
                         turn += 1
 
-                if has_captured == 0:
+                if has_captured == 1:
                     return
 
             self.selected = 0
