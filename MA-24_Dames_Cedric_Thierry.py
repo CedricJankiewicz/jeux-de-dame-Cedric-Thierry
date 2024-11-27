@@ -344,11 +344,17 @@ def move_pawns():
 
 def check_if_pawn_can_capture(pos_x, pos_y):
     blocked = 0
+    print(event.pos[0])
+    print(event.pos[0] + pos_x)
+    print(event.pos[1])
+    print(event.pos[1] + pos_y)
     for i in range(20):
-        if (black_pawn[i].x <= event.pos[0] + pos_x <= black_pawn[i].x + 100 and
-                black_pawn[i].y <= event.pos[1] + pos_y <= black_pawn[i].y + 100 and black_pawn[i].captured == 0 or
-                white_pawn[i].x <= event.pos[0] + pos_x <= white_pawn[i].x + 100 and
-                white_pawn[i].y <= event.pos[1] + pos_y <= white_pawn[i].y + 100 and white_pawn[i].captured == 0):
+        if (not (5 <= event.pos[0] + pos_x <= 1005) or not (5 <= event.pos[1] + pos_y <= 1005) or
+            black_pawn[i].x <= event.pos[0] + pos_x <= black_pawn[i].x + 100 and
+            black_pawn[i].y <= event.pos[1] + pos_y <= black_pawn[i].y + 100 and black_pawn[i].captured == 0 or
+            white_pawn[i].x <= event.pos[0] + pos_x <= white_pawn[i].x + 100 and
+            white_pawn[i].y <= event.pos[1] + pos_y <= white_pawn[i].y + 100 and white_pawn[i].captured == 0):
+
             blocked += 1
 
     if blocked == 0:
