@@ -66,7 +66,8 @@ class Pawn:
         global turn
         if self.selected:
             if self.x - 100 <= event.pos[0] <= self.x and self.y - 100 <= event.pos[1] <= self.y:
-                can_capture = check_if_pawn_can_capture(-100, -100)
+                can_capture = check_if_pawn_can_capture_directly(self, "up_left")
+                can_capture_elsewhere = check_if_pawn_can_capture_elsewhere(self, "up_left")
                 has_captured = 0
 
                 if self.color == "black":
@@ -104,6 +105,9 @@ class Pawn:
                                 return
 
                     elif not can_capture:
+                        if can_capture_elsewhere:
+                            return
+
                         for i in range(20):
                             if (black_pawn[i].x <= event.pos[0] <= black_pawn[i].x + 100 and
                                 black_pawn[i].y <= event.pos[1] <= black_pawn[i].y + 100 and
@@ -116,7 +120,8 @@ class Pawn:
                 turn += 1
 
             if self.x + 100 <= event.pos[0] <= self.x + 200 and self.y - 100 <= event.pos[1] <= self.y:
-                can_capture = check_if_pawn_can_capture(100, -100)
+                can_capture = check_if_pawn_can_capture_directly(self, "up_right")
+                can_capture_elsewhere = check_if_pawn_can_capture_elsewhere(self, "up_right")
                 has_captured = 0
 
                 if self.color == "black":
@@ -154,6 +159,9 @@ class Pawn:
                                 return
 
                     elif not can_capture:
+                        if can_capture_elsewhere:
+                            return
+
                         for i in range(20):
                             if (black_pawn[i].x <= event.pos[0] <= black_pawn[i].x + 100 and
                                 black_pawn[i].y <= event.pos[1] <= black_pawn[i].y + 100 and
@@ -166,7 +174,8 @@ class Pawn:
                 turn += 1
 
             if self.x - 100 <= event.pos[0] <= self.x and self.y + 100 <= event.pos[1] <= self.y + 200:
-                can_capture = check_if_pawn_can_capture(-100, 100)
+                can_capture = check_if_pawn_can_capture_directly(self, "down_left")
+                can_capture_elsewhere = check_if_pawn_can_capture_elsewhere(self, "down_left")
                 has_captured = 0
 
                 if self.color == "white":
@@ -204,6 +213,9 @@ class Pawn:
                                 return
 
                     elif not can_capture:
+                        if can_capture_elsewhere:
+                            return
+
                         for i in range(20):
                             if (white_pawn[i].x <= event.pos[0] <= white_pawn[i].x + 100 and
                                 white_pawn[i].y <= event.pos[1] <= white_pawn[i].y + 100 and
@@ -216,7 +228,8 @@ class Pawn:
                 turn += 1
 
             if self.x + 100 <= event.pos[0] <= self.x + 200 and self.y + 100 <= event.pos[1] <= self.y + 200:
-                can_capture = check_if_pawn_can_capture(100, 100)
+                can_capture = check_if_pawn_can_capture_directly(self, "down_right")
+                can_capture_elsewhere = check_if_pawn_can_capture_elsewhere(self, "down_right")
                 has_captured = 0
 
                 if self.color == "white":
@@ -254,6 +267,9 @@ class Pawn:
                                 return
 
                     elif not can_capture:
+                        if can_capture_elsewhere:
+                            return
+
                         for i in range(20):
                             if (white_pawn[i].x <= event.pos[0] <= white_pawn[i].x + 100 and
                                 white_pawn[i].y <= event.pos[1] <= white_pawn[i].y + 100 and
@@ -342,12 +358,218 @@ def move_pawns():
     for i in range (20):
         white_pawn[i].move_pawn()
 
+def check_if_pawn_can_capture_directly(pawn, attempted_move):
+    can_capture = False
+
+    for i in range(20):
+        if pawn.color == "black":
+            if (white_pawn[i].x <= event.pos[0] <= white_pawn[i].x + 100 and
+                white_pawn[i].y <= event.pos[1] <= white_pawn[i].y + 100 and white_pawn[i].captured == 0):
+
+                if attempted_move == "up_left":
+                    can_capture = check_if_pawn_can_capture(-100, -100)
+                    break
+                elif attempted_move == "up_right":
+                    can_capture = check_if_pawn_can_capture(100, -100)
+                    break
+                elif attempted_move == "down_left":
+                    can_capture = check_if_pawn_can_capture(-100, 100)
+                    break
+                elif attempted_move == "down_right":
+                    can_capture = check_if_pawn_can_capture(100, 100)
+                    break
+
+        elif pawn.color == "white":
+            if (black_pawn[i].x <= event.pos[0] <= black_pawn[i].x + 100 and
+                black_pawn[i].y <= event.pos[1] <= black_pawn[i].y + 100 and black_pawn[i].captured == 0):
+
+                if attempted_move == "up_left":
+                    can_capture = check_if_pawn_can_capture(-100, -100)
+                    break
+                elif attempted_move == "up_right":
+                    can_capture = check_if_pawn_can_capture(100, -100)
+                    break
+                elif attempted_move == "down_left":
+                    can_capture = check_if_pawn_can_capture(-100, 100)
+                    break
+                elif attempted_move == "down_right":
+                    can_capture = check_if_pawn_can_capture(100, 100)
+                    break
+
+    return can_capture
+
+def check_if_pawn_can_capture_elsewhere(pawn, attempted_move):
+    can_capture = False
+
+    if attempted_move == "up_left":
+        if pawn.color == "black":
+            for i in range(20):
+                if (white_pawn[i].x <= event.pos[0] + 200 <= white_pawn[i].x + 100 and
+                    white_pawn[i].y <= event.pos[1] <= white_pawn[i].y + 100 and white_pawn[i].captured == 0):
+
+                    can_capture = check_if_pawn_can_capture(300, -100)
+                    break
+
+                if (white_pawn[i].x <= event.pos[0] <= white_pawn[i].x + 100 and
+                    white_pawn[i].y <= event.pos[1] + 200 <= white_pawn[i].y + 100 and white_pawn[i].captured == 0):
+
+                    can_capture = check_if_pawn_can_capture(-100, 300)
+                    break
+
+                if (white_pawn[i].x <= event.pos[0] + 200 <= white_pawn[i].x + 100 and
+                    white_pawn[i].y <= event.pos[1] + 200 <= white_pawn[i].y + 100 and white_pawn[i].captured == 0):
+
+                    can_capture = check_if_pawn_can_capture(300, 300)
+                    break
+
+        elif pawn.color == "white":
+            for i in range(20):
+                if (black_pawn[i].x <= event.pos[0] + 200 <= black_pawn[i].x + 100 and
+                    black_pawn[i].y <= event.pos[1] <= black_pawn[i].y + 100 and black_pawn[i].captured == 0):
+
+                    can_capture = check_if_pawn_can_capture(300, -100)
+                    break
+
+                if (black_pawn[i].x <= event.pos[0] <= black_pawn[i].x + 100 and
+                    black_pawn[i].y <= event.pos[1] + 200 <= black_pawn[i].y + 100 and black_pawn[i].captured == 0):
+
+                    can_capture = check_if_pawn_can_capture(-100, 300)
+                    break
+
+                if (black_pawn[i].x <= event.pos[0] + 200 <= black_pawn[i].x + 100 and
+                    black_pawn[i].y <= event.pos[1] + 200 <= black_pawn[i].y + 100 and black_pawn[i].captured == 0):
+
+                    can_capture = check_if_pawn_can_capture(300, 300)
+                    break
+
+    if not can_capture and attempted_move == "up_right":
+        if pawn.color == "black":
+            for i in range(20):
+                if (white_pawn[i].x <= event.pos[0] - 200 <= white_pawn[i].x + 100 and
+                    white_pawn[i].y <= event.pos[1] <= white_pawn[i].y + 100 and white_pawn[i].captured == 0):
+
+                    can_capture = check_if_pawn_can_capture(-300, -100)
+                    break
+
+                if (white_pawn[i].x <= event.pos[0] - 200 <= white_pawn[i].x + 100 and
+                    white_pawn[i].y <= event.pos[1] + 200 <= white_pawn[i].y + 100 and white_pawn[i].captured == 0):
+
+                    can_capture = check_if_pawn_can_capture(-300, 300)
+                    break
+
+                if (white_pawn[i].x <= event.pos[0] <= white_pawn[i].x + 100 and
+                    white_pawn[i].y <= event.pos[1] + 200 <= white_pawn[i].y + 100 and white_pawn[i].captured == 0):
+
+                    can_capture = check_if_pawn_can_capture(100, 300)
+                    break
+
+        elif pawn.color == "white":
+            for i in range(20):
+                if (black_pawn[i].x <= event.pos[0] - 200 <= black_pawn[i].x + 100 and
+                    black_pawn[i].y <= event.pos[1] <= black_pawn[i].y + 100 and black_pawn[i].captured == 0):
+
+                    can_capture = check_if_pawn_can_capture(-300, -100)
+                    break
+
+                if (black_pawn[i].x <= event.pos[0] - 200 <= black_pawn[i].x + 100 and
+                    black_pawn[i].y <= event.pos[1] + 200 <= black_pawn[i].y + 100 and black_pawn[i].captured == 0):
+
+                    can_capture = check_if_pawn_can_capture(-300, 300)
+                    break
+
+                if (black_pawn[i].x <= event.pos[0] + 200 <= black_pawn[i].x + 100 and
+                    black_pawn[i].y <= event.pos[1] + 200 <= black_pawn[i].y + 100 and black_pawn[i].captured == 0):
+
+                    can_capture = check_if_pawn_can_capture(100, 300)
+                    break
+
+    if not can_capture and attempted_move == "down_left":
+        if pawn.color == "black":
+            for i in range(20):
+                if (white_pawn[i].x <= event.pos[0] <= white_pawn[i].x + 100 and
+                    white_pawn[i].y <= event.pos[1] - 200 <= white_pawn[i].y + 100 and white_pawn[i].captured == 0):
+
+                    can_capture = check_if_pawn_can_capture(-100, -300)
+                    break
+
+                if (white_pawn[i].x <= event.pos[0] + 200 <= white_pawn[i].x + 100 and
+                    white_pawn[i].y <= event.pos[1] - 200 <= white_pawn[i].y + 100 and white_pawn[i].captured == 0):
+
+                    can_capture = check_if_pawn_can_capture(300, -300)
+                    break
+
+                if (white_pawn[i].x <= event.pos[0] + 200 <= white_pawn[i].x + 100 and
+                    white_pawn[i].y <= event.pos[1] <= white_pawn[i].y + 100 and white_pawn[i].captured == 0):
+
+                    can_capture = check_if_pawn_can_capture(300, 100)
+                    break
+
+        elif pawn.color == "white":
+            for i in range(20):
+                if (black_pawn[i].x <= event.pos[0] <= black_pawn[i].x + 100 and
+                    black_pawn[i].y <= event.pos[1] - 200 <= black_pawn[i].y + 100 and black_pawn[i].captured == 0):
+
+                    can_capture = check_if_pawn_can_capture(-100, -300)
+                    break
+
+                if (black_pawn[i].x <= event.pos[0] + 200 <= black_pawn[i].x + 100 and
+                    black_pawn[i].y <= event.pos[1] - 200 <= black_pawn[i].y + 100 and black_pawn[i].captured == 0):
+
+                    can_capture = check_if_pawn_can_capture(300, -300)
+                    break
+
+                if (black_pawn[i].x <= event.pos[0] + 200 <= black_pawn[i].x + 100 and
+                    black_pawn[i].y <= event.pos[1] <= black_pawn[i].y + 100 and black_pawn[i].captured == 0):
+
+                    can_capture = check_if_pawn_can_capture(300, 100)
+                    break
+
+    if not can_capture and attempted_move == "down_right":
+        if pawn.color == "black":
+            for i in range(20):
+                if (white_pawn[i].x <= event.pos[0] - 200 <= white_pawn[i].x + 100 and
+                    white_pawn[i].y <= event.pos[1] - 200 <= white_pawn[i].y + 100 and white_pawn[i].captured == 0):
+
+                    can_capture = check_if_pawn_can_capture(-300, -300)
+                    break
+
+                if (white_pawn[i].x <= event.pos[0] <= white_pawn[i].x + 100 and
+                    white_pawn[i].y <= event.pos[1] - 200 <= white_pawn[i].y + 100 and white_pawn[i].captured == 0):
+
+                    can_capture = check_if_pawn_can_capture(100, -300)
+                    break
+
+                if (white_pawn[i].x <= event.pos[0] - 200 <= white_pawn[i].x + 100 and
+                    white_pawn[i].y <= event.pos[1] <= white_pawn[i].y + 100 and white_pawn[i].captured == 0):
+
+                    can_capture = check_if_pawn_can_capture(-300, 100)
+                    break
+
+        elif pawn.color == "white":
+            for i in range(20):
+                if (black_pawn[i].x <= event.pos[0] - 200 <= black_pawn[i].x + 100 and
+                    black_pawn[i].y <= event.pos[1] - 200 <= black_pawn[i].y + 100 and black_pawn[i].captured == 0):
+
+                    can_capture = check_if_pawn_can_capture(-300, -300)
+                    break
+
+                if (black_pawn[i].x <= event.pos[0] <= black_pawn[i].x + 100 and
+                    black_pawn[i].y <= event.pos[1] - 200 <= black_pawn[i].y + 100 and black_pawn[i].captured == 0):
+
+                    can_capture = check_if_pawn_can_capture(100, -300)
+                    break
+
+                if (black_pawn[i].x <= event.pos[0] - 200 <= black_pawn[i].x + 100 and
+                    black_pawn[i].y <= event.pos[1] <= black_pawn[i].y + 100 and black_pawn[i].captured == 0):
+
+                    can_capture = check_if_pawn_can_capture(-300, 100)
+                    break
+
+    return can_capture
+
 def check_if_pawn_can_capture(pos_x, pos_y):
     blocked = 0
-    print(event.pos[0])
-    print(event.pos[0] + pos_x)
-    print(event.pos[1])
-    print(event.pos[1] + pos_y)
+
     for i in range(20):
         if (not (5 <= event.pos[0] + pos_x <= 1005) or not (5 <= event.pos[1] + pos_y <= 1005) or
             black_pawn[i].x <= event.pos[0] + pos_x <= black_pawn[i].x + 100 and
@@ -356,6 +578,7 @@ def check_if_pawn_can_capture(pos_x, pos_y):
             white_pawn[i].y <= event.pos[1] + pos_y <= white_pawn[i].y + 100 and white_pawn[i].captured == 0):
 
             blocked += 1
+            break
 
     if blocked == 0:
         return True
