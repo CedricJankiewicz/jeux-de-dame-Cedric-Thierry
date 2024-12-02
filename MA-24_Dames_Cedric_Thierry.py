@@ -310,6 +310,96 @@ def display_pawns():
         if white_pawn[i].captured == 0:
             screen.blit(white_pawn[i].pawn, (white_pawn[i].x, white_pawn[i].y))
 
+def timer():
+    global global_mill_sec_time, global_sec_time, global_min_time, global_time,\
+        black_mill_sec_time, black_sec_time, black_min_time, black_time,\
+        white_mill_sec_time, white_sec_time, white_min_time, white_time,\
+        turn
+
+    pygame.time.delay(10)
+    if global_mill_sec_time >= 99:
+        global_mill_sec_time = 0
+        global_sec_time += 1
+        if global_sec_time > 59:
+            global_sec_time = 0
+            global_min_time += 1
+    else:
+        global_mill_sec_time += 1
+
+    global_time = f"{global_min_time:02d}:{global_sec_time:02d}:{global_mill_sec_time:02d}"
+
+    if turn % 2 == 0:
+        if black_mill_sec_time >= 99:
+            black_mill_sec_time = 0
+            black_sec_time += 1
+            if black_sec_time > 59:
+                black_sec_time = 0
+                black_min_time += 1
+        else:
+            black_mill_sec_time += 1
+
+    black_time = f"{black_min_time:02d}:{black_sec_time:02d}:{black_mill_sec_time:02d}"
+
+    if turn % 2 == 1:
+        if white_mill_sec_time >= 99:
+            white_mill_sec_time = 0
+            white_sec_time += 1
+            if white_sec_time > 59:
+                white_sec_time = 0
+                white_min_time += 1
+        else:
+            white_mill_sec_time += 1
+
+    white_time = f"{white_min_time:02d}:{white_sec_time:02d}:{white_mill_sec_time:02d}"
+
+def check_pawn_left():
+    global black_pawn_left,white_pawn_left
+    black_pawn_left = 20
+    white_pawn_left = 20
+    for i in range(20):
+        if white_pawn[i].captured == 1:
+            white_pawn_left -= 1
+
+        if black_pawn[i].captured == 1:
+            black_pawn_left -= 1
+
+def display_info():
+    #reset info side
+    pygame.draw.rect(screen, (0, 0, 0), (1010, 10, 400, 1000))
+
+    timer()
+    check_pawn_left()
+
+    #text font
+    font = pygame.font.Font(None, 36)
+
+    #global info
+    global_y = 305
+    txt_turn = font.render(f"turn {turn}", True, (255, 255, 255))
+    screen.blit(txt_turn, (1060, global_y))
+
+
+    txt_timer = font.render(global_time , True, (255, 255, 255))
+    screen.blit(txt_timer, (1060, (global_y + 30)))
+
+    #black info
+    blk_y = 55
+    txt_black = font.render("black", True, (255, 255, 255))
+    screen.blit(txt_black, (1060, blk_y))
+    txt_blk_timer = font.render(black_time, True, (255, 255, 255))
+    screen.blit(txt_blk_timer, (1060, (blk_y + 50)))
+    txt_blk_remain_pawn = font.render(f"{black_pawn_left} pawns left", True, (255, 255, 255))
+    screen.blit(txt_blk_remain_pawn, (1060, (blk_y + 80)))
+
+    #white info
+    wht_y = 505
+    txt_white = font.render("white", True, (255, 255, 255))
+    screen.blit(txt_white, (1060, wht_y))
+    txt_wht_timer = font.render(white_time, True, (255, 255, 255))
+    screen.blit(txt_wht_timer, (1060, (wht_y + 50)))
+    txt_wht_remain_pawn = font.render(f"{white_pawn_left} pawns left", True, (255, 255, 255))
+    screen.blit(txt_wht_remain_pawn, (1060, (wht_y + 80)))
+
 def unselect_all():
     for i in range (20):
         black_pawn[i].selected = 0
@@ -318,7 +408,7 @@ def unselect_all():
         white_pawn[i].selected = 0
 
 def draw_board():
-    screen.fill((0, 0, 0))
+    pygame.draw.rect(screen, (0, 0, 0), (0, 0, 1010, 1010))
     display_grid()
     display_pawns()
 
@@ -589,21 +679,40 @@ def check_if_pawn_can_capture(pos_x, pos_y):
 pygame.init()
 
 #création de la fenêtre
-screen = pygame.display.set_mode((1010,1010))
+screen = pygame.display.set_mode((1410,1010))
 
 black_pawn = [Pawn] * 20
 white_pawn = [Pawn] * 20
 
 turn = 1
 
+black_pawn_left = 20
+white_pawn_left = 20
+
+#timer variable
+global_mill_sec_time = 0
+global_sec_time = 0
+global_min_time = 0
+global_time = ""
+
+black_mill_sec_time = 0
+black_sec_time = 0
+black_min_time = 0
+black_time = ""
+
+white_mill_sec_time = 0
+white_sec_time = 0
+white_min_time = 0
+white_time = ""
+
 init_pawns()
 
 #création de la grille
 draw_board()
-
 running=True
 
 while running:
+    display_info()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
