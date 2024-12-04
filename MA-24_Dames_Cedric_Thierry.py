@@ -13,6 +13,7 @@ class Pawn:
     selected = 0
     pawn = None
     captured = 0
+    queen = 0
 
     def __init__(self, x, y, color):
         self.x = x
@@ -24,28 +25,44 @@ class Pawn:
             self.pawn = pygame.image.load(".resources\\MA-24_pion_white.png")
         self.pawn = pygame.transform.scale(self.pawn, (100, 100))
 
+    def change_to_queen(self):
+        if self.color == "black":
+            if 0 <= self.x <= self.x + 1010 and 895 <= self.y <= 905:
+                self.queen = 1
+                self.pawn = pygame.image.load(".resources\\MA-24_pion_black_queen.png")
+        if self.color == "white":
+            if 0 <= self.x <= self.x + 1010 and 0 <= self.y <= 10:
+                self.queen = 1
+                self.pawn = pygame.image.load(".resources\\MA-24_pion_white_queen.png")
+        self.pawn = pygame.transform.scale(self.pawn, (100, 100))
+
+
     def move_up_left(self):
         if self.x > 5 and self.y > 5:
             self.x -= 100
             self.y -= 100
+            change_to_queen()
             draw_board()
 
     def move_up_right(self):
         if self.x < 905 and self.y > 5:
             self.x += 100
             self.y -= 100
+            change_to_queen()
             draw_board()
 
     def move_down_left(self):
         if self.x > 5 and self.y < 905:
             self.x -= 100
             self.y += 100
+            change_to_queen()
             draw_board()
 
     def move_down_right(self):
         if self.x < 905 and self.y < 905:
             self.x += 100
             self.y += 100
+            change_to_queen()
             draw_board()
 
     def select_pawn(self):
@@ -356,6 +373,7 @@ class Pawn:
                 self.selected = 0
                 self.move_down_right()
                 turn += 1
+
 
 def display_grid():
     location_y = 5
@@ -968,6 +986,13 @@ def check_if_pawn_can_capture_again(pawn, previous_move):
                         break
 
     return can_capture_again
+
+def change_to_queen():
+    for i in range (20):
+        black_pawn[i].change_to_queen()
+
+    for i in range (20):
+        white_pawn[i].change_to_queen()
 
 #initialisation de la librairie
 pygame.init()
