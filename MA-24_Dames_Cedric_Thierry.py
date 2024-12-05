@@ -27,15 +27,14 @@ class Pawn:
 
     def change_to_queen(self):
         if self.color == "black":
-            if 0 <= self.x <= self.x + 1010 and 895 <= self.y <= 905:
+            if 895 <= self.y <= 905:
                 self.queen = 1
                 self.pawn = pygame.image.load(".resources\\MA-24_pion_black_queen.png")
         if self.color == "white":
-            if 0 <= self.x <= self.x + 1010 and 0 <= self.y <= 10:
+            if 0 <= self.y <= 10:
                 self.queen = 1
                 self.pawn = pygame.image.load(".resources\\MA-24_pion_white_queen.png")
         self.pawn = pygame.transform.scale(self.pawn, (100, 100))
-
 
     def move_up_left(self):
         if self.x > 5 and self.y > 5:
@@ -374,7 +373,6 @@ class Pawn:
                 self.move_down_right()
                 turn += 1
 
-
 def display_grid():
     location_y = 5
     for i in range(0,5):
@@ -446,8 +444,8 @@ def timer():
 
     white_time = f"{white_min_time:02d}:{white_sec_time:02d}:{white_mill_sec_time:02d}"
 
-def check_pawn_left():
-    global black_pawn_left,white_pawn_left
+def check_pawn_left_queen():
+    global black_pawn_left,white_pawn_left,black_pawn_queen,white_pawn_queen
     black_pawn_left = 20
     white_pawn_left = 20
     for i in range(20):
@@ -456,13 +454,21 @@ def check_pawn_left():
 
         if black_pawn[i].captured == 1:
             black_pawn_left -= 1
+    black_pawn_queen = 0
+    white_pawn_queen = 0
+    for i in range(20):
+        if white_pawn[i].queen == 1 and not white_pawn[i].captured == 1:
+            white_pawn_queen += 1
+
+        if black_pawn[i].queen == 1 and not black_pawn[i].captured == 1:
+            black_pawn_queen += 1
 
 def display_info():
     #reset info side
     pygame.draw.rect(screen, (0, 0, 0), (1010, 10, 400, 1000))
 
     timer()
-    check_pawn_left()
+    check_pawn_left_queen()
 
     #text font
     font = pygame.font.Font(None, 36)
@@ -484,6 +490,8 @@ def display_info():
     screen.blit(txt_blk_timer, (1060, (blk_y + 50)))
     txt_blk_remain_pawn = font.render(f"{black_pawn_left} pawns left", True, (255, 255, 255))
     screen.blit(txt_blk_remain_pawn, (1060, (blk_y + 80)))
+    txt_blk_remain_pawn = font.render(f"{black_pawn_queen} queens", True, (255, 255, 255))
+    screen.blit(txt_blk_remain_pawn, (1060, (blk_y + 110)))
 
     #white info
     wht_y = 505
@@ -493,6 +501,8 @@ def display_info():
     screen.blit(txt_wht_timer, (1060, (wht_y + 50)))
     txt_wht_remain_pawn = font.render(f"{white_pawn_left} pawns left", True, (255, 255, 255))
     screen.blit(txt_wht_remain_pawn, (1060, (wht_y + 80)))
+    txt_wht_remain_pawn = font.render(f"{white_pawn_queen} queens", True, (255, 255, 255))
+    screen.blit(txt_wht_remain_pawn, (1060, (wht_y + 110)))
 
 def unselect_all():
     for i in range (20):
@@ -1007,6 +1017,9 @@ turn = 1
 
 black_pawn_left = 20
 white_pawn_left = 20
+
+black_pawn_queen = 0
+white_pawn_queen = 0
 
 #timer variable
 global_mill_sec_time = 0
