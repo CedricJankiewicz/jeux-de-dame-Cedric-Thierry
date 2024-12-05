@@ -430,7 +430,7 @@ class Pawn:
                             break
 
                 if event.pos[0] <= self.x and self.y + 100 <= event.pos[1]:
-                    while 0 <= pos_x + 100 and pos_y - 100 <= 1000:
+                    while 0 <= pos_x - 100 and pos_y + 100 <= 1000:
                         pos_x -= 100
                         pos_y += 100
                         loops += 1
@@ -455,7 +455,7 @@ class Pawn:
                             break
 
                 if self.x + 100 <= event.pos[0] and self.y + 100 <= event.pos[1]:
-                    while pos_x + 100 <= 1000 and pos_y - 100 <= 1000:
+                    while pos_x + 100 <= 1000 and pos_y + 100 <= 1000:
                         pos_x += 100
                         pos_y += 100
                         loops += 1
@@ -892,8 +892,6 @@ def check_if_pawn_can_capture_elsewhere(pawn, attempted_move):
     return can_capture
 
 def check_if_pawn_can_capture(pos_x, pos_y):
-    blocked = 0
-
     for i in range(20):
         if (not (5 <= event.pos[0] + pos_x <= 1005) or not (5 <= event.pos[1] + pos_y <= 1005) or
             black_pawn[i].x <= event.pos[0] + pos_x <= black_pawn[i].x + 100 and
@@ -901,14 +899,9 @@ def check_if_pawn_can_capture(pos_x, pos_y):
             white_pawn[i].x <= event.pos[0] + pos_x <= white_pawn[i].x + 100 and
             white_pawn[i].y <= event.pos[1] + pos_y <= white_pawn[i].y + 100 and white_pawn[i].captured == 0):
 
-            blocked += 1
-            break
+            return False
 
-    if blocked == 0:
-        return True
-
-    else:
-        return False
+    return True
 
 def check_if_pawn_can_capture_again(pawn, previous_move):
     can_capture_again = False
@@ -1003,7 +996,7 @@ def check_if_pawn_can_capture_again(pawn, previous_move):
                 if (black_pawn[i].x <= event.pos[0] + 200 <= black_pawn[i].x + 100 and
                     black_pawn[i].y <= event.pos[1] <= black_pawn[i].y + 100 and black_pawn[i].captured == 0):
 
-                    can_capture_again = check_if_pawn_can_capture(300, -100)
+                    can_capture_again = check_if_pawn_can_capture(300, 100)
                     if can_capture_again:
                         break
 
@@ -1131,6 +1124,7 @@ def win():
     if white_pawn_left == 0:
         screen.fill((0, 0, 0))
         screen.blit(txt_blk, (100, 100))
+
 #initialisation de la librairie
 pygame.init()
 
