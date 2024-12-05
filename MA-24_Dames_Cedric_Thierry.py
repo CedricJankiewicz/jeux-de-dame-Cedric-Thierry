@@ -1018,6 +1018,16 @@ def change_to_queen():
     for i in range (20):
         white_pawn[i].change_to_queen()
 
+def win():
+    font = pygame.font.Font(None, 50)
+    txt_wht = font.render("white win", True, (255, 255, 255))
+    txt_blk = font.render("black win", True, (255, 255, 255))
+    if black_pawn_left == 0:
+        screen.fill((0, 0, 0))
+        screen.blit(txt_wht, (100, 100))
+    if white_pawn_left == 0:
+        screen.fill((0, 0, 0))
+        screen.blit(txt_blk, (100, 100))
 #initialisation de la librairie
 pygame.init()
 
@@ -1059,6 +1069,7 @@ running=True
 
 while running:
     display_info()
+    win()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
