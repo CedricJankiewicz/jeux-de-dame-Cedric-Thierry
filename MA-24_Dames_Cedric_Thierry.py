@@ -374,18 +374,110 @@ class Pawn:
                     turn += 1
 
             if self.queen == 1:
-                pass
+                pos_x = self.x
+                pos_y = self.y
+                loops = 0
+
                 if event.pos[0] <= self.x and event.pos[1] <= self.y:
-                    pass
+                    while 0 <= pos_x - 100 and 0 <= pos_y - 100:
+                        pos_x -= 100
+                        pos_y -= 100
+                        loops += 1
+                        pawn_hit = check_for_pawn_in_the_way(pos_x, pos_y)
+
+                        if pos_x <= event.pos[0] <= pos_x + 100 and pos_y <= event.pos[1] <= pos_y + 100:
+
+                            if self.color == "black":
+                                pass
+
+                            if self.color == "white":
+                                pass
+
+                            self.selected = 0
+
+                            for i in range(loops):
+                                self.move_up_left()
+
+                            turn += 1
+                            break
+
+                        if pawn_hit:
+                            break
 
                 if self.x + 100 <= event.pos[0] and event.pos[1] <= self.y:
-                    pass
+                    while pos_x + 100 <= 1000 and 0 <= pos_y - 100:
+                        pos_x += 100
+                        pos_y -= 100
+                        loops += 1
+                        pawn_hit = check_for_pawn_in_the_way(pos_x, pos_y)
+
+                        if pos_x <= event.pos[0] <= pos_x + 100 and pos_y <= event.pos[1] <= pos_y + 100:
+                            if self.color == "black":
+                                pass
+
+                            if self.color == "white":
+                                pass
+
+                            self.selected = 0
+
+                            for i in range(loops):
+                                self.move_up_right()
+
+                            turn += 1
+                            break
+
+                        if pawn_hit:
+                            break
 
                 if event.pos[0] <= self.x and self.y + 100 <= event.pos[1]:
-                    pass
+                    while 0 <= pos_x + 100 and pos_y - 100 <= 1000:
+                        pos_x -= 100
+                        pos_y += 100
+                        loops += 1
+                        pawn_hit = check_for_pawn_in_the_way(pos_x, pos_y)
+
+                        if pos_x <= event.pos[0] <= pos_x + 100 and pos_y <= event.pos[1] <= pos_y + 100:
+                            if self.color == "black":
+                                pass
+
+                            if self.color == "white":
+                                pass
+
+                            self.selected = 0
+
+                            for i in range(loops):
+                                self.move_down_left()
+
+                            turn += 1
+                            break
+
+                        if pawn_hit:
+                            break
 
                 if self.x + 100 <= event.pos[0] and self.y + 100 <= event.pos[1]:
-                    pass
+                    while pos_x + 100 <= 1000 and pos_y - 100 <= 1000:
+                        pos_x += 100
+                        pos_y += 100
+                        loops += 1
+                        pawn_hit = check_for_pawn_in_the_way(pos_x, pos_y)
+
+                        if pos_x <= event.pos[0] <= pos_x + 100 and pos_y <= event.pos[1] <= pos_y + 100:
+                            if self.color == "black":
+                                pass
+
+                            if self.color == "white":
+                                pass
+
+                            self.selected = 0
+
+                            for i in range(loops):
+                                self.move_down_right()
+
+                            turn += 1
+                            break
+
+                        if pawn_hit:
+                            break
 
 def display_grid():
     location_y = 5
@@ -1017,6 +1109,17 @@ def change_to_queen():
 
     for i in range (20):
         white_pawn[i].change_to_queen()
+
+def check_for_pawn_in_the_way(pos_x, pos_y):
+    for i in range(20):
+        if (black_pawn[i].x <= pos_x <= black_pawn[i].x + 100 and
+            black_pawn[i].y <= pos_y <= black_pawn[i].y + 100 and black_pawn[i].captured == 0 or
+            white_pawn[i].x <= pos_x <= white_pawn[i].x + 100 and
+            white_pawn[i].y <= pos_y <= white_pawn[i].y + 100 and white_pawn[i].captured == 0):
+
+            return True
+
+    return False
 
 def win():
     font = pygame.font.Font(None, 50)
