@@ -34,26 +34,22 @@ def display_grid():
 
 def display_color():
     for i in range (20):
-        if bknd.black_pawn[i].color == "black":
-            bknd.black_pawn[i].pawn = pygame.image.load(".resources\\MA-24_pion_black.png")
-        bknd.black_pawn[i].pawn = pygame.transform.scale(bknd.black_pawn[i].pawn, (100, 100))
+        if bknd.black_pawn[i].color == "black" and not bknd.black_pawn[i].queen == 1:
+            bknd.black_pawn[i].pawn = pawn_black_image
 
     for i in range (20):
-        if bknd.white_pawn[i].color == "white":
-            bknd.white_pawn[i].pawn = pygame.image.load(".resources\\MA-24_pion_white.png")
-        bknd.white_pawn[i].pawn = pygame.transform.scale(bknd.white_pawn[i].pawn, (100, 100))
+        if bknd.white_pawn[i].color == "white" and not bknd.white_pawn[i].queen == 1:
+            bknd.white_pawn[i].pawn = pawn_white_image
 
 
 def display_queens():
     for i in range (20):
         if bknd.black_pawn[i].queen == 1:
-            bknd.black_pawn[i].pawn = pygame.image.load(".resources\\MA-24_pion_black_queen.png")
-            bknd.black_pawn[i].pawn = pygame.transform.scale(bknd.black_pawn[i].pawn, (100, 100))
+            bknd.black_pawn[i].pawn = pawn_black_queen_image
 
     for i in range (20):
         if bknd.white_pawn[i].queen == 1:
-            bknd.white_pawn[i].pawn = pygame.image.load(".resources\\MA-24_pion_white_queen.png")
-            bknd.white_pawn[i].pawn = pygame.transform.scale(bknd.white_pawn[i].pawn, (100, 100))
+            bknd.white_pawn[i].pawn = pawn_white_queen_image
 
 
 def display_pawns():
@@ -80,7 +76,7 @@ def draw_board():
     pygame.draw.rect(screen, (0, 0, 0), (0, 0, 1010, 1010))
     display_grid()
     display_queens()
-    display_color()
+    display_color()#
     display_pawns()
     display_selection()
 
@@ -170,3 +166,16 @@ def mainloop():
 
 
 screen = pygame.display.set_mode((1410,1010))
+
+#images
+pawn_black_image = pygame.image.load(".resources\\MA-24_pion_black.png")
+pawn_black_image = pygame.transform.scale(pawn_black_image, (100, 100))
+
+pawn_white_image = pygame.image.load(".resources\\MA-24_pion_white.png")
+pawn_white_image = pygame.transform.scale(pawn_white_image, (100, 100))
+
+pawn_black_queen_image = pygame.image.load(".resources\\MA-24_pion_black_queen.png")
+pawn_black_queen_image = pygame.transform.scale(pawn_black_queen_image, (100, 100))
+
+pawn_white_queen_image = pygame.image.load(".resources\\MA-24_pion_white_queen.png")
+pawn_white_queen_image = pygame.transform.scale(pawn_white_queen_image, (100, 100))
