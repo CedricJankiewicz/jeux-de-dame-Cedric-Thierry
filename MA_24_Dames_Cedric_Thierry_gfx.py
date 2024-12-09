@@ -32,6 +32,30 @@ def display_grid():
         location_y += 100
 
 
+def display_color():
+    for i in range (20):
+        if bknd.black_pawn[i].color == "black":
+            bknd.black_pawn[i].pawn = pygame.image.load(".resources\\MA-24_pion_black.png")
+        bknd.black_pawn[i].pawn = pygame.transform.scale(bknd.black_pawn[i].pawn, (100, 100))
+
+    for i in range (20):
+        if bknd.white_pawn[i].color == "white":
+            bknd.white_pawn[i].pawn = pygame.image.load(".resources\\MA-24_pion_white.png")
+        bknd.white_pawn[i].pawn = pygame.transform.scale(bknd.white_pawn[i].pawn, (100, 100))
+
+
+def display_queens():
+    for i in range (20):
+        if bknd.black_pawn[i].queen == 1:
+            bknd.black_pawn[i].pawn = pygame.image.load(".resources\\MA-24_pion_black_queen.png")
+            bknd.black_pawn[i].pawn = pygame.transform.scale(bknd.black_pawn[i].pawn, (100, 100))
+
+    for i in range (20):
+        if bknd.white_pawn[i].queen == 1:
+            bknd.white_pawn[i].pawn = pygame.image.load(".resources\\MA-24_pion_white_queen.png")
+            bknd.white_pawn[i].pawn = pygame.transform.scale(bknd.white_pawn[i].pawn, (100, 100))
+
+
 def display_pawns():
     for i in range (20):
         if bknd.black_pawn[i].captured == 0:
@@ -41,7 +65,8 @@ def display_pawns():
         if bknd.white_pawn[i].captured == 0:
             screen.blit(bknd.white_pawn[i].pawn, (bknd.white_pawn[i].x, bknd.white_pawn[i].y))
 
-def display_pawns_selection():
+
+def display_selection():
     for i in range (20):
         if bknd.black_pawn[i].selected == 1:
             pygame.draw.rect(screen, (255, 0, 100), (bknd.black_pawn[i].x, bknd.black_pawn[i].y, 100, 100), 5)
@@ -51,12 +76,13 @@ def display_pawns_selection():
             pygame.draw.rect(screen, (255, 0, 100), (bknd.white_pawn[i].x, bknd.white_pawn[i].y, 100, 100), 5)
 
 
-
 def draw_board():
     pygame.draw.rect(screen, (0, 0, 0), (0, 0, 1010, 1010))
     display_grid()
+    display_queens()
+    display_color()
     display_pawns()
-    display_pawns_selection()
+    display_selection()
 
 
 def display_info():
@@ -118,13 +144,16 @@ def init():
     pygame.init()
     draw_board()
 
+
 def select_pawns(event):
     bknd.select_pawns(event, screen)
     draw_board()
 
+
 def move_pawns(event):
     bknd.move_pawns(event, screen)
     draw_board()
+
 
 def mainloop():
     running = True
@@ -138,5 +167,6 @@ def mainloop():
                 move_pawns(event)
         pygame.display.update()
     pygame.quit()
+
 
 screen = pygame.display.set_mode((1410,1010))

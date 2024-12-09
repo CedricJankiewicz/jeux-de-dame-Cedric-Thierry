@@ -20,22 +20,14 @@ class Pawn:
         self.x = x
         self.y = y
         self.color = color
-        if self.color == "black":
-            self.pawn = pygame.image.load(".resources\\MA-24_pion_black.png")
-        elif self.color == "white":
-            self.pawn = pygame.image.load(".resources\\MA-24_pion_white.png")
-        self.pawn = pygame.transform.scale(self.pawn, (100, 100))
 
     def change_to_queen(self):
         if self.color == "black":
             if 895 <= self.y <= 905:
                 self.queen = 1
-                self.pawn = pygame.image.load(".resources\\MA-24_pion_black_queen.png")
         if self.color == "white":
             if 0 <= self.y <= 10:
                 self.queen = 1
-                self.pawn = pygame.image.load(".resources\\MA-24_pion_white_queen.png")
-        self.pawn = pygame.transform.scale(self.pawn, (100, 100))
 
     def move_up_left(self):
         if self.x > 5 and self.y > 5:
