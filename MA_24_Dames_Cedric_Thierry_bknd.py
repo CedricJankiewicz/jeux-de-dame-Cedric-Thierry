@@ -348,7 +348,7 @@ class Pawn:
                                     break
 
                             if has_captured == 1:
-                                can_capture_again = check_if_pawn_can_capture_again(self, "down_right")
+                                can_capture_again = check_if_pawn_can_capture_again(self, "down_right", event)
 
                                 if can_capture_again:
                                     pygame.draw.rect(screen, (255, 0, 100), (self.x, self.y, 100, 100), 5)
