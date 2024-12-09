@@ -42,41 +42,33 @@ class Pawn:
             self.x -= 100
             self.y -= 100
             change_to_queen()
-            #draw_board()
 
     def move_up_right(self):
         if self.x < 905 and self.y > 5:
             self.x += 100
             self.y -= 100
             change_to_queen()
-            #draw_board()
 
     def move_down_left(self):
         if self.x > 5 and self.y < 905:
             self.x -= 100
             self.y += 100
             change_to_queen()
-            #draw_board()
 
     def move_down_right(self):
         if self.x < 905 and self.y < 905:
             self.x += 100
             self.y += 100
             change_to_queen()
-            #draw_board()
 
     def select_pawn(self,event,screen):
         if self.x <= event.pos[0] <= self.x + 100 and self.y <= event.pos[1] <= self.y + 100:
             if self.captured == 1:
                 return
-
             if self.selected == 0:
-                #draw_board()
-                pygame.draw.rect(screen, (255, 0, 100), (self.x, self.y, 100, 100), 5)
                 unselect_all()
                 self.selected = 1
             else:
-                #draw_board()
                 self.selected = 0
 
     def move_pawn(self,event,screen):
@@ -1039,9 +1031,6 @@ def check_for_pawn_in_the_way(pos_x, pos_y):
             return True
 
     return False
-
-def init():
-    init_pawns()
 
 black_pawn = [Pawn] * 20
 white_pawn = [Pawn] * 20

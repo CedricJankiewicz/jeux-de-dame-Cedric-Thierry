@@ -41,11 +41,22 @@ def display_pawns():
         if bknd.white_pawn[i].captured == 0:
             screen.blit(bknd.white_pawn[i].pawn, (bknd.white_pawn[i].x, bknd.white_pawn[i].y))
 
+def display_pawns_selection():
+    for i in range (20):
+        if bknd.black_pawn[i].selected == 1:
+            pygame.draw.rect(screen, (255, 0, 100), (bknd.black_pawn[i].x, bknd.black_pawn[i].y, 100, 100), 5)
+
+    for i in range (20):
+        if bknd.white_pawn[i].selected == 1:
+            pygame.draw.rect(screen, (255, 0, 100), (bknd.white_pawn[i].x, bknd.white_pawn[i].y, 100, 100), 5)
+
+
 
 def draw_board():
     pygame.draw.rect(screen, (0, 0, 0), (0, 0, 1010, 1010))
     display_grid()
     display_pawns()
+    display_pawns_selection()
 
 
 def display_info():
@@ -103,7 +114,7 @@ def win():
 
 
 def init():
-    bknd.init()
+    bknd.init_pawns()
     pygame.init()
     draw_board()
 
