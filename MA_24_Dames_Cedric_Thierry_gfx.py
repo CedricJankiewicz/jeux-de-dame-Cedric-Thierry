@@ -107,6 +107,7 @@ def init():
     pygame.init()
     draw_board()
 
+"""def select_pawns():"""
 
 def mainloop():
     running = True
@@ -116,10 +117,9 @@ def mainloop():
             if event.type == pygame.QUIT:
                 running = False
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                bknd.select_pawns(event.pos)
-                bknd.move_pawns(event.pos)
+                bknd.select_pawns(event, screen)
+                bknd.move_pawns(event, screen)
         pygame.display.update()
     pygame.quit()
 
 screen = pygame.display.set_mode((1410,1010))
-
