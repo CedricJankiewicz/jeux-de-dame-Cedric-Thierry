@@ -10,6 +10,7 @@ import MA_24_Dames_Cedric_Thierry_bknd as bknd
 #import of pygame
 import pygame
 
+
 def display_grid():
     location_y = 5
     for i in range(0,5):
@@ -142,24 +143,35 @@ def display_title_screen():
     #blinking text
     current_time = pygame.time.get_ticks()
     if current_time // 500 % 2 == 0:
-        txt_push = tiny_font.render("Press any key to continue", True, (255, 255, 255))
+        txt_press = tiny_font.render("Press any key to continue", True, (255, 255, 255))
     else:
-        txt_push = tiny_font.render("Press any key to continue", True, (255, 255, 100))
-    screen.blit(txt_push, (110, 300))
+        txt_press = tiny_font.render("Press any key to continue", True, (255, 255, 100))
+    screen.blit(txt_press, (110, 300))
 
     pygame.display.update()
 
 
 def display_win_screen():
-    font = pygame.font.Font(None, 50)
+    font = pygame.font.Font(None, 100)
+    tiny_font = pygame.font.Font(None, 50)
     txt_wht = font.render("white win", True, (255, 255, 255))
     txt_blk = font.render("black win", True, (255, 255, 255))
     if bknd.black_pawn_left == 0:
         screen.fill((0, 0, 0))
-        screen.blit(txt_wht, (100, 100))
+        screen.blit(txt_wht, (110, 100))
     if bknd.white_pawn_left == 0:
         screen.fill((0, 0, 0))
-        screen.blit(txt_blk, (100, 100))
+        screen.blit(txt_blk, (110, 100))
+
+    #blinking text
+    current_time = pygame.time.get_ticks()
+    if current_time // 500 % 2 == 0:
+        txt_press = tiny_font.render("Press any key to start a new game", True, (255, 255, 255))
+    else:
+        txt_press = tiny_font.render("Press any key to start a new game", True, (255, 255, 100))
+    screen.blit(txt_press, (110, 200))
+
+    pygame.display.update()
 
 
 def init():
@@ -195,7 +207,6 @@ def mainloop():
             break
         draw_board()
         display_info()
-        display_win_screen()
         win = bknd.check_win()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
