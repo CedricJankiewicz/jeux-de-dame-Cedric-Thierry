@@ -15,6 +15,7 @@ class Pawn:
     pawn = None
     captured = 0
     queen = 0
+    force_select = 0
 
     def __init__(self, x, y, color):
         self.x = x
@@ -55,11 +56,17 @@ class Pawn:
 
     def select_pawn(self, event):
         if self.x <= event.pos[0] <= self.x + 100 and self.y <= event.pos[1] <= self.y + 100:
+            for i in range(20):
+                if black_pawn[i].force_select == 1 or white_pawn[i].force_select == 1:
+                    return
+
             if self.captured == 1:
                 return
+
             if self.selected == 0:
                 unselect_all()
                 self.selected = 1
+
             else:
                 self.selected = 0
 
@@ -93,8 +100,12 @@ class Pawn:
                             if has_captured == 1:
                                 can_capture_again = check_if_pawn_can_capture_again(self, "up_left", event)
 
+                                if can_capture_again:
+                                    self.force_select = 1
+
                                 if not can_capture_again:
                                     self.selected = 0
+                                    self.force_select = 0
                                     turn += 1
 
                             return
@@ -115,8 +126,12 @@ class Pawn:
                             if has_captured == 1:
                                 can_capture_again = check_if_pawn_can_capture_again(self, "up_left", event)
 
+                                if can_capture_again:
+                                    self.force_select = 1
+
                                 if not can_capture_again:
                                     self.selected = 0
+                                    self.force_select = 0
                                     turn += 1
 
                             return
@@ -159,8 +174,12 @@ class Pawn:
                             if has_captured == 1:
                                 can_capture_again = check_if_pawn_can_capture_again(self, "up_right", event)
 
+                                if can_capture_again:
+                                    self.force_select = 1
+
                                 if not can_capture_again:
                                     self.selected = 0
+                                    self.force_select = 0
                                     turn += 1
 
                             return
@@ -181,8 +200,12 @@ class Pawn:
                             if has_captured == 1:
                                 can_capture_again = check_if_pawn_can_capture_again(self, "up_right", event)
 
+                                if can_capture_again:
+                                    self.force_select = 1
+
                                 if not can_capture_again:
                                     self.selected = 0
+                                    self.force_select = 0
                                     turn += 1
 
                             return
@@ -225,8 +248,12 @@ class Pawn:
                             if has_captured == 1:
                                 can_capture_again = check_if_pawn_can_capture_again(self, "down_left", event)
 
+                                if can_capture_again:
+                                    self.force_select = 1
+
                                 if not can_capture_again:
                                     self.selected = 0
+                                    self.force_select = 0
                                     turn += 1
 
                             return
@@ -247,8 +274,12 @@ class Pawn:
                             if has_captured == 1:
                                 can_capture_again = check_if_pawn_can_capture_again(self, "down_left", event)
 
+                                if can_capture_again:
+                                    self.force_select = 1
+
                                 if not can_capture_again:
                                     self.selected = 0
+                                    self.force_select = 0
                                     turn += 1
 
                             return
@@ -291,8 +322,12 @@ class Pawn:
                             if has_captured == 1:
                                 can_capture_again = check_if_pawn_can_capture_again(self, "down_right", event)
 
+                                if can_capture_again:
+                                    self.force_select = 1
+
                                 if not can_capture_again:
                                     self.selected = 0
+                                    self.force_select = 0
                                     turn += 1
 
                             return
@@ -313,8 +348,12 @@ class Pawn:
                             if has_captured == 1:
                                 can_capture_again = check_if_pawn_can_capture_again(self, "down_right", event)
 
+                                if can_capture_again:
+                                    self.force_select = 1
+
                                 if not can_capture_again:
                                     self.selected = 0
+                                    self.force_select = 0
                                     turn += 1
 
                             return
