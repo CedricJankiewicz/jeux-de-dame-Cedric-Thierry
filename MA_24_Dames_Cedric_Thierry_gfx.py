@@ -71,12 +71,11 @@ def display_selection():
         if bknd.white_pawn[i].selected == 1:
             pygame.draw.rect(screen, (255, 0, 100), (bknd.white_pawn[i].x, bknd.white_pawn[i].y, 100, 100), 5)
 
-
 def draw_board():
     pygame.draw.rect(screen, (0, 0, 0), (0, 0, 1010, 1010))
     display_grid()
     display_queens()
-    display_color()#
+    display_color()
     display_pawns()
     display_selection()
 
@@ -123,7 +122,26 @@ def display_info():
     screen.blit(txt_wht_remain_pawn, (1060, (wht_y + 110)))
 
 
-def win():
+def display_title_screen():
+    screen.fill((0, 0, 0))
+    font = pygame.font.Font(None, 150)
+    tiny_font = pygame.font.Font(None, 50)
+    txt_title = font.render("Checkers Game", True, (255, 255, 255))
+    screen.blit(txt_title, (100, 100))
+    txt_author = tiny_font.render("by Cédric and thierry", True, (255, 255, 255))
+    screen.blit(txt_author, (110, 200))
+    #blinking text
+    current_time = pygame.time.get_ticks()
+    if current_time // 500 % 2 == 0:
+        txt_push = tiny_font.render("Press any key to continue", True, (255, 255, 255))
+    else:
+        txt_push = tiny_font.render("Press any key to continue", True, (255, 255, 100))
+    screen.blit(txt_push, (110, 300))
+
+    pygame.display.update()
+
+
+def display_win_screen():
     font = pygame.font.Font(None, 50)
     txt_wht = font.render("white win", True, (255, 255, 255))
     txt_blk = font.render("black win", True, (255, 255, 255))
@@ -138,7 +156,6 @@ def win():
 def init():
     bknd.init_pawns()
     pygame.init()
-    draw_board()
 
 
 def select_pawns(event):
@@ -153,8 +170,23 @@ def move_pawns(event):
 
 def mainloop():
     running = True
+    title = True
     while running:
+        while title:
+            display_title_screen()
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+                    title = False
+                elif event.type == pygame.KEYDOWN:
+                    title = False
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    title = False
+        if not running:
+            break
+        draw_board()
         display_info()
+        display_win_screen()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
