@@ -80,7 +80,6 @@ def display_selection():
             pygame.draw.rect(screen, (0, 255, 100), (bknd.white_pawn[i].x, bknd.white_pawn[i].y, 100, 100), 5)
 
 
-
 def draw_board():
     pygame.draw.rect(screen, (0, 0, 0), (0, 0, 1010, 1010))
     display_grid()
@@ -156,10 +155,10 @@ def display_win_screen():
     tiny_font = pygame.font.Font(None, 50)
     txt_wht = font.render("white win", True, (255, 255, 255))
     txt_blk = font.render("black win", True, (255, 255, 255))
-    if bknd.black_pawn_left == 0:
+    if bknd.black_pawn_left == 18:
         screen.fill((0, 0, 0))
         screen.blit(txt_wht, (110, 100))
-    if bknd.white_pawn_left == 0:
+    if bknd.white_pawn_left == 18:
         screen.fill((0, 0, 0))
         screen.blit(txt_blk, (110, 100))
 
@@ -192,6 +191,7 @@ def move_pawns(event):
 def mainloop():
     running = True
     title = True
+    win = False
     while running:
         while title:
             display_title_screen()
@@ -207,7 +207,11 @@ def mainloop():
             break
         draw_board()
         display_info()
+        print(f"{bknd.black_pawn_left}")
+        print(f"{bknd.white_pawn_left}")
         win = bknd.check_win()
+        print(f"{bknd.black_pawn_left}")
+        print(f"{bknd.white_pawn_left}")
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -222,9 +226,13 @@ def mainloop():
                     win = False
                     running = False
                 elif event.type == pygame.KEYDOWN:
+                    bknd.restart()
                     win = False
+                    title = True
                 elif event.type == pygame.MOUSEBUTTONDOWN:
+                    bknd.restart()
                     win = False
+                    title = True
     pygame.quit()
 
 

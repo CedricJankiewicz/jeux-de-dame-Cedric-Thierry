@@ -1117,10 +1117,10 @@ def check_for_pawn_in_the_way(pos_x, pos_y):
 
 def check_win():
     global white_win,black_win
-    if black_pawn_left == 0:
+    if black_pawn_left == 18:
         white_win +=1
         return True
-    if white_pawn_left == 0:
+    if white_pawn_left == 18:
         black_win +=1
         return True
     else: return False
@@ -1192,6 +1192,14 @@ def queen_capture(pawn, loops):
 
             turn += 1
             return
+
+def restart():
+    global black_pawn_left, white_pawn_left
+    print("Reset function called")
+    black_pawn_left = 20
+    white_pawn_left = 20
+    print(f"Variables reset: Black={black_pawn_left}, White={white_pawn_left}")
+
 
 black_pawn = [Pawn] * 20
 white_pawn = [Pawn] * 20
