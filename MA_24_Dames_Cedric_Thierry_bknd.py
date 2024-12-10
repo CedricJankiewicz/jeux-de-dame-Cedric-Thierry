@@ -53,7 +53,7 @@ class Pawn:
             self.y += 100
             change_to_queen()
 
-    def select_pawn(self,event,screen):
+    def select_pawn(self, event):
         if self.x <= event.pos[0] <= self.x + 100 and self.y <= event.pos[1] <= self.y + 100:
             if self.captured == 1:
                 return
@@ -63,7 +63,7 @@ class Pawn:
             else:
                 self.selected = 0
 
-    def move_pawn(self,event,screen):
+    def move_pawn(self, event):
         global turn
 
         has_captured = 0
@@ -93,10 +93,7 @@ class Pawn:
                             if has_captured == 1:
                                 can_capture_again = check_if_pawn_can_capture_again(self, "up_left", event)
 
-                                if can_capture_again:
-                                    pygame.draw.rect(screen, (255, 0, 100), (self.x, self.y, 100, 100), 5)
-
-                                elif not can_capture_again:
+                                if not can_capture_again:
                                     self.selected = 0
                                     turn += 1
 
@@ -118,10 +115,7 @@ class Pawn:
                             if has_captured == 1:
                                 can_capture_again = check_if_pawn_can_capture_again(self, "up_left", event)
 
-                                if can_capture_again:
-                                    pygame.draw.rect(screen, (255, 0, 100), (self.x, self.y, 100, 100), 5)
-
-                                elif not can_capture_again:
+                                if not can_capture_again:
                                     self.selected = 0
                                     turn += 1
 
@@ -165,10 +159,7 @@ class Pawn:
                             if has_captured == 1:
                                 can_capture_again = check_if_pawn_can_capture_again(self, "up_right", event)
 
-                                if can_capture_again:
-                                    pygame.draw.rect(screen, (255, 0, 100), (self.x, self.y, 100, 100), 5)
-
-                                elif not can_capture_again:
+                                if not can_capture_again:
                                     self.selected = 0
                                     turn += 1
 
@@ -190,10 +181,7 @@ class Pawn:
                             if has_captured == 1:
                                 can_capture_again = check_if_pawn_can_capture_again(self, "up_right", event)
 
-                                if can_capture_again:
-                                    pygame.draw.rect(screen, (255, 0, 100), (self.x, self.y, 100, 100), 5)
-
-                                elif not can_capture_again:
+                                if not can_capture_again:
                                     self.selected = 0
                                     turn += 1
 
@@ -237,10 +225,7 @@ class Pawn:
                             if has_captured == 1:
                                 can_capture_again = check_if_pawn_can_capture_again(self, "down_left", event)
 
-                                if can_capture_again:
-                                    pygame.draw.rect(screen, (255, 0, 100), (self.x, self.y, 100, 100), 5)
-
-                                elif not can_capture_again:
+                                if not can_capture_again:
                                     self.selected = 0
                                     turn += 1
 
@@ -262,10 +247,7 @@ class Pawn:
                             if has_captured == 1:
                                 can_capture_again = check_if_pawn_can_capture_again(self, "down_left", event)
 
-                                if can_capture_again:
-                                    pygame.draw.rect(screen, (255, 0, 100), (self.x, self.y, 100, 100), 5)
-
-                                elif not can_capture_again:
+                                if not can_capture_again:
                                     self.selected = 0
                                     turn += 1
 
@@ -309,10 +291,7 @@ class Pawn:
                             if has_captured == 1:
                                 can_capture_again = check_if_pawn_can_capture_again(self, "down_right", event)
 
-                                if can_capture_again:
-                                    pygame.draw.rect(screen, (255, 0, 100), (self.x, self.y, 100, 100), 5)
-
-                                elif not can_capture_again:
+                                if not can_capture_again:
                                     self.selected = 0
                                     turn += 1
 
@@ -334,10 +313,7 @@ class Pawn:
                             if has_captured == 1:
                                 can_capture_again = check_if_pawn_can_capture_again(self, "down_right", event)
 
-                                if can_capture_again:
-                                    pygame.draw.rect(screen, (255, 0, 100), (self.x, self.y, 100, 100), 5)
-
-                                elif not can_capture_again:
+                                if not can_capture_again:
                                     self.selected = 0
                                     turn += 1
 
@@ -359,8 +335,8 @@ class Pawn:
                     turn += 1
 
             if self.queen == 1:
-                pos_x = self.x
-                pos_y = self.y
+                pos_x = self.x + 1
+                pos_y = self.y + 1
                 loops = 0
 
                 if event.pos[0] <= self.x and event.pos[1] <= self.y:
@@ -390,7 +366,7 @@ class Pawn:
                             break
 
                 if self.x + 100 <= event.pos[0] and event.pos[1] <= self.y:
-                    while pos_x + 100 <= 1000 and 0 <= pos_y - 100:
+                    while pos_x + 100 <= 1010 and 0 <= pos_y - 100:
                         pos_x += 100
                         pos_y -= 100
                         loops += 1
@@ -415,7 +391,7 @@ class Pawn:
                             break
 
                 if event.pos[0] <= self.x and self.y + 100 <= event.pos[1]:
-                    while 0 <= pos_x - 100 and pos_y + 100 <= 1000:
+                    while 0 <= pos_x - 100 and pos_y + 100 <= 1010:
                         pos_x -= 100
                         pos_y += 100
                         loops += 1
@@ -440,7 +416,7 @@ class Pawn:
                             break
 
                 if self.x + 100 <= event.pos[0] and self.y + 100 <= event.pos[1]:
-                    while pos_x + 100 <= 1000 and pos_y + 100 <= 1000:
+                    while pos_x + 100 <= 1010 and pos_y + 100 <= 1010:
                         pos_x += 100
                         pos_y += 100
                         loops += 1
@@ -553,20 +529,20 @@ def init_pawns():
     init_white_pawns(105, 805, 10, 15)
     init_white_pawns(5, 905, 15, 20)
 
-def select_pawns(event,screen):
+def select_pawns(event):
     if turn % 2 == 0:
         for i in range (20):
-            black_pawn[i].select_pawn(event,screen)
+            black_pawn[i].select_pawn(event)
     if turn % 2 == 1:
         for i in range (20):
-            white_pawn[i].select_pawn(event,screen)
+            white_pawn[i].select_pawn(event)
 
-def move_pawns(event,screen):
+def move_pawns(event):
     for i in range (20):
-        black_pawn[i].move_pawn(event,screen)
+        black_pawn[i].move_pawn(event)
 
     for i in range (20):
-        white_pawn[i].move_pawn(event,screen)
+        white_pawn[i].move_pawn(event)
 
 def check_if_pawn_can_capture_directly(pawn, attempted_move, event):
     can_capture = False

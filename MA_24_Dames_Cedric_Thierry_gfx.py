@@ -142,12 +142,12 @@ def init():
 
 
 def select_pawns(event):
-    bknd.select_pawns(event, screen)
+    bknd.select_pawns(event)
     draw_board()
 
 
 def move_pawns(event):
-    bknd.move_pawns(event, screen)
+    bknd.move_pawns(event)
     draw_board()
 
 
