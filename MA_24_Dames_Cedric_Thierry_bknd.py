@@ -219,13 +219,14 @@ class Pawn:
 
                         elif not can_capture:
                             if can_capture_elsewhere:
+                                print("peut capturer ailleurs")
                                 return
 
                             for i in range(20):
                                 if (black_pawn[i].x <= event.pos[0] <= black_pawn[i].x + 100 and
                                     black_pawn[i].y <= event.pos[1] <= black_pawn[i].y + 100 and
                                     black_pawn[i].captured == 0):
-
+                                    print("case occupée")
                                     return
 
                     self.selected = 0
@@ -788,7 +789,7 @@ def check_if_pawn_can_capture_elsewhere(pawn, attempted_move, event):
                     if can_capture:
                         break
 
-                if (black_pawn[i].x <= event.pos[0] + 200 <= black_pawn[i].x + 100 and
+                if (black_pawn[i].x <= event.pos[0] <= black_pawn[i].x + 100 and
                     black_pawn[i].y <= event.pos[1] + 200 <= black_pawn[i].y + 100 and black_pawn[i].captured == 0):
 
                     can_capture = check_if_pawn_can_capture(100, 300, event)
@@ -1173,7 +1174,6 @@ def queen_capture(pawn, loops):
             for i in range(loops):
                 if direction == "up_left":
                     pawn.move_up_left()
-                    print(f"déplacement {loops} fois, capture de pion noir")
 
                 elif direction == "up_right":
                     pawn.move_up_right()
@@ -1198,7 +1198,6 @@ def queen_capture(pawn, loops):
                 for i in range(loops):
                     if direction == "up_left":
                         pawn.move_up_left()
-                        print(f"déplacement {loops} fois, capture de pion blanc")
 
                     elif direction == "up_right":
                         pawn.move_up_right()
