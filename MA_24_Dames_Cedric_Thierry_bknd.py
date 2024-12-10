@@ -1164,9 +1164,15 @@ def queen_capture(pawn, loops):
     direction = pawn.locked_direction
 
     for i in range(20):
-        if black_pawn[i].is_in_danger == 1:
-            black_pawn[i].captured = 1
-            black_pawn[i].is_in_danger = 0
+        if black_pawn[i].is_in_danger == 1 or white_pawn[i].is_in_danger == 1:
+            if black_pawn[i].is_in_danger == 1:
+                black_pawn[i].captured = 1
+                black_pawn[i].is_in_danger = 0
+
+            if white_pawn[i].is_in_danger == 1:
+                white_pawn[i].captured = 1
+                white_pawn[i].is_in_danger = 0
+
             pawn.selected = 0
             pawn.locked_direction = ""
             pawn.pawn_to_capture_distance = 0
@@ -1186,30 +1192,6 @@ def queen_capture(pawn, loops):
 
             turn += 1
             return
-
-        for i in range(20):
-            if white_pawn[i].is_in_danger == 1:
-                white_pawn[i].captured = 1
-                white_pawn[i].is_in_danger = 0
-                pawn.selected = 0
-                pawn.locked_direction = ""
-                pawn.pawn_to_capture_distance = 0
-
-                for i in range(loops):
-                    if direction == "up_left":
-                        pawn.move_up_left()
-
-                    elif direction == "up_right":
-                        pawn.move_up_right()
-
-                    elif direction == "down_left":
-                        pawn.move_down_left()
-
-                    elif direction == "down_right":
-                        pawn.move_down_right()
-
-                turn += 1
-                return
 
 black_pawn = [Pawn] * 20
 white_pawn = [Pawn] * 20
