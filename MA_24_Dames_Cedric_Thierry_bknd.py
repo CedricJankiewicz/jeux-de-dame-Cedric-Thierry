@@ -1039,6 +1039,16 @@ def check_for_pawn_in_the_way(pos_x, pos_y):
 
     return False
 
+def check_win():
+    global white_win,black_win
+    if black_pawn_left == 0:
+        white_win +=1
+        return True
+    if white_pawn_left == 0:
+        black_win +=1
+        return True
+    else: return False
+
 black_pawn = [Pawn] * 20
 white_pawn = [Pawn] * 20
 
@@ -1049,6 +1059,9 @@ white_pawn_left = 20
 
 black_pawn_queen = 0
 white_pawn_queen = 0
+
+black_win = 0
+white_win = 0
 
 #timer variable
 global_mill_sec_time = 0

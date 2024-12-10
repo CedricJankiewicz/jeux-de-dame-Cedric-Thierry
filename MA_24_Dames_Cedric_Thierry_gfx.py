@@ -10,7 +10,6 @@ import MA_24_Dames_Cedric_Thierry_bknd as bknd
 #import of pygame
 import pygame
 
-
 def display_grid():
     location_y = 5
     for i in range(0,5):
@@ -70,6 +69,7 @@ def display_selection():
     for i in range (20):
         if bknd.white_pawn[i].selected == 1:
             pygame.draw.rect(screen, (255, 0, 100), (bknd.white_pawn[i].x, bknd.white_pawn[i].y, 100, 100), 5)
+
 
 def draw_board():
     pygame.draw.rect(screen, (0, 0, 0), (0, 0, 1010, 1010))
@@ -187,6 +187,7 @@ def mainloop():
         draw_board()
         display_info()
         display_win_screen()
+        win = bknd.check_win()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -194,6 +195,16 @@ def mainloop():
                 select_pawns(event)
                 move_pawns(event)
         pygame.display.update()
+        while win:
+            display_win_screen()
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    win = False
+                    running = False
+                elif event.type == pygame.KEYDOWN:
+                    win = False
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    win = False
     pygame.quit()
 
 
