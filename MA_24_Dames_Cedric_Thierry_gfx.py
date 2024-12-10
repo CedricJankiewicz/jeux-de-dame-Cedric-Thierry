@@ -70,6 +70,15 @@ def display_selection():
         if bknd.white_pawn[i].selected == 1:
             pygame.draw.rect(screen, (255, 0, 100), (bknd.white_pawn[i].x, bknd.white_pawn[i].y, 100, 100), 5)
 
+    for i in range (20):
+        if bknd.black_pawn[i].is_in_danger == 1:
+            pygame.draw.rect(screen, (0, 255, 100), (bknd.black_pawn[i].x, bknd.black_pawn[i].y, 100, 100), 5)
+
+    for i in range (20):
+        if bknd.white_pawn[i].is_in_danger == 1:
+            pygame.draw.rect(screen, (0, 255, 100), (bknd.white_pawn[i].x, bknd.white_pawn[i].y, 100, 100), 5)
+
+
 
 def draw_board():
     pygame.draw.rect(screen, (0, 0, 0), (0, 0, 1010, 1010))
