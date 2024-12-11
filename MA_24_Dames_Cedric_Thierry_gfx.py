@@ -12,6 +12,9 @@ import pygame
 
 
 def display_grid():
+    """
+    display the grid with white and gray square
+    """
     location_y = 5
     for i in range(0,5):
         location_x = 5
@@ -33,6 +36,9 @@ def display_grid():
 
 
 def display_color():
+    """
+    display pawn with their color black or white
+    """
     for i in range (20):
         if bknd.black_pawn[i].color == "black" and not bknd.black_pawn[i].queen == 1:
             bknd.black_pawn[i].pawn = pawn_black_image
@@ -43,6 +49,9 @@ def display_color():
 
 
 def display_queens():
+    """
+    if the pawn is a queen change the texture of the pawn with a new one
+    """
     for i in range (20):
         if bknd.black_pawn[i].queen == 1:
             bknd.black_pawn[i].pawn = pawn_black_queen_image
@@ -53,6 +62,9 @@ def display_queens():
 
 
 def display_pawns():
+    """
+    display the pawn if they are not captured if they are they'll be hide
+    """
     for i in range (20):
         if bknd.black_pawn[i].captured == 0:
             screen.blit(bknd.black_pawn[i].pawn, (bknd.black_pawn[i].x, bknd.black_pawn[i].y))
@@ -63,6 +75,9 @@ def display_pawns():
 
 
 def display_selection():
+    """
+    display a square around the pawn if selected
+    """
     for i in range (20):
         if bknd.black_pawn[i].selected == 1:
             pygame.draw.rect(screen, (255, 0, 100), (bknd.black_pawn[i].x, bknd.black_pawn[i].y, 100, 100), 5)
@@ -81,6 +96,9 @@ def display_selection():
 
 
 def draw_board():
+    """
+    clear the screen and put every thing back
+    """
     pygame.draw.rect(screen, (0, 0, 0), (0, 0, 1010, 1010))
     display_grid()
     display_queens()
@@ -90,6 +108,9 @@ def draw_board():
 
 
 def display_info():
+    """
+    display info on the side of the screen
+    """
     #reset info side
     pygame.draw.rect(screen, (0, 0, 0), (1010, 10, 400, 1000))
 
@@ -136,6 +157,9 @@ def display_info():
 
 
 def display_title_screen():
+    """
+    display the title screen with a blinking text
+    """
     screen.fill((0, 0, 0))
     font = pygame.font.Font(None, 150)
     tiny_font = pygame.font.Font(None, 50)
@@ -155,6 +179,9 @@ def display_title_screen():
 
 
 def display_win_screen():
+    """
+    display the win screen with a blinking text and change the message depending on which one win
+    """
     font = pygame.font.Font(None, 100)
     tiny_font = pygame.font.Font(None, 50)
     txt_wht = font.render("white win", True, (255, 255, 255))
@@ -178,20 +205,32 @@ def display_win_screen():
 
 
 def init():
+    """
+    initialise everything
+    """
     bknd.init_pawns()
     pygame.init()
 
 
 def select_pawns(event):
+    """
+    allow the player to select a pawn and draw the board after it
+    """
     bknd.select_pawns(event)
     draw_board()
 
 
 def move_pawns(event):
+    """
+    allow the player to move a pawn and draw the board after it
+    """
     bknd.move_pawns(event)
     draw_board()
 
 def mainloop():
+    """
+    make the mainloop for the window and detect input
+    """
     running = True
     title = True
     while running:
@@ -231,7 +270,7 @@ def mainloop():
                     win = False
     pygame.quit()
 
-
+#game window
 screen = pygame.display.set_mode((1410,1010))
 
 #images
