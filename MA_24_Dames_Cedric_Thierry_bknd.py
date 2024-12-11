@@ -7,6 +7,7 @@ Date : 06.12.2024
 #import of pygame
 import pygame
 
+
 class Pawn:
     x = 0
     y = 0
@@ -20,10 +21,12 @@ class Pawn:
     locked_direction = ""
     pawn_to_capture_distance = 0
 
+
     def __init__(self, x, y, color):
         self.x = x
         self.y = y
         self.color = color
+
 
     def change_to_queen(self):
         if self.color == "black":
@@ -33,11 +36,13 @@ class Pawn:
             if 0 <= self.y <= 10:
                 self.queen = 1
 
+
     def move_up_left(self):
         if self.x > 5 and self.y > 5:
             self.x -= 100
             self.y -= 100
             change_to_queen()
+
 
     def move_up_right(self):
         if self.x < 905 and self.y > 5:
@@ -45,17 +50,20 @@ class Pawn:
             self.y -= 100
             change_to_queen()
 
+
     def move_down_left(self):
         if self.x > 5 and self.y < 905:
             self.x -= 100
             self.y += 100
             change_to_queen()
 
+
     def move_down_right(self):
         if self.x < 905 and self.y < 905:
             self.x += 100
             self.y += 100
             change_to_queen()
+
 
     def select_pawn(self, event):
         if self.x <= event.pos[0] <= self.x + 100 and self.y <= event.pos[1] <= self.y + 100:
@@ -76,6 +84,7 @@ class Pawn:
 
             else:
                 self.selected = 0
+
 
     def move_pawn(self, event):
         global turn
@@ -414,6 +423,9 @@ class Pawn:
                                 select_pawn_in_danger(self, "up_left", loops, event)
                                 break
 
+                            elif pawn_hit and not can_capture:
+                                break
+
                             self.selected = 0
 
                             for i in range(loops):
@@ -454,6 +466,9 @@ class Pawn:
 
                             if pawn_hit and can_capture:
                                 select_pawn_in_danger(self, "up_right", loops, event)
+                                break
+
+                            elif pawn_hit and not can_capture:
                                 break
 
                             self.selected = 0
@@ -498,6 +513,9 @@ class Pawn:
                                 select_pawn_in_danger(self, "down_left", loops, event)
                                 break
 
+                            elif pawn_hit and not can_capture:
+                                break
+
                             self.selected = 0
 
                             for i in range(loops):
@@ -540,6 +558,9 @@ class Pawn:
                                 select_pawn_in_danger(self, "down_right", loops, event)
                                 break
 
+                            elif pawn_hit and not can_capture:
+                                break
+
                             self.selected = 0
 
                             for i in range(loops):
@@ -554,6 +575,7 @@ class Pawn:
 
                         if pawn_hit and not ignore:
                             break
+
 
 def timer():
     global global_mill_sec_time, global_sec_time, global_min_time, global_time,\
@@ -597,6 +619,7 @@ def timer():
 
     white_time = f"{white_min_time:02d}:{white_sec_time:02d}:{white_mill_sec_time:02d}"
 
+
 def check_pawn_left_queen():
     global black_pawn_left,white_pawn_left,black_pawn_queen,white_pawn_queen
     black_pawn_left = 20
@@ -616,6 +639,7 @@ def check_pawn_left_queen():
         if black_pawn[i].queen == 1 and not black_pawn[i].captured == 1:
             black_pawn_queen += 1
 
+
 def unselect_all():
     for i in range (20):
         black_pawn[i].selected = 0
@@ -623,15 +647,18 @@ def unselect_all():
     for i in range (20):
         white_pawn[i].selected = 0
 
+
 def init_black_pawns(x, y, low_range, high_range):
     for i in range(low_range, high_range):
         black_pawn[i] = Pawn(x, y, "black")
         x += 200
 
+
 def init_white_pawns(x, y, low_range, high_range):
     for i in range(low_range, high_range):
         white_pawn[i] = Pawn(x, y, "white")
         x += 200
+
 
 def init_pawns():
     init_black_pawns(105, 5, 0, 5)
@@ -644,6 +671,7 @@ def init_pawns():
     init_white_pawns(105, 805, 10, 15)
     init_white_pawns(5, 905, 15, 20)
 
+
 def select_pawns(event):
     if turn % 2 == 0:
         for i in range (20):
@@ -652,12 +680,14 @@ def select_pawns(event):
         for i in range (20):
             white_pawn[i].select_pawn(event)
 
+
 def move_pawns(event):
     for i in range (20):
         black_pawn[i].move_pawn(event)
 
     for i in range (20):
         white_pawn[i].move_pawn(event)
+
 
 def check_if_pawn_can_capture_directly(pawn, attempted_move, event):
     can_capture = False
@@ -698,6 +728,7 @@ def check_if_pawn_can_capture_directly(pawn, attempted_move, event):
                     break
 
     return can_capture
+
 
 def check_if_pawn_can_capture_elsewhere(pawn, attempted_move, event):
     can_capture = False
@@ -892,6 +923,7 @@ def check_if_pawn_can_capture_elsewhere(pawn, attempted_move, event):
 
     return can_capture
 
+
 def check_if_pawn_can_capture(pos_x, pos_y, event):
     for i in range(20):
         if (not (5 <= event.pos[0] + pos_x <= 1005) or not (5 <= event.pos[1] + pos_y <= 1005) or
@@ -903,6 +935,7 @@ def check_if_pawn_can_capture(pos_x, pos_y, event):
             return False
 
     return True
+
 
 def check_if_pawn_can_capture_again(pawn, previous_move, event):
     can_capture_again = False
@@ -1097,12 +1130,14 @@ def check_if_pawn_can_capture_again(pawn, previous_move, event):
 
     return can_capture_again
 
+
 def change_to_queen():
     for i in range (20):
         black_pawn[i].change_to_queen()
 
     for i in range (20):
         white_pawn[i].change_to_queen()
+
 
 def check_for_pawn_in_the_way(pos_x, pos_y):
     for i in range(20):
@@ -1115,6 +1150,7 @@ def check_for_pawn_in_the_way(pos_x, pos_y):
 
     return False
 
+
 def check_win():
     global white_win,black_win
     if black_pawn_left == 0:
@@ -1124,6 +1160,7 @@ def check_win():
         black_win +=1
         return True
     else: return False
+
 
 def select_pawn_in_danger(pawn, move, loops, event):
     if pawn.color == "black":
@@ -1157,6 +1194,7 @@ def select_pawn_in_danger(pawn, move, loops, event):
                     black_pawn[i].is_in_danger = 0
                     pawn.locked_direction = ""
                     pawn.pawn_to_capture_distance = 0
+
 
 def queen_capture(pawn, loops):
     global turn
@@ -1192,6 +1230,7 @@ def queen_capture(pawn, loops):
 
             turn += 1
             return
+
 
 def restart():
     global turn,global_mill_sec_time,global_sec_time,global_min_time,global_time,black_mill_sec_time,black_sec_time,\
