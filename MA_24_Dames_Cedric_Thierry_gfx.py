@@ -112,6 +112,8 @@ def display_info():
     blk_y = 55
     txt_black = font.render("black", True, (255, 255, 255))
     screen.blit(txt_black, (1060, blk_y))
+    txt_black_win = font.render(f"{bknd.black_win}", True, (255, 255, 255))
+    screen.blit(txt_black_win, (1130, blk_y))
     txt_blk_timer = font.render(bknd.black_time, True, (255, 255, 255))
     screen.blit(txt_blk_timer, (1060, (blk_y + 50)))
     txt_blk_remain_pawn = font.render(f"{bknd.black_pawn_left} pawns left", True, (255, 255, 255))
@@ -123,6 +125,8 @@ def display_info():
     wht_y = 505
     txt_white = font.render("white", True, (255, 255, 255))
     screen.blit(txt_white, (1060, wht_y))
+    txt_white_win = font.render(f"{bknd.white_win}", True, (255, 255, 255))
+    screen.blit(txt_white_win, (1130, wht_y))
     txt_wht_timer = font.render(bknd.white_time, True, (255, 255, 255))
     screen.blit(txt_wht_timer, (1060, (wht_y + 50)))
     txt_wht_remain_pawn = font.render(f"{bknd.white_pawn_left} pawns left", True, (255, 255, 255))
@@ -187,11 +191,9 @@ def move_pawns(event):
     bknd.move_pawns(event)
     draw_board()
 
-
 def mainloop():
     running = True
     title = True
-    win = False
     while running:
         while title:
             display_title_screen()
@@ -207,11 +209,7 @@ def mainloop():
             break
         draw_board()
         display_info()
-        print(f"{bknd.black_pawn_left}")
-        print(f"{bknd.white_pawn_left}")
         win = bknd.check_win()
-        print(f"{bknd.black_pawn_left}")
-        print(f"{bknd.white_pawn_left}")
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -228,11 +226,9 @@ def mainloop():
                 elif event.type == pygame.KEYDOWN:
                     bknd.restart()
                     win = False
-                    title = True
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     bknd.restart()
                     win = False
-                    title = True
     pygame.quit()
 
 

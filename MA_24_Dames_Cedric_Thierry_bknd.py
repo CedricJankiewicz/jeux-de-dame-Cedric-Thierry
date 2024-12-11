@@ -1194,11 +1194,30 @@ def queen_capture(pawn, loops):
             return
 
 def restart():
-    global black_pawn_left, white_pawn_left
-    print("Reset function called")
-    black_pawn_left = 20
-    white_pawn_left = 20
-    print(f"Variables reset: Black={black_pawn_left}, White={white_pawn_left}")
+    global turn,global_mill_sec_time,global_sec_time,global_min_time,global_time,black_mill_sec_time,black_sec_time,\
+    black_min_time,black_time,white_mill_sec_time,white_sec_time,white_min_time,white_time
+    init_pawns()
+    for i in range (20):
+        black_pawn[i].captured = 0
+        white_pawn[i].captured = 0
+        black_pawn[i].queen = 0
+        white_pawn[i].queen = 0
+    turn = 1
+    # timer variable
+    global_mill_sec_time = 0
+    global_sec_time = 0
+    global_min_time = 0
+    global_time = ""
+
+    black_mill_sec_time = 0
+    black_sec_time = 0
+    black_min_time = 0
+    black_time = ""
+
+    white_mill_sec_time = 0
+    white_sec_time = 0
+    white_min_time = 0
+    white_time = ""
 
 
 black_pawn = [Pawn] * 20
