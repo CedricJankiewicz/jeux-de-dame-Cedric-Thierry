@@ -141,7 +141,7 @@ def display_title_screen():
     tiny_font = pygame.font.Font(None, 50)
     txt_title = font.render("Checkers Game", True, (255, 255, 255))
     screen.blit(txt_title, (100, 100))
-    txt_author = tiny_font.render("by Cédric and thierry", True, (255, 255, 255))
+    txt_author = tiny_font.render("by Cédric and Thierry", True, (255, 255, 255))
     screen.blit(txt_author, (110, 200))
     #blinking text
     current_time = pygame.time.get_ticks()
@@ -159,10 +159,10 @@ def display_win_screen():
     tiny_font = pygame.font.Font(None, 50)
     txt_wht = font.render("white win", True, (255, 255, 255))
     txt_blk = font.render("black win", True, (255, 255, 255))
-    if bknd.black_pawn_left == 18:
+    if bknd.black_pawn_left == 0:
         screen.fill((0, 0, 0))
         screen.blit(txt_wht, (110, 100))
-    if bknd.white_pawn_left == 18:
+    if bknd.white_pawn_left == 0:
         screen.fill((0, 0, 0))
         screen.blit(txt_blk, (110, 100))
 

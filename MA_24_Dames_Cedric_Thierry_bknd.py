@@ -1117,10 +1117,10 @@ def check_for_pawn_in_the_way(pos_x, pos_y):
 
 def check_win():
     global white_win,black_win
-    if black_pawn_left == 18:
+    if black_pawn_left == 0:
         white_win +=1
         return True
-    if white_pawn_left == 18:
+    if white_pawn_left == 0:
         black_win +=1
         return True
     else: return False
