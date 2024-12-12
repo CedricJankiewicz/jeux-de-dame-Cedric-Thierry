@@ -395,6 +395,7 @@ class Pawn:
                 pos_y = self.y + 1
                 loops = 0
                 ignore = False
+                ignored = 0
 
                 if event.pos[0] <= self.x and event.pos[1] <= self.y:
                     if (self.locked_direction == "up_right" or self.locked_direction == "down_left" or
@@ -406,7 +407,7 @@ class Pawn:
                         pos_x -= 100
                         pos_y -= 100
                         loops += 1
-                        pawn_hit = check_for_pawn_in_the_way(pos_x, pos_y)
+                        pawn_hit = check_for_pawn_in_the_way(self, pos_x, pos_y)
 
                         if pos_x <= event.pos[0] <= pos_x + 100 and pos_y <= event.pos[1] <= pos_y + 100:
                             if self.pawn_to_capture_distance != 0:
@@ -414,16 +415,33 @@ class Pawn:
                                     return
 
                                 elif loops > self.pawn_to_capture_distance:
-                                    queen_capture(self, loops)
-                                    return
+                                    if not pawn_hit:
+                                        queen_capture(self, loops)
+                                        can_capture_again = check_if_queen_can_capture_again(self)
+
+                                        if can_capture_again:
+                                            self.force_select = 1
+
+                                        elif not can_capture_again:
+                                            self.selected = 0
+                                            self.force_select = 0
+                                            turn += 1
+
+                                        return
 
                             can_capture = check_if_pawn_can_capture_directly(self, "up_left", event)
 
-                            if pawn_hit and can_capture:
+                            if pawn_hit and can_capture and ignored == 0:
                                 select_pawn_in_danger(self, "up_left", loops, event)
                                 break
 
                             elif pawn_hit and not can_capture:
+                                break
+
+                            if ignored == 1:
+                                break
+
+                            if self.force_select == 1:
                                 break
 
                             self.selected = 0
@@ -435,8 +453,11 @@ class Pawn:
                             break
 
                         for i in range(20):
-                            if black_pawn[i].is_in_danger == 1 or white_pawn[i]. is_in_danger == 1:
+                            if (black_pawn[i].is_in_danger == 1 and loops <= self.pawn_to_capture_distance or
+                                white_pawn[i].is_in_danger == 1 and loops <= self.pawn_to_capture_distance):
+
                                 ignore = True
+                                ignored = 1
 
                         if pawn_hit and not ignore:
                             break
@@ -451,7 +472,7 @@ class Pawn:
                         pos_x += 100
                         pos_y -= 100
                         loops += 1
-                        pawn_hit = check_for_pawn_in_the_way(pos_x, pos_y)
+                        pawn_hit = check_for_pawn_in_the_way(self, pos_x, pos_y)
 
                         if pos_x <= event.pos[0] <= pos_x + 100 and pos_y <= event.pos[1] <= pos_y + 100:
                             if self.pawn_to_capture_distance != 0:
@@ -459,16 +480,33 @@ class Pawn:
                                     return
 
                                 elif loops > self.pawn_to_capture_distance:
-                                    queen_capture(self, loops)
-                                    return
+                                    if not pawn_hit:
+                                        queen_capture(self, loops)
+                                        can_capture_again = check_if_queen_can_capture_again(self)
+
+                                        if can_capture_again:
+                                            self.force_select = 1
+
+                                        elif not can_capture_again:
+                                            self.selected = 0
+                                            self.force_select = 0
+                                            turn += 1
+
+                                        return
 
                             can_capture = check_if_pawn_can_capture_directly(self, "up_right", event)
 
-                            if pawn_hit and can_capture:
+                            if pawn_hit and can_capture and ignored == 0:
                                 select_pawn_in_danger(self, "up_right", loops, event)
                                 break
 
                             elif pawn_hit and not can_capture:
+                                break
+
+                            if ignored == 1:
+                                break
+
+                            if self.force_select == 1:
                                 break
 
                             self.selected = 0
@@ -480,8 +518,11 @@ class Pawn:
                             break
 
                         for i in range(20):
-                            if black_pawn[i].is_in_danger == 1 or white_pawn[i]. is_in_danger == 1:
+                            if (black_pawn[i].is_in_danger == 1 and loops <= self.pawn_to_capture_distance or
+                                white_pawn[i].is_in_danger == 1 and loops <= self.pawn_to_capture_distance):
+
                                 ignore = True
+                                ignored = 1
 
                         if pawn_hit and not ignore:
                             break
@@ -496,7 +537,7 @@ class Pawn:
                         pos_x -= 100
                         pos_y += 100
                         loops += 1
-                        pawn_hit = check_for_pawn_in_the_way(pos_x, pos_y)
+                        pawn_hit = check_for_pawn_in_the_way(self, pos_x, pos_y)
 
                         if pos_x <= event.pos[0] <= pos_x + 100 and pos_y <= event.pos[1] <= pos_y + 100:
                             if self.pawn_to_capture_distance != 0:
@@ -504,16 +545,33 @@ class Pawn:
                                     return
 
                                 elif loops > self.pawn_to_capture_distance:
-                                    queen_capture(self, loops)
-                                    return
+                                    if not pawn_hit:
+                                        queen_capture(self, loops)
+                                        can_capture_again = check_if_queen_can_capture_again(self)
+
+                                        if can_capture_again:
+                                            self.force_select = 1
+
+                                        elif not can_capture_again:
+                                            self.selected = 0
+                                            self.force_select = 0
+                                            turn += 1
+
+                                        return
 
                             can_capture = check_if_pawn_can_capture_directly(self, "down_left", event)
 
-                            if pawn_hit and can_capture:
+                            if pawn_hit and can_capture and ignored == 0:
                                 select_pawn_in_danger(self, "down_left", loops, event)
                                 break
 
                             elif pawn_hit and not can_capture:
+                                break
+
+                            if ignored == 1:
+                                break
+
+                            if self.force_select == 1:
                                 break
 
                             self.selected = 0
@@ -525,8 +583,11 @@ class Pawn:
                             break
 
                         for i in range(20):
-                            if black_pawn[i].is_in_danger == 1 or white_pawn[i]. is_in_danger == 1:
+                            if (black_pawn[i].is_in_danger == 1 and loops <= self.pawn_to_capture_distance or
+                                white_pawn[i].is_in_danger == 1 and loops <= self.pawn_to_capture_distance):
+
                                 ignore = True
+                                ignored = 1
 
                         if pawn_hit and not ignore:
                             break
@@ -541,7 +602,7 @@ class Pawn:
                         pos_x += 100
                         pos_y += 100
                         loops += 1
-                        pawn_hit = check_for_pawn_in_the_way(pos_x, pos_y)
+                        pawn_hit = check_for_pawn_in_the_way(self, pos_x, pos_y)
 
                         if pos_x <= event.pos[0] <= pos_x + 100 and pos_y <= event.pos[1] <= pos_y + 100:
                             if self.pawn_to_capture_distance != 0:
@@ -549,16 +610,33 @@ class Pawn:
                                     return
 
                                 elif loops > self.pawn_to_capture_distance:
-                                    queen_capture(self, loops)
-                                    return
+                                    if not pawn_hit:
+                                        queen_capture(self, loops)
+                                        can_capture_again = check_if_queen_can_capture_again(self)
+
+                                        if can_capture_again:
+                                            self.force_select = 1
+
+                                        elif not can_capture_again:
+                                            self.selected = 0
+                                            self.force_select = 0
+                                            turn += 1
+
+                                        return
 
                             can_capture = check_if_pawn_can_capture_directly(self, "down_right", event)
 
-                            if pawn_hit and can_capture:
+                            if pawn_hit and can_capture and ignored == 0:
                                 select_pawn_in_danger(self, "down_right", loops, event)
                                 break
 
                             elif pawn_hit and not can_capture:
+                                break
+
+                            if ignored == 1:
+                                break
+
+                            if self.force_select == 1:
                                 break
 
                             self.selected = 0
@@ -570,8 +648,11 @@ class Pawn:
                             break
 
                         for i in range(20):
-                            if black_pawn[i].is_in_danger == 1 or white_pawn[i]. is_in_danger == 1:
+                            if (black_pawn[i].is_in_danger == 1 and loops <= self.pawn_to_capture_distance or
+                                white_pawn[i].is_in_danger == 1 and loops <= self.pawn_to_capture_distance):
+
                                 ignore = True
+                                ignored = 1
 
                         if pawn_hit and not ignore:
                             break
@@ -925,14 +1006,25 @@ def check_if_pawn_can_capture_elsewhere(pawn, attempted_move, event):
 
 
 def check_if_pawn_can_capture(pos_x, pos_y, event):
-    for i in range(20):
-        if (not (5 <= event.pos[0] + pos_x <= 1005) or not (5 <= event.pos[1] + pos_y <= 1005) or
-            black_pawn[i].x <= event.pos[0] + pos_x <= black_pawn[i].x + 100 and
-            black_pawn[i].y <= event.pos[1] + pos_y <= black_pawn[i].y + 100 and black_pawn[i].captured == 0 or
-            white_pawn[i].x <= event.pos[0] + pos_x <= white_pawn[i].x + 100 and
-            white_pawn[i].y <= event.pos[1] + pos_y <= white_pawn[i].y + 100 and white_pawn[i].captured == 0):
+    if event is not None:
+        for i in range(20):
+            if (not (5 <= event.pos[0] + pos_x <= 1005) or not (5 <= event.pos[1] + pos_y <= 1005) or
+                black_pawn[i].x <= event.pos[0] + pos_x <= black_pawn[i].x + 100 and
+                black_pawn[i].y <= event.pos[1] + pos_y <= black_pawn[i].y + 100 and black_pawn[i].captured == 0 or
+                white_pawn[i].x <= event.pos[0] + pos_x <= white_pawn[i].x + 100 and
+                white_pawn[i].y <= event.pos[1] + pos_y <= white_pawn[i].y + 100 and white_pawn[i].captured == 0):
 
-            return False
+                return False
+
+    elif event is None:
+        for i in range(20):
+            if (not (5 <= pos_x <= 1005) or not (5 <= pos_y <= 1005) or
+                black_pawn[i].x <= pos_x <= black_pawn[i].x + 100 and
+                black_pawn[i].y <= pos_y <= black_pawn[i].y + 100 and black_pawn[i].captured == 0 or
+                white_pawn[i].x <= pos_x <= white_pawn[i].x + 100 and
+                white_pawn[i].y <= pos_y <= white_pawn[i].y + 100 and white_pawn[i].captured == 0):
+
+                return False
 
     return True
 
@@ -1139,14 +1231,19 @@ def change_to_queen():
         white_pawn[i].change_to_queen()
 
 
-def check_for_pawn_in_the_way(pos_x, pos_y):
+def check_for_pawn_in_the_way(pawn, pos_x, pos_y):
     for i in range(20):
-        if (black_pawn[i].x <= pos_x <= black_pawn[i].x + 100 and
-            black_pawn[i].y <= pos_y <= black_pawn[i].y + 100 and black_pawn[i].captured == 0 or
-            white_pawn[i].x <= pos_x <= white_pawn[i].x + 100 and
-            white_pawn[i].y <= pos_y <= white_pawn[i].y + 100 and white_pawn[i].captured == 0):
+        if pawn.color == "black":
+            if (white_pawn[i].x <= pos_x <= white_pawn[i].x + 100 and
+                white_pawn[i].y <= pos_y <= white_pawn[i].y + 100 and white_pawn[i].captured == 0):
 
-            return True
+                return True
+
+        if pawn.color == "white":
+            if (black_pawn[i].x <= pos_x <= black_pawn[i].x + 100 and
+                black_pawn[i].y <= pos_y <= black_pawn[i].y + 100 and black_pawn[i].captured == 0):
+
+                return True
 
     return False
 
@@ -1211,7 +1308,6 @@ def queen_capture(pawn, loops):
                 white_pawn[i].captured = 1
                 white_pawn[i].is_in_danger = 0
 
-            pawn.selected = 0
             pawn.locked_direction = ""
             pawn.pawn_to_capture_distance = 0
 
@@ -1228,7 +1324,6 @@ def queen_capture(pawn, loops):
                 elif direction == "down_right":
                     pawn.move_down_right()
 
-            turn += 1
             return
 
 
@@ -1257,6 +1352,95 @@ def restart():
     white_sec_time = 0
     white_min_time = 0
     white_time = ""
+
+
+def check_if_queen_can_capture_again(pawn):
+    pos_x = pawn.x + 1
+    pos_y = pawn.y + 1
+    can_capture_again = False
+
+    while 0 <= pos_x - 100 and 0 <= pos_y - 100:
+        print("check up left")
+        pos_x -= 100
+        pos_y -= 100
+        pawn_hit = check_for_pawn_in_the_way(pawn, pos_x, pos_y)
+        print(f"x : {pos_x}, y : {pos_y}, pawn hit : {pawn_hit}")
+
+        if pawn_hit:
+            can_capture = check_if_pawn_can_capture(pos_x - 100, pos_y - 100, None)
+            print(f"can capture : {can_capture}")
+
+            if can_capture:
+                can_capture_again = True
+                break
+
+            elif not can_capture:
+                break
+
+    pos_x = pawn.x + 1
+    pos_y = pawn.y + 1
+
+    while pos_x + 100 <= 1010 and 0 <= pos_y - 100 and not can_capture_again:
+        print("check up right")
+        pos_x += 100
+        pos_y -= 100
+        pawn_hit = check_for_pawn_in_the_way(pawn, pos_x, pos_y)
+        print(f"x : {pos_x}, y : {pos_y}, pawn hit : {pawn_hit}")
+
+        if pawn_hit:
+            can_capture = check_if_pawn_can_capture(pos_x + 100, pos_y - 100, None)
+            print(f"can capture : {can_capture}")
+
+            if can_capture:
+                can_capture_again = True
+                break
+
+            elif not can_capture:
+                break
+
+    pos_x = pawn.x + 1
+    pos_y = pawn.y + 1
+
+    while 0 <= pos_x - 100 and pos_y + 100 <= 1010 and not can_capture_again:
+        print("check down left")
+        pos_x -= 100
+        pos_y += 100
+        pawn_hit = check_for_pawn_in_the_way(pawn, pos_x, pos_y)
+        print(f"x : {pos_x}, y : {pos_y}, pawn hit : {pawn_hit}")
+
+        if pawn_hit:
+            can_capture = check_if_pawn_can_capture(pos_x - 100, pos_y + 100, None)
+            print(f"can capture : {can_capture}")
+
+            if can_capture:
+                can_capture_again = True
+                break
+
+            elif not can_capture:
+                break
+
+    pos_x = pawn.x + 1
+    pos_y = pawn.y + 1
+
+    while pos_x + 100 <= 1010 and pos_y + 100 <= 1010 and not can_capture_again:
+        print("check down right")
+        pos_x += 100
+        pos_y += 100
+        pawn_hit = check_for_pawn_in_the_way(pawn, pos_x, pos_y)
+        print(f"x : {pos_x}, y : {pos_y}, pawn hit : {pawn_hit}")
+
+        if pawn_hit:
+            can_capture = check_if_pawn_can_capture(pos_x + 100, pos_y + 100, None)
+            print(f"can capture : {can_capture}")
+
+            if can_capture:
+                can_capture_again = True
+                break
+
+            elif not can_capture:
+                break
+
+    return can_capture_again
 
 
 black_pawn = [Pawn] * 20
