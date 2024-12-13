@@ -1443,6 +1443,22 @@ def check_if_queen_can_capture_again(pawn):
     return can_capture_again
 
 
+def detect_for_konami():
+    global input_konami
+    konami_code = ["up", "up", "down", "down", "left", "right", "left", "right", "b", "a"]
+
+    # Check if the input length is sufficient
+    if len(input_konami) >= len(konami_code):
+        # Compare the last inputs with the Konami code
+        if input_konami[-len(konami_code):] == konami_code:
+            return True
+
+    return False
+
+
+def append_konami(input):
+    input_konami.append(f"{input}")
+
 black_pawn = [Pawn] * 20
 white_pawn = [Pawn] * 20
 
@@ -1472,3 +1488,5 @@ white_mill_sec_time = 0
 white_sec_time = 0
 white_min_time = 0
 white_time = ""
+
+input_konami = []

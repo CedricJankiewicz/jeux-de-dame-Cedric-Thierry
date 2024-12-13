@@ -39,14 +39,25 @@ def display_color():
     """
     display pawn with their color black or white
     """
-    for i in range (20):
-        if bknd.black_pawn[i].color == "black" and not bknd.black_pawn[i].queen == 1:
-            bknd.black_pawn[i].pawn = pawn_black_image
+    if not konami:
+        for i in range (20):
+            if bknd.black_pawn[i].color == "black" and not bknd.black_pawn[i].queen == 1:
+                bknd.black_pawn[i].pawn = pawn_black_image
 
-    for i in range (20):
-        if bknd.white_pawn[i].color == "white" and not bknd.white_pawn[i].queen == 1:
-            bknd.white_pawn[i].pawn = pawn_white_image
+        for i in range (20):
+            if bknd.white_pawn[i].color == "white" and not bknd.white_pawn[i].queen == 1:
+                bknd.white_pawn[i].pawn = pawn_white_image
+    else:
+        current_time = pygame.time.get_ticks()
+        for i in range(20):
+            if bknd.black_pawn[i].color == "black" and not bknd.black_pawn[i].queen == 1:
+                bknd.black_pawn[i].pawn = pawn_black_image
 
+        for i in range(20):
+            if bknd.white_pawn[i].color == "white" and not bknd.white_pawn[i].queen == 1:
+                for c, pawn in enumerate(bknd.white_pawn):
+                    color_index = (current_time // 500 + c) % len(white_rainbow)
+                    pawn.pawn = white_rainbow[color_index]
 
 def display_queens():
     """
@@ -227,6 +238,7 @@ def move_pawns(event):
     bknd.move_pawns(event)
     draw_board()
 
+
 def mainloop():
     """
     make the mainloop for the window and detect input
@@ -255,6 +267,25 @@ def mainloop():
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 select_pawns(event)
                 move_pawns(event)
+            #input for easter egg
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_UP:
+                    bknd.input_konami.append("up")
+                elif event.key == pygame.K_DOWN:
+                    bknd.input_konami.append("down")
+                elif event.key == pygame.K_LEFT:
+                    bknd.input_konami.append("left")
+                elif event.key == pygame.K_RIGHT:
+                    bknd.input_konami.append("right")
+                elif event.key == pygame.K_a:
+                    bknd.input_konami.append("a")
+                elif event.key == pygame.K_b:
+                    bknd.input_konami.append("b")
+                elif event.key == pygame.K_RETURN:
+                    global konami
+                    konami = bknd.detect_for_konami()
+                    print(konami)
+
         pygame.display.update()
         while win:
             display_win_screen()
@@ -285,3 +316,27 @@ pawn_black_queen_image = pygame.transform.scale(pawn_black_queen_image, (100, 10
 
 pawn_white_queen_image = pygame.image.load(".resources\\MA-24_pion_white_queen.png")
 pawn_white_queen_image = pygame.transform.scale(pawn_white_queen_image, (100, 100))
+
+#easter egg
+konami = False
+
+pawn_white_red_image = pygame.image.load(".resources\\rainbow\\MA-24_pion_white_red.png")
+pawn_white_red_image = pygame.transform.scale(pawn_white_red_image, (100, 100))
+
+pawn_white_orange_image = pygame.image.load(".resources\\rainbow\\MA-24_pion_white_orange.png")
+pawn_white_orange_image = pygame.transform.scale(pawn_white_orange_image, (100, 100))
+
+pawn_white_yellow_image = pygame.image.load(".resources\\rainbow\\MA-24_pion_white_yellow.png")
+pawn_white_yellow_image = pygame.transform.scale(pawn_white_yellow_image, (100, 100))
+
+pawn_white_green_image = pygame.image.load(".resources\\rainbow\\MA-24_pion_white_green.png")
+pawn_white_green_image = pygame.transform.scale(pawn_white_green_image, (100, 100))
+
+pawn_white_blue_image = pygame.image.load(".resources\\rainbow\\MA-24_pion_white_blue.png")
+pawn_white_blue_image = pygame.transform.scale(pawn_white_blue_image, (100, 100))
+
+pawn_white_purple_image = pygame.image.load(".resources\\rainbow\\MA-24_pion_white_purple.png")
+pawn_white_purple_image = pygame.transform.scale(pawn_white_purple_image, (100, 100))
+
+white_rainbow =[pawn_white_red_image,pawn_white_orange_image,pawn_white_yellow_image,
+                pawn_white_green_image,pawn_white_blue_image,pawn_white_purple_image]
