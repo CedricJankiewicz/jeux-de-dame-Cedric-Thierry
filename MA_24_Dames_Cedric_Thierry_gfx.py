@@ -51,13 +51,15 @@ def display_color():
         current_time = pygame.time.get_ticks()
         for i in range(20):
             if bknd.black_pawn[i].color == "black" and not bknd.black_pawn[i].queen == 1:
-                bknd.black_pawn[i].pawn = pawn_black_image
+                for c, pawn in enumerate(bknd.black_pawn):
+                    color_index = (current_time // 500 + c) % len(black_rainbow)
+                    bknd.black_pawn[i].pawn = black_rainbow[color_index]
 
         for i in range(20):
             if bknd.white_pawn[i].color == "white" and not bknd.white_pawn[i].queen == 1:
                 for c, pawn in enumerate(bknd.white_pawn):
                     color_index = (current_time // 500 + c) % len(white_rainbow)
-                    pawn.pawn = white_rainbow[color_index]
+                    bknd.white_pawn[i].pawn = white_rainbow[color_index]
 
 def display_queens():
     """
@@ -340,3 +342,24 @@ pawn_white_purple_image = pygame.transform.scale(pawn_white_purple_image, (100, 
 
 white_rainbow =[pawn_white_red_image,pawn_white_orange_image,pawn_white_yellow_image,
                 pawn_white_green_image,pawn_white_blue_image,pawn_white_purple_image]
+
+pawn_black_red_image = pygame.image.load(".resources\\rainbow\\MA-24_pion_black_red.png")
+pawn_black_red_image = pygame.transform.scale(pawn_black_red_image, (100, 100))
+
+pawn_black_orange_image = pygame.image.load(".resources\\rainbow\\MA-24_pion_black_orange.png")
+pawn_black_orange_image = pygame.transform.scale(pawn_black_orange_image, (100, 100))
+
+pawn_black_yellow_image = pygame.image.load(".resources\\rainbow\\MA-24_pion_black_yellow.png")
+pawn_black_yellow_image = pygame.transform.scale(pawn_black_yellow_image, (100, 100))
+
+pawn_black_green_image = pygame.image.load(".resources\\rainbow\\MA-24_pion_black_green.png")
+pawn_black_green_image = pygame.transform.scale(pawn_black_green_image, (100, 100))
+
+pawn_black_blue_image = pygame.image.load(".resources\\rainbow\\MA-24_pion_black_blue.png")
+pawn_black_blue_image = pygame.transform.scale(pawn_black_blue_image, (100, 100))
+
+pawn_black_purple_image = pygame.image.load(".resources\\rainbow\\MA-24_pion_black_purple.png")
+pawn_black_purple_image = pygame.transform.scale(pawn_black_purple_image, (100, 100))
+
+black_rainbow =[pawn_black_red_image,pawn_black_orange_image,pawn_black_yellow_image,
+                pawn_black_green_image,pawn_black_blue_image,pawn_black_purple_image]
