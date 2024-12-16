@@ -52,13 +52,13 @@ def display_color():
         for i in range(20):
             if bknd.black_pawn[i].color == "black" and not bknd.black_pawn[i].queen == 1:
                 for c, pawn in enumerate(bknd.black_pawn):
-                    color_index = (current_time // 500 + c) % len(black_rainbow)
+                    color_index = (current_time // 100 + c) % len(black_rainbow)
                     bknd.black_pawn[i].pawn = black_rainbow[color_index]
 
         for i in range(20):
             if bknd.white_pawn[i].color == "white" and not bknd.white_pawn[i].queen == 1:
                 for c, pawn in enumerate(bknd.white_pawn):
-                    color_index = (current_time // 500 + c) % len(white_rainbow)
+                    color_index = (current_time // 100 + c) % len(white_rainbow)
                     bknd.white_pawn[i].pawn = white_rainbow[color_index]
 
 def display_queens():
@@ -78,13 +78,13 @@ def display_queens():
         for i in range(20):
             if bknd.black_pawn[i].queen == 1:
                 for c, pawn in enumerate(bknd.black_pawn):
-                    color_index = (current_time // 500 + c) % len(black_rainbow)
+                    color_index = (current_time // 100 + c) % len(black_rainbow)
                     bknd.black_pawn[i].pawn = black_queen_rainbow[color_index]
 
         for i in range(20):
             if bknd.white_pawn[i].queen == 1:
                 for c, pawn in enumerate(bknd.white_pawn):
-                    color_index = (current_time // 500 + c) % len(white_rainbow)
+                    color_index = (current_time // 100 + c) % len(white_rainbow)
                     bknd.white_pawn[i].pawn = white_queen_rainbow[color_index]
 
 
