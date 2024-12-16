@@ -1455,9 +1455,17 @@ def detect_for_konami():
 
     return False
 
+def make_selected_to_queen():
+    """
+    promote to queen the selected pawn
+    """
+    for i in range (20):
+        if black_pawn[i].selected == 1:
+            black_pawn[i].queen = 1
 
-def append_konami(input):
-    input_konami.append(f"{input}")
+    for i in range (20):
+        if white_pawn[i].selected == 1:
+            white_pawn[i].queen = 1
 
 black_pawn = [Pawn] * 20
 white_pawn = [Pawn] * 20

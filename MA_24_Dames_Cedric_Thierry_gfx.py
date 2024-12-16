@@ -255,20 +255,6 @@ def move_pawns(event):
     draw_board()
 
 
-def debug_queen():
-    """
-    will promote to queen selected pawn
-    """
-    for i in range (20):
-        if bknd.black_pawn[i].selected == 1:
-            bknd.black_pawn[i].queen = 1
-
-    for i in range (20):
-        if bknd.white_pawn[i].selected == 1:
-            bknd.white_pawn[i].queen = 1
-
-
-
 def mainloop():
     """
     make the mainloop for the window and detect input
@@ -316,7 +302,7 @@ def mainloop():
                     konami = bknd.detect_for_konami()
                     print(konami)
                 elif event.key == pygame.K_p:
-                    debug_queen()
+                    bknd.make_selected_to_queen()
 
         pygame.display.update()
         while win:
