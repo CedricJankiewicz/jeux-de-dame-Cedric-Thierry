@@ -65,13 +65,27 @@ def display_queens():
     """
     if the pawn is a queen change the texture of the pawn with a new one
     """
-    for i in range (20):
-        if bknd.black_pawn[i].queen == 1:
-            bknd.black_pawn[i].pawn = pawn_black_queen_image
+    if not konami:
+        for i in range (20):
+            if bknd.black_pawn[i].queen == 1:
+                bknd.black_pawn[i].pawn = pawn_black_queen_image
 
-    for i in range (20):
-        if bknd.white_pawn[i].queen == 1:
-            bknd.white_pawn[i].pawn = pawn_white_queen_image
+        for i in range (20):
+            if bknd.white_pawn[i].queen == 1:
+                bknd.white_pawn[i].pawn = pawn_white_queen_image
+    else:
+        current_time = pygame.time.get_ticks()
+        for i in range(20):
+            if bknd.black_pawn[i].queen == 1:
+                for c, pawn in enumerate(bknd.black_pawn):
+                    color_index = (current_time // 500 + c) % len(black_rainbow)
+                    bknd.black_pawn[i].pawn = black_queen_rainbow[color_index]
+
+        for i in range(20):
+            if bknd.white_pawn[i].queen == 1:
+                for c, pawn in enumerate(bknd.white_pawn):
+                    color_index = (current_time // 500 + c) % len(white_rainbow)
+                    bknd.white_pawn[i].pawn = white_queen_rainbow[color_index]
 
 
 def display_pawns():
@@ -241,6 +255,20 @@ def move_pawns(event):
     draw_board()
 
 
+def debug_queen():
+    """
+    will promote to queen selected pawn
+    """
+    for i in range (20):
+        if bknd.black_pawn[i].selected == 1:
+            bknd.black_pawn[i].queen = 1
+
+    for i in range (20):
+        if bknd.white_pawn[i].selected == 1:
+            bknd.white_pawn[i].queen = 1
+
+
+
 def mainloop():
     """
     make the mainloop for the window and detect input
@@ -287,6 +315,8 @@ def mainloop():
                     global konami
                     konami = bknd.detect_for_konami()
                     print(konami)
+                elif event.key == pygame.K_p:
+                    debug_queen()
 
         pygame.display.update()
         while win:
@@ -363,3 +393,45 @@ pawn_black_purple_image = pygame.transform.scale(pawn_black_purple_image, (100, 
 
 black_rainbow =[pawn_black_red_image,pawn_black_orange_image,pawn_black_yellow_image,
                 pawn_black_green_image,pawn_black_blue_image,pawn_black_purple_image]
+
+pawn_white_queen_red_image = pygame.image.load(".resources\\rainbow\\MA-24_pion_white_queen_red.png")
+pawn_white_queen_red_image = pygame.transform.scale(pawn_white_queen_red_image, (100, 100))
+
+pawn_white_queen_orange_image = pygame.image.load(".resources\\rainbow\\MA-24_pion_white_queen_orange.png")
+pawn_white_queen_orange_image = pygame.transform.scale(pawn_white_queen_orange_image, (100, 100))
+
+pawn_white_queen_yellow_image = pygame.image.load(".resources\\rainbow\\MA-24_pion_white_queen_yellow.png")
+pawn_white_queen_yellow_image = pygame.transform.scale(pawn_white_queen_yellow_image, (100, 100))
+
+pawn_white_queen_green_image = pygame.image.load(".resources\\rainbow\\MA-24_pion_white_queen_green.png")
+pawn_white_queen_green_image = pygame.transform.scale(pawn_white_queen_green_image, (100, 100))
+
+pawn_white_queen_blue_image = pygame.image.load(".resources\\rainbow\\MA-24_pion_white_queen_blue.png")
+pawn_white_queen_blue_image = pygame.transform.scale(pawn_white_queen_blue_image, (100, 100))
+
+pawn_white_queen_purple_image = pygame.image.load(".resources\\rainbow\\MA-24_pion_white_queen_purple.png")
+pawn_white_queen_purple_image = pygame.transform.scale(pawn_white_queen_purple_image, (100, 100))
+
+white_queen_rainbow =[pawn_white_queen_red_image,pawn_white_queen_orange_image,pawn_white_queen_yellow_image,
+                pawn_white_queen_green_image,pawn_white_queen_blue_image,pawn_white_queen_purple_image]
+
+pawn_black_queen_red_image = pygame.image.load(".resources\\rainbow\\MA-24_pion_black_queen_red.png")
+pawn_black_queen_red_image = pygame.transform.scale(pawn_black_queen_red_image, (100, 100))
+
+pawn_black_queen_orange_image = pygame.image.load(".resources\\rainbow\\MA-24_pion_black_queen_orange.png")
+pawn_black_queen_orange_image = pygame.transform.scale(pawn_black_queen_orange_image, (100, 100))
+
+pawn_black_queen_yellow_image = pygame.image.load(".resources\\rainbow\\MA-24_pion_black_queen_yellow.png")
+pawn_black_queen_yellow_image = pygame.transform.scale(pawn_black_queen_yellow_image, (100, 100))
+
+pawn_black_queen_green_image = pygame.image.load(".resources\\rainbow\\MA-24_pion_black_queen_green.png")
+pawn_black_queen_green_image = pygame.transform.scale(pawn_black_queen_green_image, (100, 100))
+
+pawn_black_queen_blue_image = pygame.image.load(".resources\\rainbow\\MA-24_pion_black_queen_blue.png")
+pawn_black_queen_blue_image = pygame.transform.scale(pawn_black_queen_blue_image, (100, 100))
+
+pawn_black_queen_purple_image = pygame.image.load(".resources\\rainbow\\MA-24_pion_black_queen_purple.png")
+pawn_black_queen_purple_image = pygame.transform.scale(pawn_black_queen_purple_image, (100, 100))
+
+black_queen_rainbow =[pawn_black_queen_red_image,pawn_black_queen_orange_image,pawn_black_queen_yellow_image,
+                pawn_black_queen_green_image,pawn_black_queen_blue_image,pawn_black_queen_purple_image]
