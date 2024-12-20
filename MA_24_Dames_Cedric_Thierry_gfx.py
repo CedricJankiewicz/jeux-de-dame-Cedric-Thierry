@@ -213,10 +213,10 @@ def display_win_screen():
     tiny_font = pygame.font.Font(None, 50)
     txt_wht = font.render("white win", True, (255, 255, 255))
     txt_blk = font.render("black win", True, (255, 255, 255))
-    if bknd.black_pawn_left == 0:
+    if bknd.winner == "white":
         screen.fill((0, 0, 0))
         screen.blit(txt_wht, (110, 100))
-    if bknd.white_pawn_left == 0:
+    if bknd.winner == "black":
         screen.fill((0, 0, 0))
         screen.blit(txt_blk, (110, 100))
 

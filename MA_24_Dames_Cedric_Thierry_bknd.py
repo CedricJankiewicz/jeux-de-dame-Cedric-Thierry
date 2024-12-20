@@ -1249,14 +1249,30 @@ def check_for_pawn_in_the_way(pawn, pos_x, pos_y):
 
 
 def check_win():
-    global white_win,black_win
+    global white_win, black_win, winner
+
     if black_pawn_left == 0:
         white_win +=1
+        winner = "white"
         return True
+
     if white_pawn_left == 0:
         black_win +=1
+        winner = "black"
         return True
-    else: return False
+
+    if check_if_all_pawns_are_blocked():
+        if turn % 2 == 0:
+            white_win += 1
+            winner = "white"
+
+        if turn % 2 == 1:
+            black_win += 1
+            winner = "black"
+
+        return True
+
+    return False
 
 
 def select_pawn_in_danger(pawn, move, loops, event):
@@ -1329,7 +1345,7 @@ def queen_capture(pawn, loops):
 
 def restart():
     global turn,global_mill_sec_time,global_sec_time,global_min_time,global_time,black_mill_sec_time,black_sec_time,\
-    black_min_time,black_time,white_mill_sec_time,white_sec_time,white_min_time,white_time
+    black_min_time,black_time,white_mill_sec_time,white_sec_time,white_min_time,white_time,winner
     init_pawns()
     for i in range (20):
         black_pawn[i].captured = 0
@@ -1353,6 +1369,8 @@ def restart():
     white_min_time = 0
     white_time = ""
 
+    winner = ""
+
 
 def check_if_queen_can_capture_again(pawn):
     pos_x = pawn.x + 1
@@ -1360,15 +1378,12 @@ def check_if_queen_can_capture_again(pawn):
     can_capture_again = False
 
     while 0 <= pos_x - 100 and 0 <= pos_y - 100:
-        print("check up left")
         pos_x -= 100
         pos_y -= 100
         pawn_hit = check_for_pawn_in_the_way(pawn, pos_x, pos_y)
-        print(f"x : {pos_x}, y : {pos_y}, pawn hit : {pawn_hit}")
 
         if pawn_hit:
             can_capture = check_if_pawn_can_capture(pos_x - 100, pos_y - 100, None)
-            print(f"can capture : {can_capture}")
 
             if can_capture:
                 can_capture_again = True
@@ -1381,15 +1396,12 @@ def check_if_queen_can_capture_again(pawn):
     pos_y = pawn.y + 1
 
     while pos_x + 100 <= 1010 and 0 <= pos_y - 100 and not can_capture_again:
-        print("check up right")
         pos_x += 100
         pos_y -= 100
         pawn_hit = check_for_pawn_in_the_way(pawn, pos_x, pos_y)
-        print(f"x : {pos_x}, y : {pos_y}, pawn hit : {pawn_hit}")
 
         if pawn_hit:
             can_capture = check_if_pawn_can_capture(pos_x + 100, pos_y - 100, None)
-            print(f"can capture : {can_capture}")
 
             if can_capture:
                 can_capture_again = True
@@ -1402,15 +1414,12 @@ def check_if_queen_can_capture_again(pawn):
     pos_y = pawn.y + 1
 
     while 0 <= pos_x - 100 and pos_y + 100 <= 1010 and not can_capture_again:
-        print("check down left")
         pos_x -= 100
         pos_y += 100
         pawn_hit = check_for_pawn_in_the_way(pawn, pos_x, pos_y)
-        print(f"x : {pos_x}, y : {pos_y}, pawn hit : {pawn_hit}")
 
         if pawn_hit:
             can_capture = check_if_pawn_can_capture(pos_x - 100, pos_y + 100, None)
-            print(f"can capture : {can_capture}")
 
             if can_capture:
                 can_capture_again = True
@@ -1423,15 +1432,12 @@ def check_if_queen_can_capture_again(pawn):
     pos_y = pawn.y + 1
 
     while pos_x + 100 <= 1010 and pos_y + 100 <= 1010 and not can_capture_again:
-        print("check down right")
         pos_x += 100
         pos_y += 100
         pawn_hit = check_for_pawn_in_the_way(pawn, pos_x, pos_y)
-        print(f"x : {pos_x}, y : {pos_y}, pawn hit : {pawn_hit}")
 
         if pawn_hit:
             can_capture = check_if_pawn_can_capture(pos_x + 100, pos_y + 100, None)
-            print(f"can capture : {can_capture}")
 
             if can_capture:
                 can_capture_again = True
@@ -1455,6 +1461,7 @@ def detect_for_konami():
 
     return False
 
+
 def make_selected_to_queen():
     """
     promote to queen the selected pawn
@@ -1466,6 +1473,285 @@ def make_selected_to_queen():
     for i in range (20):
         if white_pawn[i].selected == 1:
             white_pawn[i].queen = 1
+
+
+def check_if_all_pawns_are_blocked():
+    blocked_pawns = 0
+    if turn % 2 == 0:
+        for i in range(20):
+            up_left = True
+            up_right = True
+            down_left = True
+            down_right = True
+
+            if black_pawn[i].captured == 0:
+                if not 5 <= black_pawn[i].x + 50 - 100 <= 1005 and 5 <= black_pawn[i].y + 50 - 100 <= 1005:
+                    up_left = False
+
+                if not 5 <= black_pawn[i].x + 50 + 100 <= 1005 and 5 <= black_pawn[i].y + 50 - 100 <= 1005:
+                    up_right = False
+
+                if not 5 <= black_pawn[i].x + 50 - 100 <= 1005 and 5 <= black_pawn[i].y + 50 + 100 <= 1005:
+                    down_left = False
+
+                if not 5 <= black_pawn[i].x + 50 + 100 <= 1005 and 5 <= black_pawn[i].y + 50 + 100 <= 1005:
+                    down_right = False
+
+                if black_pawn[i].queen == 0:
+                    pawn_hit_up_left = check_for_pawn_in_the_way(black_pawn[i], black_pawn[i].x + 50 - 100,
+                                                                 black_pawn[i].y + 50 - 100)
+                    pawn_hit_up_right = check_for_pawn_in_the_way(black_pawn[i], black_pawn[i].x + 50 + 100,
+                                                                  black_pawn[i].y + 50 - 100)
+                    pawn_hit_down_left = check_for_pawn_in_the_way(black_pawn[i], black_pawn[i].x + 50 - 100,
+                                                                   black_pawn[i].y + 50 + 100)
+                    pawn_hit_down_right = check_for_pawn_in_the_way(black_pawn[i], black_pawn[i].x + 50 + 100,
+                                                                    black_pawn[i].y + 50 + 100)
+
+                    if up_left and pawn_hit_up_left:
+                        up_left = check_if_pawn_can_capture(black_pawn[i].x + 50 - 100,
+                                                            black_pawn[i].y + 50 - 100,None)
+
+                    elif up_left and not pawn_hit_up_left:
+                        up_left = False
+
+                    if up_right and pawn_hit_up_right:
+                        up_right = check_if_pawn_can_capture(black_pawn[i].x + 50 + 100,
+                                                             black_pawn[i].y + 50 - 100, None)
+
+                    elif up_right and not pawn_hit_up_right:
+                        up_right = False
+
+                    for j in range(20):
+                        if (down_left and (pawn_hit_down_left or
+                            black_pawn[j].x <= black_pawn[i].x + 50 - 100 <= black_pawn[j].x + 100 and
+                            black_pawn[j].y <= black_pawn[i].y + 50 + 100 <= black_pawn[j].y + 100 and
+                            black_pawn[j].captured == 0)):
+
+                            if pawn_hit_down_left:
+                                down_left = check_if_pawn_can_capture(black_pawn[i].x + 50 - 100,
+                                                                      black_pawn[i].y + 50 + 100, None)
+
+                            elif not pawn_hit_down_left:
+                                down_left = False
+
+                        if (down_right and (pawn_hit_down_right or
+                            black_pawn[j].x <= black_pawn[i].x + 50 + 100 <= black_pawn[j].x + 100 and
+                            black_pawn[j].y <= black_pawn[i].y + 50 + 100 <= black_pawn[j].y + 100 and
+                            black_pawn[j].captured == 0)):
+
+                            if pawn_hit_down_right:
+                                down_right = check_if_pawn_can_capture(black_pawn[i].x + 50 + 100,
+                                                                       black_pawn[i].y + 50 + 100, None)
+
+                            elif not pawn_hit_down_right:
+                                down_right = False
+
+                    if not up_left and not up_right and not down_left and not down_right:
+                        blocked_pawns += 1
+
+                elif black_pawn[i].queen == 1:
+                    pawn_hit_up_left = check_for_pawn_in_the_way(black_pawn[i], black_pawn[i].x + 50 - 100,
+                                                                 black_pawn[i].y + 50 - 100)
+                    pawn_hit_up_right = check_for_pawn_in_the_way(black_pawn[i], black_pawn[i].x + 50 + 100,
+                                                                  black_pawn[i].y + 50 - 100)
+                    pawn_hit_down_left = check_for_pawn_in_the_way(black_pawn[i], black_pawn[i].x + 50 - 100,
+                                                                   black_pawn[i].y + 50 + 100)
+                    pawn_hit_down_right = check_for_pawn_in_the_way(black_pawn[i], black_pawn[i].x + 50 + 100,
+                                                                    black_pawn[i].y + 50 + 100)
+                    for j in range(20):
+                        if (up_left and (pawn_hit_up_left or
+                            black_pawn[j].x <= black_pawn[i].x + 50 - 100 <= black_pawn[j].x + 100 and
+                            black_pawn[j].y <= black_pawn[i].y + 50 - 100 <= black_pawn[j].y + 100 and
+                            black_pawn[j].captured == 0)):
+
+                            if pawn_hit_up_left:
+                                up_left = check_if_pawn_can_capture(black_pawn[i].x + 50 - 100,
+                                                                    black_pawn[i].y + 50 - 100,None)
+
+                            elif not pawn_hit_up_left:
+                                up_left = False
+
+                        if (up_right and (pawn_hit_up_right or
+                            black_pawn[j].x <= black_pawn[i].x + 50 + 100 <= black_pawn[j].x + 100 and
+                            black_pawn[j].y <= black_pawn[i].y + 50 - 100 <= black_pawn[j].y + 100 and
+                            black_pawn[j].captured == 0)):
+
+                            if pawn_hit_up_right:
+                                up_right = check_if_pawn_can_capture(black_pawn[i].x + 50 + 100,
+                                                                     black_pawn[i].y + 50 - 100, None)
+
+                            elif not pawn_hit_up_right:
+                                up_right = False
+
+                        if (down_left and (pawn_hit_down_left or
+                            black_pawn[j].x <= black_pawn[i].x + 50 - 100 <= black_pawn[j].x + 100 and
+                            black_pawn[j].y <= black_pawn[i].y + 50 + 100 <= black_pawn[j].y + 100 and
+                            black_pawn[j].captured == 0)):
+
+                            if pawn_hit_down_left:
+                                down_left = check_if_pawn_can_capture(black_pawn[i].x + 50 - 100,
+                                                                      black_pawn[i].y + 50 + 100, None)
+
+                            elif not pawn_hit_down_left:
+                                down_left = False
+
+                        if (down_right and (pawn_hit_down_right or
+                            black_pawn[j].x <= black_pawn[i].x + 50 + 100 <= black_pawn[j].x + 100 and
+                            black_pawn[j].y <= black_pawn[i].y + 50 + 100 <= black_pawn[j].y + 100 and
+                            black_pawn[j].captured == 0)):
+
+                            if pawn_hit_down_right:
+                                down_right = check_if_pawn_can_capture(black_pawn[i].x + 50 + 100,
+                                                                       black_pawn[i].y + 50 + 100, None)
+
+                            elif not pawn_hit_down_right:
+                                down_right = False
+
+                    if not up_left and not up_right and not down_left and not down_right:
+                        blocked_pawns += 1
+
+        if black_pawn_left <= blocked_pawns:
+            return True
+
+    if turn % 2 == 1:
+        print("Tour des blancs")
+        for i in range(20):
+            up_left = True
+            up_right = True
+            down_left = True
+            down_right = True
+
+            if white_pawn[i].captured == 0:
+                if not 5 <= white_pawn[i].x + 50 - 100 <= 1005 and 5 <= white_pawn[i].y + 50 - 100 <= 1005:
+                    up_left = False
+
+                if not 5 <= white_pawn[i].x + 50 + 100 <= 1005 and 5 <= white_pawn[i].y + 50 - 100 <= 1005:
+                    up_right = False
+
+                if not 5 <= white_pawn[i].x + 50 - 100 <= 1005 and 5 <= white_pawn[i].y + 50 + 100 <= 1005:
+                    down_left = False
+
+                if not 5 <= white_pawn[i].x + 50 + 100 <= 1005 and 5 <= white_pawn[i].y + 50 + 100 <= 1005:
+                    down_right = False
+
+                if white_pawn[i].queen == 0:
+                    pawn_hit_up_left = check_for_pawn_in_the_way(white_pawn[i], white_pawn[i].x + 50 - 100,
+                                                                 white_pawn[i].y + 50 - 100)
+                    pawn_hit_up_right = check_for_pawn_in_the_way(white_pawn[i], white_pawn[i].x + 50 + 100,
+                                                                  white_pawn[i].y + 50 - 100)
+                    pawn_hit_down_left = check_for_pawn_in_the_way(white_pawn[i], white_pawn[i].x + 50 - 100,
+                                                                   white_pawn[i].y + 50 + 100)
+                    pawn_hit_down_right = check_for_pawn_in_the_way(white_pawn[i], white_pawn[i].x + 50 + 100,
+                                                                    white_pawn[i].y + 50 + 100)
+
+                    for j in range(20):
+                        if (up_left and (pawn_hit_up_left or
+                            white_pawn[j].x <= white_pawn[i].x + 50 - 100 <= white_pawn[j].x + 100 and
+                            white_pawn[j].y <= white_pawn[i].y + 50 - 100 <= white_pawn[j].y + 100 and
+                            white_pawn[j].captured == 0)):
+
+                            if pawn_hit_up_left:
+                                up_left = check_if_pawn_can_capture(white_pawn[i].x + 50 - 100,
+                                                                    white_pawn[i].y + 50 - 100,None)
+
+                            elif not pawn_hit_up_left:
+                                up_left = False
+
+                        if (up_right and (pawn_hit_up_right or
+                            white_pawn[j].x <= white_pawn[i].x + 50 + 100 <= white_pawn[j].x + 100 and
+                            white_pawn[j].y <= white_pawn[i].y + 50 - 100 <= white_pawn[j].y + 100 and
+                            white_pawn[j].captured == 0)):
+
+                            if pawn_hit_up_right:
+                                up_right = check_if_pawn_can_capture(white_pawn[i].x + 50 + 100,
+                                                                     white_pawn[i].y + 50 - 100, None)
+
+                            elif not pawn_hit_up_right:
+                                up_right = False
+
+                    if down_left and pawn_hit_down_left:
+                        down_left = check_if_pawn_can_capture(white_pawn[i].x + 50 - 100,
+                                                              white_pawn[i].y + 50 + 100, None)
+
+                    elif down_left and not pawn_hit_down_left:
+                        down_left = False
+
+                    if down_right and pawn_hit_down_right:
+                        down_right = check_if_pawn_can_capture(white_pawn[i].x + 50 + 100,
+                                                               white_pawn[i].y + 50 + 100, None)
+
+                    elif down_right and not pawn_hit_down_right:
+                        down_right = False
+
+                    if not up_left and not up_right and not down_left and not down_right:
+                        blocked_pawns += 1
+
+                elif white_pawn[i].queen == 1:
+                    pawn_hit_up_left = check_for_pawn_in_the_way(white_pawn[i], white_pawn[i].x + 50 - 100,
+                                                                 white_pawn[i].y + 50 - 100)
+                    pawn_hit_up_right = check_for_pawn_in_the_way(white_pawn[i], white_pawn[i].x + 50 + 100,
+                                                                  white_pawn[i].y + 50 - 100)
+                    pawn_hit_down_left = check_for_pawn_in_the_way(white_pawn[i], white_pawn[i].x + 50 - 100,
+                                                                   white_pawn[i].y + 50 + 100)
+                    pawn_hit_down_right = check_for_pawn_in_the_way(white_pawn[i], white_pawn[i].x + 50 + 100,
+                                                                    white_pawn[i].y + 50 + 100)
+                    for j in range(20):
+                        if (up_left and (pawn_hit_up_left or
+                            white_pawn[j].x <= white_pawn[i].x + 50 - 100 <= white_pawn[j].x + 100 and
+                            white_pawn[j].y <= white_pawn[i].y + 50 - 100 <= white_pawn[j].y + 100 and
+                            white_pawn[j].captured == 0)):
+
+                            if pawn_hit_up_left:
+                                up_left = check_if_pawn_can_capture(white_pawn[i].x + 50 - 100,
+                                                                    white_pawn[i].y + 50 - 100,None)
+
+                            elif not pawn_hit_up_left:
+                                up_left = False
+
+                        if (up_right and (pawn_hit_up_right or
+                            white_pawn[j].x <= white_pawn[i].x + 50 + 100 <= white_pawn[j].x + 100 and
+                            white_pawn[j].y <= white_pawn[i].y + 50 - 100 <= white_pawn[j].y + 100 and
+                            white_pawn[j].captured == 0)):
+
+                            if pawn_hit_up_right:
+                                up_right = check_if_pawn_can_capture(white_pawn[i].x + 50 + 100,
+                                                                     white_pawn[i].y + 50 - 100, None)
+
+                            elif not pawn_hit_up_right:
+                                up_right = False
+
+                        if (down_left and (pawn_hit_down_left or
+                            white_pawn[j].x <= white_pawn[i].x + 50 - 100 <= white_pawn[j].x + 100 and
+                            white_pawn[j].y <= white_pawn[i].y + 50 + 100 <= white_pawn[j].y + 100 and
+                            white_pawn[j].captured == 0)):
+
+                            if pawn_hit_down_left:
+                                down_left = check_if_pawn_can_capture(white_pawn[i].x + 50 - 100,
+                                                                      white_pawn[i].y + 50 + 100, None)
+
+                            elif not pawn_hit_down_left:
+                                down_left = False
+
+                        if (down_right and (pawn_hit_down_right or
+                            white_pawn[j].x <= white_pawn[i].x + 50 + 100 <= white_pawn[j].x + 100 and
+                            white_pawn[j].y <= white_pawn[i].y + 50 + 100 <= white_pawn[j].y + 100 and
+                            white_pawn[j].captured == 0)):
+
+                            if pawn_hit_down_right:
+                                down_right = check_if_pawn_can_capture(white_pawn[i].x + 50 + 100,
+                                                                       white_pawn[i].y + 50 + 100, None)
+
+                            elif not pawn_hit_down_right:
+                                down_right = False
+
+                    if not up_left and not up_right and not down_left and not down_right:
+                        blocked_pawns += 1
+
+        if white_pawn_left <= blocked_pawns:
+            return True
+
+    return False
+
 
 black_pawn = [Pawn] * 20
 white_pawn = [Pawn] * 20
@@ -1480,6 +1766,8 @@ white_pawn_queen = 0
 
 black_win = 0
 white_win = 0
+
+winner = ""
 
 #timer variable
 global_mill_sec_time = 0
