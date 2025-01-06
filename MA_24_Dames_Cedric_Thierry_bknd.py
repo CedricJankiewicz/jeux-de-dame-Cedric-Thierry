@@ -474,6 +474,16 @@ class Pawn:
                                         elif not can_capture_again:
                                             self.selected = 0
                                             self.force_select = 0
+
+                                            for i in range(20):
+                                                if white_pawn[i].is_jumped == 1:
+                                                    white_pawn[i].is_jumped = 0
+                                                    white_pawn[i].captured = 1
+
+                                                if black_pawn[i].is_jumped == 1:
+                                                    black_pawn[i].is_jumped = 0
+                                                    black_pawn[i].captured = 1
+
                                             turn += 1
 
                                         return
@@ -539,6 +549,16 @@ class Pawn:
                                         elif not can_capture_again:
                                             self.selected = 0
                                             self.force_select = 0
+
+                                            for i in range(20):
+                                                if white_pawn[i].is_jumped == 1:
+                                                    white_pawn[i].is_jumped = 0
+                                                    white_pawn[i].captured = 1
+
+                                                if black_pawn[i].is_jumped == 1:
+                                                    black_pawn[i].is_jumped = 0
+                                                    black_pawn[i].captured = 1
+
                                             turn += 1
 
                                         return
@@ -604,6 +624,16 @@ class Pawn:
                                         elif not can_capture_again:
                                             self.selected = 0
                                             self.force_select = 0
+
+                                            for i in range(20):
+                                                if white_pawn[i].is_jumped == 1:
+                                                    white_pawn[i].is_jumped = 0
+                                                    white_pawn[i].captured = 1
+
+                                                if black_pawn[i].is_jumped == 1:
+                                                    black_pawn[i].is_jumped = 0
+                                                    black_pawn[i].captured = 1
+
                                             turn += 1
 
                                         return
@@ -669,6 +699,16 @@ class Pawn:
                                         elif not can_capture_again:
                                             self.selected = 0
                                             self.force_select = 0
+
+                                            for i in range(20):
+                                                if white_pawn[i].is_jumped == 1:
+                                                    white_pawn[i].is_jumped = 0
+                                                    white_pawn[i].captured = 1
+
+                                                if black_pawn[i].is_jumped == 1:
+                                                    black_pawn[i].is_jumped = 0
+                                                    black_pawn[i].captured = 1
+
                                             turn += 1
 
                                         return
