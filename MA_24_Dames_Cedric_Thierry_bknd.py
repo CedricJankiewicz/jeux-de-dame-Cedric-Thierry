@@ -42,28 +42,24 @@ class Pawn:
         if self.x > 5 and self.y > 5:
             self.x -= 100
             self.y -= 100
-            change_to_queen()
 
 
     def move_up_right(self):
         if self.x < 905 and self.y > 5:
             self.x += 100
             self.y -= 100
-            change_to_queen()
 
 
     def move_down_left(self):
         if self.x > 5 and self.y < 905:
             self.x -= 100
             self.y += 100
-            change_to_queen()
 
 
     def move_down_right(self):
         if self.x < 905 and self.y < 905:
             self.x += 100
             self.y += 100
-            change_to_queen()
 
 
     def select_pawn(self, event):
@@ -209,6 +205,7 @@ class Pawn:
                                 if not can_capture_again:
                                     self.selected = 0
                                     self.force_select = 0
+                                    change_to_queen()
 
                                     for i in range(20):
                                         if white_pawn[i].is_jumped == 1:
@@ -241,6 +238,7 @@ class Pawn:
                                 if not can_capture_again:
                                     self.selected = 0
                                     self.force_select = 0
+                                    change_to_queen()
 
                                     for i in range(20):
                                         if black_pawn[i].is_jumped == 1:
@@ -1609,7 +1607,7 @@ def detect_for_konami():
 
 def make_selected_to_queen():
     """
-    promote to queen the selected pawn
+    promote to queen the selected pawn //debug//
     """
     for i in range (20):
         if black_pawn[i].selected == 1:
@@ -1618,6 +1616,19 @@ def make_selected_to_queen():
     for i in range (20):
         if white_pawn[i].selected == 1:
             white_pawn[i].queen = 1
+
+
+def capture_selected():
+    """
+    capture the selected pawn //debug//
+    """
+    for i in range (20):
+        if black_pawn[i].selected == 1:
+            black_pawn[i].captured = 1
+
+    for i in range (20):
+        if white_pawn[i].selected == 1:
+            white_pawn[i].captured = 1
 
 
 def check_if_all_pawns_are_blocked():

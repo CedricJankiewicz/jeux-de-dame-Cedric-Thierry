@@ -312,6 +312,8 @@ def mainloop():
                     print(konami)
                 elif event.key == pygame.K_p:
                     bknd.make_selected_to_queen()
+                elif event.key == pygame.K_o:
+                    bknd.capture_selected()
 
         pygame.display.update()
         while win:
