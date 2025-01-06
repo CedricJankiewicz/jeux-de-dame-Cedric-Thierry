@@ -61,6 +61,7 @@ def display_color():
                     color_index = (current_time // 100 + c) % len(white_rainbow)
                     bknd.white_pawn[i].pawn = white_rainbow[color_index]
 
+
 def display_queens():
     """
     if the pawn is a queen change the texture of the pawn with a new one
@@ -120,6 +121,14 @@ def display_selection():
     for i in range (20):
         if bknd.white_pawn[i].is_in_danger == 1:
             pygame.draw.rect(screen, (0, 255, 100), (bknd.white_pawn[i].x, bknd.white_pawn[i].y, 100, 100), 5)
+
+    for i in range (20):
+        if bknd.black_pawn[i].is_jumped == 1:
+            pygame.draw.rect(screen, (0, 0, 255), (bknd.black_pawn[i].x, bknd.black_pawn[i].y, 100, 100), 5)
+
+    for i in range (20):
+        if bknd.white_pawn[i].is_jumped == 1:
+            pygame.draw.rect(screen, (0, 0, 255), (bknd.white_pawn[i].x, bknd.white_pawn[i].y, 100, 100), 5)
 
 
 def draw_board():
@@ -318,6 +327,7 @@ def mainloop():
                     bknd.restart()
                     win = False
     pygame.quit()
+
 
 #game window
 screen = pygame.display.set_mode((1410,1010))
