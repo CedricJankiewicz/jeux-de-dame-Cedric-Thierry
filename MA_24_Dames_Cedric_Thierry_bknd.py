@@ -1535,7 +1535,7 @@ def queen_capture(pawn, loops):
             pawn.pawn_to_capture_distance = 0
 
             start = (pawn.x, pawn.y)
-            for i in range(loops):
+            for j in range(loops):
                 if direction == "up_left":
                     pawn.move_up_left()
 
@@ -1555,7 +1555,7 @@ def queen_capture(pawn, loops):
 
 def restart():
     global turn,global_mill_sec_time,global_sec_time,global_min_time,global_time,black_mill_sec_time,black_sec_time,\
-    black_min_time,black_time,white_mill_sec_time,white_sec_time,white_min_time,white_time,winner
+    black_min_time,black_time,white_mill_sec_time,white_sec_time,white_min_time,white_time,winner,manoury
     init_pawns()
     for i in range (20):
         black_pawn[i].captured = 0
@@ -1581,6 +1581,7 @@ def restart():
 
     winner = ""
 
+    manoury.clear()
 
 def check_if_queen_can_capture_again(pawn):
     pos_x = pawn.x + 50
