@@ -497,8 +497,8 @@ class Pawn:
                     turn += 1
 
             if self.queen == 1:
-                pos_x = self.x + 1
-                pos_y = self.y + 1
+                pos_x = self.x + 50
+                pos_y = self.y + 50
                 loops = 0
                 ignore = False
                 ignored = 0
@@ -1583,8 +1583,8 @@ def restart():
 
 
 def check_if_queen_can_capture_again(pawn):
-    pos_x = pawn.x + 1
-    pos_y = pawn.y + 1
+    pos_x = pawn.x + 50
+    pos_y = pawn.y + 50
     can_capture_again = False
 
     while 0 <= pos_x - 100 and 0 <= pos_y - 100:
@@ -1602,8 +1602,8 @@ def check_if_queen_can_capture_again(pawn):
             elif not can_capture:
                 break
 
-    pos_x = pawn.x + 1
-    pos_y = pawn.y + 1
+    pos_x = pawn.x + 50
+    pos_y = pawn.y + 50
 
     while pos_x + 100 <= 1010 and 0 <= pos_y - 100 and not can_capture_again:
         pos_x += 100
@@ -1620,8 +1620,8 @@ def check_if_queen_can_capture_again(pawn):
             elif not can_capture:
                 break
 
-    pos_x = pawn.x + 1
-    pos_y = pawn.y + 1
+    pos_x = pawn.x + 50
+    pos_y = pawn.y + 50
 
     while 0 <= pos_x - 100 and pos_y + 100 <= 1010 and not can_capture_again:
         pos_x -= 100
@@ -1638,8 +1638,8 @@ def check_if_queen_can_capture_again(pawn):
             elif not can_capture:
                 break
 
-    pos_x = pawn.x + 1
-    pos_y = pawn.y + 1
+    pos_x = pawn.x + 50
+    pos_y = pawn.y + 50
 
     while pos_x + 100 <= 1010 and pos_y + 100 <= 1010 and not can_capture_again:
         pos_x += 100

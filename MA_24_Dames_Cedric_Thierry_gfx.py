@@ -10,8 +10,6 @@ import MA_24_Dames_Cedric_Thierry_bknd as bknd
 #import of pygame
 import pygame
 
-from MA_24_Dames_Cedric_Thierry_bknd import manoury
-
 
 def display_grid():
     """
@@ -201,10 +199,10 @@ def display_info():
         bknd.manoury.pop(0)
     for i in range(len(bknd.manoury)):
         if not i == len(bknd.manoury)-1:
-            txt_manoury = font.render(f"{manoury[i]}", True, (255, 255, 255))
+            txt_manoury = font.render(f"{bknd.manoury[i]}", True, (255, 255, 255))
             screen.blit(txt_manoury, (1060, manoury_y+30*i))
         else:
-            txt_manoury = font.render(f"{manoury[i]}", True, (255, 255, 100))
+            txt_manoury = font.render(f"{bknd.manoury[i]}", True, (255, 255, 100))
             screen.blit(txt_manoury, (1060, manoury_y+30*i))
 
 
