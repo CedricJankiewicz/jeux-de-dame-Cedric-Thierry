@@ -17,6 +17,7 @@ class Pawn:
     is_jumped = 0
     captured = 0
     queen = 0
+    has_to_move = 0
     force_select = 0
     is_in_danger = 0
     locked_direction = ""
@@ -64,18 +65,32 @@ class Pawn:
 
     def select_pawn(self, event):
         if self.x <= event.pos[0] <= self.x + 100 and self.y <= event.pos[1] <= self.y + 100:
+            check_all_pawns_for_capture()
+            black_force_capture = False
+            white_force_capture = False
+
             for i in range(20):
                 if black_pawn[i].force_select == 1 or white_pawn[i].force_select == 1:
                     return
 
-            for i in range(20):
                 if black_pawn[i].is_in_danger == 1 or white_pawn[i].is_in_danger == 1:
                     return
+
+                if black_pawn[i].has_to_move == 1 and not black_force_capture:
+                    black_force_capture = True
+
+                if white_pawn[i].has_to_move == 1 and not white_force_capture:
+                    white_force_capture = True
 
             if self.captured == 1:
                 return
 
             if self.selected == 0:
+                if (self.color == "black" and self.has_to_move == 0 and black_force_capture or
+                    self.color == "white" and self.has_to_move == 0 and white_force_capture):
+
+                    return
+
                 unselect_all()
                 self.selected = 1
 
@@ -119,6 +134,7 @@ class Pawn:
                                 if not can_capture_again:
                                     self.selected = 0
                                     self.force_select = 0
+                                    change_to_queen()
 
                                     for i in range(20):
                                         if white_pawn[i].is_jumped == 1:
@@ -151,6 +167,7 @@ class Pawn:
                                 if not can_capture_again:
                                     self.selected = 0
                                     self.force_select = 0
+                                    change_to_queen()
 
                                     for i in range(20):
                                         if black_pawn[i].is_jumped == 1:
@@ -174,6 +191,7 @@ class Pawn:
 
                     self.selected = 0
                     self.move_up_left()
+                    change_to_queen()
                     turn += 1
 
                 if self.x + 100 <= event.pos[0] <= self.x + 200 and self.y - 100 <= event.pos[1] <= self.y:
@@ -251,18 +269,17 @@ class Pawn:
 
                         elif not can_capture:
                             if can_capture_elsewhere:
-                                print("peut capturer ailleurs")
                                 return
 
                             for i in range(20):
                                 if (black_pawn[i].x <= event.pos[0] <= black_pawn[i].x + 100 and
                                     black_pawn[i].y <= event.pos[1] <= black_pawn[i].y + 100 and
                                     black_pawn[i].captured == 0):
-                                    print("case occupée")
                                     return
 
                     self.selected = 0
                     self.move_up_right()
+                    change_to_queen()
                     turn += 1
 
                 if self.x - 100 <= event.pos[0] <= self.x and self.y + 100 <= event.pos[1] <= self.y + 200:
@@ -294,6 +311,7 @@ class Pawn:
                                 if not can_capture_again:
                                     self.selected = 0
                                     self.force_select = 0
+                                    change_to_queen()
 
                                     for i in range(20):
                                         if black_pawn[i].is_jumped == 1:
@@ -326,6 +344,7 @@ class Pawn:
                                 if not can_capture_again:
                                     self.selected = 0
                                     self.force_select = 0
+                                    change_to_queen()
 
                                     for i in range(20):
                                         if white_pawn[i].is_jumped == 1:
@@ -349,6 +368,7 @@ class Pawn:
 
                     self.selected = 0
                     self.move_down_left()
+                    change_to_queen()
                     turn += 1
 
                 if self.x + 100 <= event.pos[0] <= self.x + 200 and self.y + 100 <= event.pos[1] <= self.y + 200:
@@ -380,6 +400,7 @@ class Pawn:
                                 if not can_capture_again:
                                     self.selected = 0
                                     self.force_select = 0
+                                    change_to_queen()
 
                                     for i in range(20):
                                         if black_pawn[i].is_jumped == 1:
@@ -412,6 +433,7 @@ class Pawn:
                                 if not can_capture_again:
                                     self.selected = 0
                                     self.force_select = 0
+                                    change_to_queen()
 
                                     for i in range(20):
                                         if white_pawn[i].is_jumped == 1:
@@ -435,6 +457,7 @@ class Pawn:
 
                     self.selected = 0
                     self.move_down_right()
+                    change_to_queen()
                     turn += 1
 
             if self.queen == 1:
@@ -1123,11 +1146,9 @@ def check_if_pawn_can_capture(pos_x, pos_y, event):
         for i in range(20):
             if (not (5 <= event.pos[0] + pos_x <= 1005) or not (5 <= event.pos[1] + pos_y <= 1005) or
                 black_pawn[i].x <= event.pos[0] + pos_x <= black_pawn[i].x + 100 and
-                black_pawn[i].y <= event.pos[1] + pos_y <= black_pawn[i].y + 100 and
-                black_pawn[i].captured == 0 and black_pawn[i].is_jumped == 0 or
+                black_pawn[i].y <= event.pos[1] + pos_y <= black_pawn[i].y + 100 and black_pawn[i].captured == 0 or
                 white_pawn[i].x <= event.pos[0] + pos_x <= white_pawn[i].x + 100 and
-                white_pawn[i].y <= event.pos[1] + pos_y <= white_pawn[i].y + 100 and
-                white_pawn[i].captured == 0 and white_pawn[i].is_jumped == 0):
+                white_pawn[i].y <= event.pos[1] + pos_y <= white_pawn[i].y + 100 and white_pawn[i].captured == 0):
 
                 return False
 
@@ -1135,11 +1156,9 @@ def check_if_pawn_can_capture(pos_x, pos_y, event):
         for i in range(20):
             if (not (5 <= pos_x <= 1005) or not (5 <= pos_y <= 1005) or
                 black_pawn[i].x <= pos_x <= black_pawn[i].x + 100 and
-                black_pawn[i].y <= pos_y <= black_pawn[i].y + 100 and
-                black_pawn[i].captured == 0 and black_pawn[i].is_jumped == 0 or
+                black_pawn[i].y <= pos_y <= black_pawn[i].y + 100 and black_pawn[i].captured == 0 or
                 white_pawn[i].x <= pos_x <= white_pawn[i].x + 100 and
-                white_pawn[i].y <= pos_y <= white_pawn[i].y + 100 and
-                white_pawn[i].captured == 0 and white_pawn[i].is_jumped == 0):
+                white_pawn[i].y <= pos_y <= white_pawn[i].y + 100 and white_pawn[i].captured == 0):
 
                 return False
 
@@ -1906,6 +1925,89 @@ def check_if_all_pawns_are_blocked():
             return True
 
     return False
+
+
+def check_all_pawns_for_capture():
+    for i in range(20):
+        black_pawn[i].has_to_move = 0
+        white_pawn[i].has_to_move = 0
+
+    for i in range(20):
+        if black_pawn[i].captured == 0:
+            pos_x = black_pawn[i].x + 50
+            pos_y = black_pawn[i].y + 50
+            can_capture = False
+
+            if black_pawn[i].queen == 0:
+                for j in range(20):
+                    if (white_pawn[j].x <= pos_x - 100 <= white_pawn[j].x + 100 and
+                        white_pawn[j].y <= pos_y - 100 <= white_pawn[j].y + 100 and
+                        white_pawn[j].captured == 0):
+
+                        can_capture = check_if_pawn_can_capture(pos_x - 200, pos_y - 200, None)
+
+                    if (white_pawn[j].x <= pos_x + 100 <= white_pawn[j].x + 100 and
+                        white_pawn[j].y <= pos_y - 100 <= white_pawn[j].y + 100 and
+                        white_pawn[j].captured == 0 and not can_capture):
+
+                        can_capture = check_if_pawn_can_capture(pos_x + 200, pos_y - 200, None)
+
+                    if (white_pawn[j].x <= pos_x - 100 <= white_pawn[j].x + 100 and
+                        white_pawn[j].y <= pos_y + 100 <= white_pawn[j].y + 100 and
+                        white_pawn[j].captured == 0 and not can_capture):
+
+                        can_capture = check_if_pawn_can_capture(pos_x - 200, pos_y + 200, None)
+
+                    if (white_pawn[j].x <= pos_x + 100 <= white_pawn[j].x + 100 and
+                        white_pawn[j].y <= pos_y + 100 <= white_pawn[j].y + 100 and
+                        white_pawn[j].captured == 0 and not can_capture):
+
+                        can_capture = check_if_pawn_can_capture(pos_x + 200, pos_y + 200, None)
+
+                    if can_capture:
+                        black_pawn[i].has_to_move = 1
+                        break
+
+            elif black_pawn[i].queen == 1:
+                pass
+
+        if white_pawn[i].captured == 0:
+            pos_x = white_pawn[i].x + 50
+            pos_y = white_pawn[i].y + 50
+            can_capture = False
+
+            if white_pawn[i].queen == 0:
+                for j in range(20):
+                    if (black_pawn[j].x <= pos_x - 100 <= black_pawn[j].x + 100 and
+                        black_pawn[j].y <= pos_y - 100 <= black_pawn[j].y + 100 and
+                        black_pawn[j].captured == 0):
+
+                        can_capture = check_if_pawn_can_capture(pos_x - 200, pos_y - 200, None)
+
+                    if (black_pawn[j].x <= pos_x + 100 <= black_pawn[j].x + 100 and
+                        black_pawn[j].y <= pos_y - 100 <= black_pawn[j].y + 100 and
+                        black_pawn[j].captured == 0 and not can_capture):
+
+                        can_capture = check_if_pawn_can_capture(pos_x + 200, pos_y - 200, None)
+
+                    if (black_pawn[j].x <= pos_x - 100 <= black_pawn[j].x + 100 and
+                        black_pawn[j].y <= pos_y + 100 <= black_pawn[j].y + 100 and
+                        black_pawn[j].captured == 0 and not can_capture):
+
+                        can_capture = check_if_pawn_can_capture(pos_x - 200, pos_y + 200, None)
+
+                    if (black_pawn[j].x <= pos_x + 100 <= black_pawn[j].x + 100 and
+                        black_pawn[j].y <= pos_y + 100 <= black_pawn[j].y + 100 and
+                        black_pawn[j].captured == 0 and not can_capture):
+
+                        can_capture = check_if_pawn_can_capture(pos_x + 200, pos_y + 200, None)
+
+                    if can_capture:
+                        white_pawn[i].has_to_move = 1
+                        break
+
+            elif white_pawn[i].queen == 1:
+                pass
 
 
 black_pawn = [Pawn] * 20
