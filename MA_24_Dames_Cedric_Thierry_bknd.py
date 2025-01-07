@@ -1534,6 +1534,7 @@ def queen_capture(pawn, loops):
             pawn.locked_direction = ""
             pawn.pawn_to_capture_distance = 0
 
+            start = (pawn.x, pawn.y)
             for i in range(loops):
                 if direction == "up_left":
                     pawn.move_up_left()
@@ -1546,6 +1547,8 @@ def queen_capture(pawn, loops):
 
                 elif direction == "down_right":
                     pawn.move_down_right()
+            end = (pawn.x, pawn.y)
+            show_capture(start, end, pawn.color)
 
             return
 
@@ -2001,7 +2004,12 @@ def show_move(start,end,color):
 
 
 def show_capture(start,end,color):
-    print("capture")
+    start_case = change_location_to_case(start[0], start[1])
+    end_case = change_location_to_case(end[0], end[1])
+    if color == "black":
+        print(f"({start_case}x{end_case})")
+    elif color == "white":
+        print(f"{start_case}x{end_case}")
 
 
 def check_all_pawns_for_capture():
