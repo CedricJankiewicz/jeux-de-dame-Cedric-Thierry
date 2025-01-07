@@ -10,6 +10,8 @@ import MA_24_Dames_Cedric_Thierry_bknd as bknd
 #import of pygame
 import pygame
 
+from MA_24_Dames_Cedric_Thierry_bknd import manoury
+
 
 def display_grid():
     """
@@ -190,6 +192,20 @@ def display_info():
     screen.blit(txt_wht_remain_pawn, (1060, (wht_y + 80)))
     txt_wht_remain_pawn = font.render(f"{bknd.white_pawn_queen} queens", True, (255, 255, 255))
     screen.blit(txt_wht_remain_pawn, (1060, (wht_y + 110)))
+
+    #manoury notation
+    manoury_y = 710
+    txt_manoury_title = font.render("Manoury Notation", True, (255, 255, 255))
+    screen.blit(txt_manoury_title, (1060, manoury_y-50))
+    if len(bknd.manoury) > 9:
+        bknd.manoury.pop(0)
+    for i in range(len(bknd.manoury)):
+        if not i == len(bknd.manoury)-1:
+            txt_manoury = font.render(f"{manoury[i]}", True, (255, 255, 255))
+            screen.blit(txt_manoury, (1060, manoury_y+30*i))
+        else:
+            txt_manoury = font.render(f"{manoury[i]}", True, (255, 255, 100))
+            screen.blit(txt_manoury, (1060, manoury_y+30*i))
 
 
 def display_title_screen():

@@ -1995,21 +1995,23 @@ def change_location_to_case(x,y):
 
 
 def show_move(start,end,color):
+    global manoury
     start_case = change_location_to_case(start[0], start[1])
     end_case = change_location_to_case(end[0],end[1])
     if color == "black":
-        print(f"({start_case}-{end_case})")
+        manoury += [f"({start_case}-{end_case})"]
     elif color == "white":
-        print(f"{start_case}-{end_case}")
+        manoury += [f"{start_case}-{end_case}"]
 
 
 def show_capture(start,end,color):
+    global manoury
     start_case = change_location_to_case(start[0], start[1])
     end_case = change_location_to_case(end[0], end[1])
     if color == "black":
-        print(f"({start_case}x{end_case})")
+        manoury += [f"({start_case}x{end_case})"]
     elif color == "white":
-        print(f"{start_case}x{end_case}")
+        manoury += [f"{start_case}x{end_case}"]
 
 
 def check_all_pawns_for_capture():
@@ -2126,5 +2128,7 @@ white_mill_sec_time = 0
 white_sec_time = 0
 white_min_time = 0
 white_time = ""
+
+manoury = []
 
 input_konami = []
