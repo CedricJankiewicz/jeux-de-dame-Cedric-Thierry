@@ -1987,10 +1987,13 @@ def change_location_to_case(x,y):
         if (i*100) > x < (i*100)+10:
             x_loc = i
             break
+    print(y_loc-1)
     if y_loc % 2 == 0 and x_loc % 2 == 1:
-        case = (x_loc+1)//2 + y_loc*5
+        case = (x_loc+1)//2 + (y_loc-1)*5
     elif y_loc % 2 == 1 and x_loc % 2 == 0:
-        case = x_loc//2 + y_loc*5
+        case = x_loc//2 + (y_loc-1)*5
+    if case == 0:
+        case = 50
     return case
 
 
