@@ -120,8 +120,11 @@ class Pawn:
                                     white_pawn[i].captured == 0 and white_pawn[i].is_jumped == 0):
 
                                     white_pawn[i].is_jumped = 1
+                                    start = (self.x, self.y)
                                     self.move_up_left()
                                     self.move_up_left()
+                                    end = (self.x, self.y)
+                                    show_capture(start,end,self.color)
                                     has_captured = 1
                                     break
 
@@ -153,8 +156,11 @@ class Pawn:
                                     black_pawn[i].captured == 0 and black_pawn[i].is_jumped == 0):
 
                                     black_pawn[i].is_jumped = 1
+                                    start = (self.x, self.y)
                                     self.move_up_left()
                                     self.move_up_left()
+                                    end = (self.x, self.y)
+                                    show_capture(start, end, self.color)
                                     has_captured = 1
                                     break
 
@@ -189,8 +195,11 @@ class Pawn:
 
                                     return
 
+                    start = (self.x, self.y)
                     self.selected = 0
                     self.move_up_left()
+                    end = (self.x, self.y)
+                    show_move(start, end, self.color)
                     change_to_queen()
                     turn += 1
 
@@ -209,8 +218,11 @@ class Pawn:
                                     white_pawn[i].captured == 0 and white_pawn[i].is_jumped == 0):
 
                                     white_pawn[i].is_jumped = 1
+                                    start = (self.x, self.y)
                                     self.move_up_right()
                                     self.move_up_right()
+                                    end = (self.x, self.y)
+                                    show_capture(start, end, self.color)
                                     has_captured = 1
                                     break
 
@@ -242,8 +254,11 @@ class Pawn:
                                     black_pawn[i].captured == 0 and black_pawn[i].is_jumped == 0):
 
                                     black_pawn[i].is_jumped = 1
+                                    start = (self.x, self.y)
                                     self.move_up_right()
                                     self.move_up_right()
+                                    end = (self.x, self.y)
+                                    show_capture(start, end, self.color)
                                     has_captured = 1
                                     break
 
@@ -278,8 +293,11 @@ class Pawn:
                                     return
 
                     self.selected = 0
+                    start = (self.x, self.y)
                     self.move_up_right()
                     change_to_queen()
+                    end = (self.x, self.y)
+                    show_move(start, end, self.color)
                     turn += 1
 
                 if self.x - 100 <= event.pos[0] <= self.x and self.y + 100 <= event.pos[1] <= self.y + 200:
@@ -297,8 +315,11 @@ class Pawn:
                                     black_pawn[i].captured == 0 and black_pawn[i].is_jumped == 0):
 
                                     black_pawn[i].is_jumped = 1
+                                    start = (self.x, self.y)
                                     self.move_down_left()
                                     self.move_down_left()
+                                    end = (self.x, self.y)
+                                    show_capture(start, end, self.color)
                                     has_captured = 1
                                     break
 
@@ -330,8 +351,11 @@ class Pawn:
                                     white_pawn[i].captured == 0 and white_pawn[i].is_jumped == 0):
 
                                     white_pawn[i].is_jumped = 1
+                                    start = (self.x, self.y)
                                     self.move_down_left()
                                     self.move_down_left()
+                                    end = (self.x, self.y)
+                                    show_capture(start, end, self.color)
                                     has_captured = 1
                                     break
 
@@ -367,7 +391,10 @@ class Pawn:
                                     return
 
                     self.selected = 0
+                    start = (self.x, self.y)
                     self.move_down_left()
+                    end = (self.x, self.y)
+                    show_move(start, end, self.color)
                     change_to_queen()
                     turn += 1
 
@@ -386,8 +413,11 @@ class Pawn:
                                     black_pawn[i].captured == 0 and black_pawn[i].is_jumped == 0):
 
                                     black_pawn[i].is_jumped = 1
+                                    start = (self.x, self.y)
                                     self.move_down_right()
                                     self.move_down_right()
+                                    end = (self.x, self.y)
+                                    show_capture(start, end, self.color)
                                     has_captured = 1
                                     break
 
@@ -419,8 +449,11 @@ class Pawn:
                                     white_pawn[i].captured == 0 and white_pawn[i].is_jumped == 0):
 
                                     white_pawn[i].is_jumped = 1
+                                    start = (self.x, self.y)
                                     self.move_down_right()
                                     self.move_down_right()
+                                    end = (self.x, self.y)
+                                    show_capture(start, end, self.color)
                                     has_captured = 1
                                     break
 
@@ -456,8 +489,11 @@ class Pawn:
                                     return
 
                     self.selected = 0
+                    start = (self.x, self.y)
                     self.move_down_right()
                     change_to_queen()
+                    end = (self.x, self.y)
+                    show_move(start, end, self.color)
                     turn += 1
 
             if self.queen == 1:
@@ -526,9 +562,11 @@ class Pawn:
 
                             self.selected = 0
 
+                            start = (self.x, self.y)
                             for i in range(loops):
                                 self.move_up_left()
-
+                            end = (self.x, self.y)
+                            show_move(start, end, self.color)
                             turn += 1
                             break
 
@@ -601,9 +639,11 @@ class Pawn:
 
                             self.selected = 0
 
+                            start = (self.x, self.y)
                             for i in range(loops):
                                 self.move_up_right()
-
+                            end = (self.x, self.y)
+                            show_move(start, end, self.color)
                             turn += 1
                             break
 
@@ -676,8 +716,11 @@ class Pawn:
 
                             self.selected = 0
 
+                            start = (self.x, self.y)
                             for i in range(loops):
                                 self.move_down_left()
+                            end = (self.x, self.y)
+                            show_move(start, end, self.color)
 
                             turn += 1
                             break
@@ -751,9 +794,11 @@ class Pawn:
 
                             self.selected = 0
 
+                            start = (self.x, self.y)
                             for i in range(loops):
                                 self.move_down_right()
-
+                            end = (self.x, self.y)
+                            show_move(start, end, self.color)
                             turn += 1
                             break
 
@@ -1925,6 +1970,38 @@ def check_if_all_pawns_are_blocked():
             return True
 
     return False
+
+
+def change_location_to_case(x,y):
+    y_loc = 0
+    x_loc = 0
+    case = 0
+    for i in range(10):
+        if (i*100) > y < (i*100)+10:
+            y_loc = i
+            break
+    for i in range(10):
+        if (i*100) > x < (i*100)+10:
+            x_loc = i
+            break
+    if y_loc % 2 == 0 and x_loc % 2 == 1:
+        case = (x_loc+1)//2 + y_loc*5
+    elif y_loc % 2 == 1 and x_loc % 2 == 0:
+        case = x_loc//2 + y_loc*5
+    return case
+
+
+def show_move(start,end,color):
+    start_case = change_location_to_case(start[0], start[1])
+    end_case = change_location_to_case(end[0],end[1])
+    if color == "black":
+        print(f"({start_case}-{end_case})")
+    elif color == "white":
+        print(f"{start_case}-{end_case}")
+
+
+def show_capture(start,end,color):
+    print("capture")
 
 
 def check_all_pawns_for_capture():
