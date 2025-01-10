@@ -4,10 +4,6 @@ Author : Cédric Jankiewicz and Thierry Perroud
 Date : 06.12.2024
 """
 
-#import of pygame
-import pygame
-
-
 class Pawn:
     x = 0
     y = 0
@@ -819,7 +815,6 @@ def timer():
         white_mill_sec_time, white_sec_time, white_min_time, white_time,\
         turn
 
-    pygame.time.delay(10)
     if global_mill_sec_time >= 99:
         global_mill_sec_time = 0
         global_sec_time += 1
