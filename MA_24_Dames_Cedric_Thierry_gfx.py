@@ -150,6 +150,7 @@ def display_info():
     #reset info side
     pygame.draw.rect(screen, (0, 0, 0), (1010, 10, 400, 1000))
 
+    pygame.time.delay(10)
     bknd.timer()
     bknd.check_pawn_left_queen()
 
@@ -323,7 +324,6 @@ def mainloop():
                 elif event.key == pygame.K_RETURN:
                     global konami
                     konami = bknd.detect_for_konami()
-                    print(konami)
                 elif event.key == pygame.K_p:
                     bknd.make_selected_to_queen()
                 elif event.key == pygame.K_o:
