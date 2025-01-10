@@ -65,6 +65,9 @@ class Pawn:
             black_force_capture = False
             white_force_capture = False
 
+            if self.captured == 1:
+                return
+
             for i in range(20):
                 if black_pawn[i].force_select == 1 or white_pawn[i].force_select == 1:
                     return
@@ -77,9 +80,6 @@ class Pawn:
 
                 if white_pawn[i].has_to_move == 1 and not white_force_capture:
                     white_force_capture = True
-
-            if self.captured == 1:
-                return
 
             if self.selected == 0:
                 if (self.color == "black" and self.has_to_move == 0 and black_force_capture or
@@ -1578,6 +1578,7 @@ def restart():
 
     manoury.clear()
 
+
 def check_if_queen_can_capture_again(pawn):
     pos_x = pawn.x + 50
     pos_y = pawn.y + 50
@@ -2051,11 +2052,92 @@ def check_all_pawns_for_capture():
                         can_capture = check_if_pawn_can_capture(pos_x + 200, pos_y + 200, None)
 
                     if can_capture:
-                        black_pawn[i].has_to_move = 1
                         break
 
             elif black_pawn[i].queen == 1:
-                pass
+                while 0 <= pos_x - 100 and 0 <= pos_y - 100 and not can_capture:
+                    pawn_hit = False
+
+                    for j in range(20):
+                        if (white_pawn[j].x <= pos_x - 100 <= white_pawn[j].x + 100 and
+                            white_pawn[j].y <= pos_y - 100 <= white_pawn[j].y + 100 and
+                            white_pawn[j].captured == 0):
+
+                            can_capture = check_if_pawn_can_capture(pos_x - 200, pos_y - 200, None)
+                            pawn_hit = True
+                            break
+
+                    if can_capture or pawn_hit:
+                        break
+
+                    pos_x -= 100
+                    pos_y -= 100
+
+                pos_x = black_pawn[i].x
+                pos_y = black_pawn[i].y
+
+                while pos_x + 100 <= 1010 and 0 <= pos_y - 100 and not can_capture:
+                    pawn_hit = False
+
+                    for j in range(20):
+                        if (white_pawn[j].x <= pos_x + 100 <= white_pawn[j].x + 100 and
+                            white_pawn[j].y <= pos_y - 100 <= white_pawn[j].y + 100 and
+                            white_pawn[j].captured == 0):
+
+                            can_capture = check_if_pawn_can_capture(pos_x + 200, pos_y - 200, None)
+                            pawn_hit = True
+                            break
+
+                    if can_capture or pawn_hit:
+                        break
+
+                    pos_x += 100
+                    pos_y -= 100
+
+                pos_x = black_pawn[i].x
+                pos_y = black_pawn[i].y
+
+                while 0 <= pos_x - 100 and pos_y + 100 <= 1010 and not can_capture:
+                    pawn_hit = False
+
+                    for j in range(20):
+                        if (white_pawn[j].x <= pos_x - 100 <= white_pawn[j].x + 100 and
+                            white_pawn[j].y <= pos_y + 100 <= white_pawn[j].y + 100 and
+                            white_pawn[j].captured == 0):
+
+                            can_capture = check_if_pawn_can_capture(pos_x - 200, pos_y + 200, None)
+                            pawn_hit = True
+                            break
+
+                    if can_capture or pawn_hit:
+                        break
+
+                    pos_x -= 100
+                    pos_y += 100
+
+                pos_x = black_pawn[i].x
+                pos_y = black_pawn[i].y
+
+                while pos_x + 100 <= 1010 and pos_y + 100 <= 1010 and not can_capture:
+                    pawn_hit = False
+
+                    for j in range(20):
+                        if (white_pawn[j].x <= pos_x + 100 <= white_pawn[j].x + 100 and
+                            white_pawn[j].y <= pos_y + 100 <= white_pawn[j].y + 100 and
+                            white_pawn[j].captured == 0):
+
+                            can_capture = check_if_pawn_can_capture(pos_x + 200, pos_y + 200, None)
+                            pawn_hit = True
+                            break
+
+                    if can_capture or pawn_hit:
+                        break
+
+                    pos_x += 100
+                    pos_y += 100
+
+            if can_capture:
+                black_pawn[i].has_to_move = 1
 
         if white_pawn[i].captured == 0:
             pos_x = white_pawn[i].x + 50
@@ -2089,11 +2171,92 @@ def check_all_pawns_for_capture():
                         can_capture = check_if_pawn_can_capture(pos_x + 200, pos_y + 200, None)
 
                     if can_capture:
-                        white_pawn[i].has_to_move = 1
                         break
 
             elif white_pawn[i].queen == 1:
-                pass
+                while 0 <= pos_x - 100 and 0 <= pos_y - 100 and not can_capture:
+                    pawn_hit = False
+
+                    for j in range(20):
+                        if (black_pawn[j].x <= pos_x - 100 <= black_pawn[j].x + 100 and
+                            black_pawn[j].y <= pos_y - 100 <= black_pawn[j].y + 100 and
+                            black_pawn[j].captured == 0):
+
+                            can_capture = check_if_pawn_can_capture(pos_x - 200, pos_y - 200, None)
+                            pawn_hit = True
+                            break
+
+                    if can_capture or pawn_hit:
+                        break
+
+                    pos_x -= 100
+                    pos_y -= 100
+
+                pos_x = white_pawn[i].x
+                pos_y = white_pawn[i].y
+
+                while pos_x + 100 <= 1010 and 0 <= pos_y - 100 and not can_capture:
+                    pawn_hit = False
+
+                    for j in range(20):
+                        if (black_pawn[j].x <= pos_x + 100 <= black_pawn[j].x + 100 and
+                            black_pawn[j].y <= pos_y - 100 <= black_pawn[j].y + 100 and
+                            black_pawn[j].captured == 0):
+
+                            can_capture = check_if_pawn_can_capture(pos_x + 200, pos_y - 200, None)
+                            pawn_hit = True
+                            break
+
+                    if can_capture or pawn_hit:
+                        break
+
+                    pos_x += 100
+                    pos_y -= 100
+
+                pos_x = white_pawn[i].x
+                pos_y = white_pawn[i].y
+
+                while 0 <= pos_x - 100 and pos_y + 100 <= 1010 and not can_capture:
+                    pawn_hit = False
+
+                    for j in range(20):
+                        if (black_pawn[j].x <= pos_x - 100 <= black_pawn[j].x + 100 and
+                            black_pawn[j].y <= pos_y + 100 <= black_pawn[j].y + 100 and
+                            black_pawn[j].captured == 0):
+
+                            can_capture = check_if_pawn_can_capture(pos_x - 200, pos_y + 200, None)
+                            pawn_hit = True
+                            break
+
+                    if can_capture or pawn_hit:
+                        break
+
+                    pos_x -= 100
+                    pos_y += 100
+
+                pos_x = white_pawn[i].x
+                pos_y = white_pawn[i].y
+
+                while pos_x + 100 <= 1010 and pos_y + 100 <= 1010 and not can_capture:
+                    pawn_hit = False
+
+                    for j in range(20):
+                        if (black_pawn[j].x <= pos_x + 100 <= black_pawn[j].x + 100 and
+                            black_pawn[j].y <= pos_y + 100 <= black_pawn[j].y + 100 and
+                            black_pawn[j].captured == 0):
+
+                            can_capture = check_if_pawn_can_capture(pos_x + 200, pos_y + 200, None)
+                            pawn_hit = True
+                            break
+
+                    if can_capture or pawn_hit:
+                        break
+
+                    pos_x += 100
+                    pos_y += 100
+
+            if can_capture:
+                white_pawn[i].has_to_move = 1
 
 
 black_pawn = [Pawn] * 20
