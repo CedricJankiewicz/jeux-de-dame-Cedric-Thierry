@@ -2060,9 +2060,6 @@ def check_all_pawns_for_capture():
                 if pawn_hit and not can_capture:
                     can_capture = check_if_pawn_can_capture(pos_x + 200, pos_y + 200, None)
 
-                if can_capture:
-                    break
-
             elif black_pawn[i].queen == 1:
                 while 0 <= pos_x - 100 and 0 <= pos_y - 100 and not can_capture:
                     pos_x -= 100
@@ -2137,9 +2134,6 @@ def check_all_pawns_for_capture():
 
                 if pawn_hit and not can_capture:
                     can_capture = check_if_pawn_can_capture(pos_x + 200, pos_y + 200, None)
-
-                if can_capture:
-                    break
 
             elif white_pawn[i].queen == 1:
                 while 0 <= pos_x - 100 and 0 <= pos_y - 100 and not can_capture:
