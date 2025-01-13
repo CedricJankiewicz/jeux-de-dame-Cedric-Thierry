@@ -4,6 +4,7 @@ Author : Cédric Jankiewicz and Thierry Perroud
 Date : 06.12.2024
 """
 
+
 class Pawn:
     x = 0
     y = 0
@@ -20,7 +21,7 @@ class Pawn:
     pawn_to_capture_distance = 0
 
 
-    def __init__(self, x, y, color):
+    def __init__(self, x=0, y=0, color="black"):
         self.x = x
         self.y = y
         self.color = color
@@ -2258,6 +2259,97 @@ def check_all_pawns_for_capture():
             if can_capture:
                 white_pawn[i].has_to_move = 1
 
+
+def get_save_data():
+    """
+    get all variable and all param for each pawn
+    """
+    global save
+    save = ""
+
+    # Save general variables, exclude 'save'
+    variables = {k: v for k, v in globals().items() if not callable(v) and not k.startswith("__") and k != "save"}
+    for var_name, var_value in variables.items():
+        save += f"{var_name} = {repr(var_value)}\n"
+
+    # Save black pawns (save attributes instead of the object reference)
+    for i, pawn in enumerate(black_pawn):
+        save += f"black_pawn[{i}] = {{'x': {pawn.x}, 'y': {pawn.y}, 'color': '{pawn.color}', 'captured': {pawn.captured}, 'queen': {pawn.queen}}}\n"
+
+    # Save white pawns (save attributes instead of the object reference)
+    for i, pawn in enumerate(white_pawn):
+        save += f"white_pawn[{i}] = {{'x': {pawn.x}, 'y': {pawn.y}, 'color': '{pawn.color}', 'captured': {pawn.captured}, 'queen': {pawn.queen}}}\n"
+
+
+def write_save_file():
+    """
+    write all save data in a text file
+    """
+    get_save_data()
+    with open("save/save.txt", "w") as file:
+        file.write(save)
+
+
+def load_save_file():
+    """
+    read and load the save file
+    """
+    global black_pawn, white_pawn
+
+    # Initialize empty pawn lists
+    black_pawn = [Pawn() for _ in range(20)]
+    white_pawn = [Pawn() for _ in range(20)]
+
+    with open("save/save.txt", "r") as file:
+        lines = file.readlines()
+
+    for line in lines:
+        # Skip empty lines or lines that do not contain relevant information
+        if not line.strip():
+            continue
+
+        # Load pawn data from the save file for black pawns
+        if "black_pawn" in line:
+            try:
+                index = int(line.split("[")[1].split("]")[0])
+
+                attributes = eval(line.split(" = ")[1])
+
+                black_pawn[index].x = attributes['x']
+                black_pawn[index].y = attributes['y']
+                black_pawn[index].color = attributes['color']
+                black_pawn[index].captured = attributes['captured']
+                black_pawn[index].queen = attributes['queen']
+
+            except (IndexError, ValueError, SyntaxError) as e:
+                print(f"Error processing black pawn line: {line} - {e}")
+
+        # Load pawn data from the save file for white pawns
+        elif "white_pawn" in line:
+            try:
+                index = int(line.split("[")[1].split("]")[0])
+
+                attributes = eval(line.split(" = ")[1])
+
+                white_pawn[index].x = attributes['x']
+                white_pawn[index].y = attributes['y']
+                white_pawn[index].color = attributes['color']
+                white_pawn[index].captured = attributes['captured']
+                white_pawn[index].queen = attributes['queen']
+
+            except (IndexError, ValueError, SyntaxError) as e:
+                print(f"Error processing white pawn line: {line} - {e}")
+
+        elif "=" in line:
+            try:
+                var_name, var_value = line.split(" = ")
+                var_value = eval(var_value.strip())
+                globals()[var_name.strip()] = var_value
+            except Exception as e:
+                print(f"Error processing global variable line: {line} - {e}")
+
+
+save = ""
 
 black_pawn = [Pawn] * 20
 white_pawn = [Pawn] * 20

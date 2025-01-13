@@ -157,8 +157,10 @@ def display_info():
     #text font
     font = pygame.font.Font(None, 36)
 
+    txt_save = font.render(f"press S to save", True, (255, 255, 100))
+    screen.blit(txt_save, (1060, 50))
     #global info
-    global_y = 305
+    global_y = 355
     txt_turn = font.render(f"turn {bknd.turn}", True, (255, 255, 255))
     screen.blit(txt_turn, (1060, global_y))
 
@@ -167,7 +169,7 @@ def display_info():
     screen.blit(txt_timer, (1060, (global_y + 30)))
 
     #black info
-    blk_y = 55
+    blk_y = 105
     txt_black = font.render("black", True, (255, 255, 255))
     screen.blit(txt_black, (1060, blk_y))
     txt_black_win = font.render(f"{bknd.black_win}", True, (255, 255, 255))
@@ -222,9 +224,12 @@ def display_title_screen():
     current_time = pygame.time.get_ticks()
     if current_time // 500 % 2 == 0:
         txt_press = tiny_font.render("Press any key to continue", True, (255, 255, 255))
+        txt_press_save = tiny_font.render("Press S to load save file", True, (255, 255, 255))
     else:
         txt_press = tiny_font.render("Press any key to continue", True, (255, 255, 100))
+        txt_press_save = tiny_font.render("Press S to load save file", True, (255, 255, 100))
     screen.blit(txt_press, (110, 300))
+    screen.blit(txt_press_save, (110, 350))
 
     pygame.display.update()
 
@@ -294,6 +299,8 @@ def mainloop():
                     title = False
                 elif event.type == pygame.KEYDOWN:
                     title = False
+                    if event.key == pygame.K_s:
+                        bknd.load_save_file()
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     title = False
         if not running:
@@ -307,8 +314,10 @@ def mainloop():
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 select_pawns(event)
                 move_pawns(event)
-            #input for easter egg
             elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_s:
+                    bknd.write_save_file()
+                # input for easter egg
                 if event.key == pygame.K_UP:
                     bknd.input_konami.append("up")
                 elif event.key == pygame.K_DOWN:
