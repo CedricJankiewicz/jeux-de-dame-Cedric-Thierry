@@ -499,8 +499,8 @@ class Pawn:
                     turn += 1
 
             if self.queen == 1:
-                pos_x = self.x + 50
-                pos_y = self.y + 50
+                pos_x = self.x
+                pos_y = self.y
                 loops = 0
                 ignore = False
                 ignored = 0
@@ -515,7 +515,23 @@ class Pawn:
                         pos_x -= 100
                         pos_y -= 100
                         loops += 1
-                        pawn_hit = check_for_pawn_in_the_way(self, pos_x, pos_y)
+                        pawn_hit = check_for_pawn_in_the_way(self, pos_x + 50, pos_y + 50)
+                        blocked = False
+
+                        if not pawn_hit:
+                            for i in range(20):
+                                if (black_pawn[i].x <= pos_x + 50 <= black_pawn[i].x + 100 and
+                                    black_pawn[i].y <= pos_y + 50 <= black_pawn[i].y + 100 and
+                                    black_pawn[i].captured == 0 and self.color == "black" or
+                                    white_pawn[i].x <= pos_x + 50 <= white_pawn[i].x + 100 and
+                                    white_pawn[i].y <= pos_y + 50 <= white_pawn[i].y + 100 and
+                                    white_pawn[i].captured == 0 and self.color == "white"):
+
+                                    blocked = True
+                                    break
+
+                        if blocked:
+                            break
 
                         if pos_x <= event.pos[0] <= pos_x + 100 and pos_y <= event.pos[1] <= pos_y + 100:
                             if self.pawn_to_capture_distance != 0:
@@ -595,7 +611,23 @@ class Pawn:
                         pos_x += 100
                         pos_y -= 100
                         loops += 1
-                        pawn_hit = check_for_pawn_in_the_way(self, pos_x, pos_y)
+                        pawn_hit = check_for_pawn_in_the_way(self, pos_x + 50, pos_y + 50)
+                        blocked = False
+
+                        if not pawn_hit:
+                            for i in range(20):
+                                if (black_pawn[i].x <= pos_x + 50 <= black_pawn[i].x + 100 and
+                                    black_pawn[i].y <= pos_y + 50 <= black_pawn[i].y + 100 and
+                                    black_pawn[i].captured == 0 and self.color == "black" or
+                                    white_pawn[i].x <= pos_x + 50 <= white_pawn[i].x + 100 and
+                                    white_pawn[i].y <= pos_y + 50 <= white_pawn[i].y + 100 and
+                                    white_pawn[i].captured == 0 and self.color == "white"):
+
+                                    blocked = True
+                                    break
+
+                        if blocked:
+                            break
 
                         if pos_x <= event.pos[0] <= pos_x + 100 and pos_y <= event.pos[1] <= pos_y + 100:
                             if self.pawn_to_capture_distance != 0:
@@ -675,7 +707,23 @@ class Pawn:
                         pos_x -= 100
                         pos_y += 100
                         loops += 1
-                        pawn_hit = check_for_pawn_in_the_way(self, pos_x, pos_y)
+                        pawn_hit = check_for_pawn_in_the_way(self, pos_x + 50, pos_y + 50)
+                        blocked = False
+
+                        if not pawn_hit:
+                            for i in range(20):
+                                if (black_pawn[i].x <= pos_x + 50 <= black_pawn[i].x + 100 and
+                                    black_pawn[i].y <= pos_y + 50 <= black_pawn[i].y + 100 and
+                                    black_pawn[i].captured == 0 and self.color == "black" or
+                                    white_pawn[i].x <= pos_x + 50 <= white_pawn[i].x + 100 and
+                                    white_pawn[i].y <= pos_y + 50 <= white_pawn[i].y + 100 and
+                                    white_pawn[i].captured == 0 and self.color == "white"):
+
+                                    blocked = True
+                                    break
+
+                        if blocked:
+                            break
 
                         if pos_x <= event.pos[0] <= pos_x + 100 and pos_y <= event.pos[1] <= pos_y + 100:
                             if self.pawn_to_capture_distance != 0:
@@ -756,7 +804,23 @@ class Pawn:
                         pos_x += 100
                         pos_y += 100
                         loops += 1
-                        pawn_hit = check_for_pawn_in_the_way(self, pos_x, pos_y)
+                        pawn_hit = check_for_pawn_in_the_way(self, pos_x + 50, pos_y + 50)
+                        blocked = False
+
+                        if not pawn_hit:
+                            for i in range(20):
+                                if (black_pawn[i].x <= pos_x + 50 <= black_pawn[i].x + 100 and
+                                    black_pawn[i].y <= pos_y + 50 <= black_pawn[i].y + 100 and
+                                    black_pawn[i].captured == 0 and self.color == "black" or
+                                    white_pawn[i].x <= pos_x + 50 <= white_pawn[i].x + 100 and
+                                    white_pawn[i].y <= pos_y + 50 <= white_pawn[i].y + 100 and
+                                    white_pawn[i].captured == 0 and self.color == "white"):
+
+                                    blocked = True
+                                    break
+
+                        if blocked:
+                            break
 
                         if pos_x <= event.pos[0] <= pos_x + 100 and pos_y <= event.pos[1] <= pos_y + 100:
                             if self.pawn_to_capture_distance != 0:
@@ -2073,10 +2137,17 @@ def check_all_pawns_for_capture():
                     pos_x -= 100
                     pos_y -= 100
                     pawn_hit = check_for_pawn_in_the_way(black_pawn[i], pos_x, pos_y)
+                    blocked = False
 
-                    if (black_pawn[i].x <= pos_x <= black_pawn[i].x + 100 and
-                        black_pawn[i].y <= pos_y <= black_pawn[i].y + 100 and black_pawn[i].captured == 0):
+                    for j in range(20):
+                        if (black_pawn[j].x <= pos_x <= black_pawn[j].x + 100 and
+                            black_pawn[j].y <= pos_y <= black_pawn[j].y + 100 and
+                            black_pawn[j].captured == 0):
 
+                            blocked = True
+                            break
+
+                    if blocked:
                         break
 
                     if pawn_hit:
@@ -2090,10 +2161,17 @@ def check_all_pawns_for_capture():
                     pos_x += 100
                     pos_y -= 100
                     pawn_hit = check_for_pawn_in_the_way(black_pawn[i], pos_x, pos_y)
+                    blocked = False
 
-                    if (black_pawn[i].x <= pos_x <= black_pawn[i].x + 100 and
-                        black_pawn[i].y <= pos_y <= black_pawn[i].y + 100 and black_pawn[i].captured == 0):
+                    for j in range(20):
+                        if (black_pawn[j].x <= pos_x <= black_pawn[j].x + 100 and
+                            black_pawn[j].y <= pos_y <= black_pawn[j].y + 100 and
+                            black_pawn[j].captured == 0):
 
+                            blocked = True
+                            break
+
+                    if blocked:
                         break
 
                     if pawn_hit:
@@ -2107,10 +2185,17 @@ def check_all_pawns_for_capture():
                     pos_x -= 100
                     pos_y += 100
                     pawn_hit = check_for_pawn_in_the_way(black_pawn[i], pos_x, pos_y)
+                    blocked = False
 
-                    if (black_pawn[i].x <= pos_x <= black_pawn[i].x + 100 and
-                        black_pawn[i].y <= pos_y <= black_pawn[i].y + 100 and black_pawn[i].captured == 0):
+                    for j in range(20):
+                        if (black_pawn[j].x <= pos_x <= black_pawn[j].x + 100 and
+                            black_pawn[j].y <= pos_y <= black_pawn[j].y + 100 and
+                            black_pawn[j].captured == 0):
 
+                            blocked = True
+                            break
+
+                    if blocked:
                         break
 
                     if pawn_hit:
@@ -2124,10 +2209,17 @@ def check_all_pawns_for_capture():
                     pos_x += 100
                     pos_y += 100
                     pawn_hit = check_for_pawn_in_the_way(black_pawn[i], pos_x, pos_y)
+                    blocked = False
 
-                    if (black_pawn[i].x <= pos_x <= black_pawn[i].x + 100 and
-                        black_pawn[i].y <= pos_y <= black_pawn[i].y + 100 and black_pawn[i].captured == 0):
+                    for j in range(20):
+                        if (black_pawn[j].x <= pos_x <= black_pawn[j].x + 100 and
+                            black_pawn[j].y <= pos_y <= black_pawn[j].y + 100 and
+                            black_pawn[j].captured == 0):
 
+                            blocked = True
+                            break
+
+                    if blocked:
                         break
 
                     if pawn_hit:
@@ -2168,10 +2260,17 @@ def check_all_pawns_for_capture():
                     pos_x -= 100
                     pos_y -= 100
                     pawn_hit = check_for_pawn_in_the_way(white_pawn[i], pos_x, pos_y)
+                    blocked = False
 
-                    if (white_pawn[i].x <= pos_x <= white_pawn[i].x + 100 and
-                        white_pawn[i].y <= pos_y <= white_pawn[i].y + 100 and white_pawn[i].captured == 0):
+                    for j in range(20):
+                        if (white_pawn[j].x <= pos_x <= white_pawn[j].x + 100 and
+                            white_pawn[j].y <= pos_y <= white_pawn[j].y + 100 and
+                            white_pawn[j].captured == 0):
 
+                            blocked = True
+                            break
+
+                    if blocked:
                         break
 
                     if pawn_hit:
@@ -2185,10 +2284,17 @@ def check_all_pawns_for_capture():
                     pos_x += 100
                     pos_y -= 100
                     pawn_hit = check_for_pawn_in_the_way(white_pawn[i], pos_x, pos_y)
+                    blocked = False
 
-                    if (white_pawn[i].x <= pos_x <= white_pawn[i].x + 100 and
-                        white_pawn[i].y <= pos_y <= white_pawn[i].y + 100 and white_pawn[i].captured == 0):
+                    for j in range(20):
+                        if (white_pawn[j].x <= pos_x <= white_pawn[j].x + 100 and
+                            white_pawn[j].y <= pos_y <= white_pawn[j].y + 100 and
+                            white_pawn[j].captured == 0):
 
+                            blocked = True
+                            break
+
+                    if blocked:
                         break
 
                     if pawn_hit:
@@ -2202,10 +2308,17 @@ def check_all_pawns_for_capture():
                     pos_x -= 100
                     pos_y += 100
                     pawn_hit = check_for_pawn_in_the_way(white_pawn[i], pos_x, pos_y)
+                    blocked = False
 
-                    if (white_pawn[i].x <= pos_x <= white_pawn[i].x + 100 and
-                        white_pawn[i].y <= pos_y <= white_pawn[i].y + 100 and white_pawn[i].captured == 0):
+                    for j in range(20):
+                        if (white_pawn[j].x <= pos_x <= white_pawn[j].x + 100 and
+                            white_pawn[j].y <= pos_y <= white_pawn[j].y + 100 and
+                            white_pawn[j].captured == 0):
 
+                            blocked = True
+                            break
+
+                    if blocked:
                         break
 
                     if pawn_hit:
@@ -2219,10 +2332,17 @@ def check_all_pawns_for_capture():
                     pos_x += 100
                     pos_y += 100
                     pawn_hit = check_for_pawn_in_the_way(white_pawn[i], pos_x, pos_y)
+                    blocked = False
 
-                    if (white_pawn[i].x <= pos_x <= white_pawn[i].x + 100 and
-                        white_pawn[i].y <= pos_y <= white_pawn[i].y + 100 and white_pawn[i].captured == 0):
+                    for j in range(20):
+                        if (white_pawn[j].x <= pos_x <= white_pawn[j].x + 100 and
+                            white_pawn[j].y <= pos_y <= white_pawn[j].y + 100 and
+                            white_pawn[j].captured == 0):
 
+                            blocked = True
+                            break
+
+                    if blocked:
                         break
 
                     if pawn_hit:
