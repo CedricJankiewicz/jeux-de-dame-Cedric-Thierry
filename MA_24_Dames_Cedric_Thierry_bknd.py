@@ -892,6 +892,9 @@ class Pawn:
 
 
 def timer():
+    """
+    create a global timer, a black timer and a white timer
+    """
     global global_mill_sec_time, global_sec_time, global_min_time, global_time,\
         black_mill_sec_time, black_sec_time, black_min_time, black_time,\
         white_mill_sec_time, white_sec_time, white_min_time, white_time,\
@@ -934,6 +937,9 @@ def timer():
 
 
 def check_pawn_left_queen():
+    """
+    check if any pawn is captured / is a queen and count it
+    """
     global black_pawn_left,white_pawn_left,black_pawn_queen,white_pawn_queen
     black_pawn_left = 20
     white_pawn_left = 20
@@ -954,6 +960,9 @@ def check_pawn_left_queen():
 
 
 def unselect_all():
+    """
+    set selected to 0 for every pawn
+    """
     for i in range (20):
         black_pawn[i].selected = 0
 
@@ -986,6 +995,11 @@ def init_pawns():
 
 
 def select_pawns(event):
+    """
+    check if any pawn is clicked and if it's their turn
+
+    :param event: event from the mouse click location
+    """
     if turn % 2 == 0:
         for i in range (20):
             black_pawn[i].select_pawn(event)
@@ -995,6 +1009,11 @@ def select_pawns(event):
 
 
 def move_pawns(event):
+    """
+    check if any pawn can move
+
+    :param event: event from the mouse click location
+    """
     for i in range (20):
         black_pawn[i].move_pawn(event)
 
@@ -1506,6 +1525,9 @@ def check_if_pawn_can_capture_again(pawn, previous_move, event):
 
 
 def change_to_queen():
+    """
+    check if any pawn can become a queen
+    """
     for i in range (20):
         black_pawn[i].change_to_queen()
 
@@ -1533,6 +1555,11 @@ def check_for_pawn_in_the_way(pawn, pos_x, pos_y):
 
 
 def check_win():
+    """
+    check if any win condition are met
+
+    :return: bool if any win condition are met
+    """
     global white_win, black_win, winner
 
     if black_pawn_left == 0:
@@ -2059,6 +2086,14 @@ def check_if_all_pawns_are_blocked():
 
 
 def change_location_to_case(x,y):
+    """
+    change the x, y coordinate to a gray case
+
+    :param x: x coordinate
+    :param y: y coordinate
+
+    :return: a string with all variable and there value
+    """
     y_loc = 0
     x_loc = 0
     case = 0
@@ -2081,6 +2116,13 @@ def change_location_to_case(x,y):
 
 
 def show_move(start,end,color):
+    """
+    get the start and end position to a list
+
+    :param start: the start location of the pawn
+    :param end: the end location of the pawn
+    :param color: the color of the pawn
+    """
     global manoury
     start_case = change_location_to_case(start[0], start[1])
     end_case = change_location_to_case(end[0],end[1])
@@ -2091,6 +2133,13 @@ def show_move(start,end,color):
 
 
 def show_capture(start,end,color):
+    """
+    get the start and end position to a list
+
+    :param start: the start location of the pawn
+    :param end: the end location of the pawn
+    :param color: the color of the pawn
+    """
     global manoury
     start_case = change_location_to_case(start[0], start[1])
     end_case = change_location_to_case(end[0], end[1])
@@ -2356,8 +2405,9 @@ def check_all_pawns_for_capture():
 def get_save_data():
     """
     get all variable and all param for each pawn
+
+    :return: a string with all variable and there value
     """
-    global save
     save = ""
 
     # Save general variables, exclude 'save'
@@ -2367,18 +2417,31 @@ def get_save_data():
 
     # Save black pawns (save attributes instead of the object reference)
     for i, pawn in enumerate(black_pawn):
-        save += f"black_pawn[{i}] = {{'x': {pawn.x}, 'y': {pawn.y}, 'color': '{pawn.color}', 'captured': {pawn.captured}, 'queen': {pawn.queen}}}\n"
+        save += (f"black_pawn[{i}] = "
+                 f"{{'x': {pawn.x}, "
+                 f"'y': {pawn.y}, "
+                 f"'color': '{pawn.color}', "
+                 f"'captured': {pawn.captured}, "
+                 f"'queen': {pawn.queen}}}\n")
 
     # Save white pawns (save attributes instead of the object reference)
     for i, pawn in enumerate(white_pawn):
-        save += f"white_pawn[{i}] = {{'x': {pawn.x}, 'y': {pawn.y}, 'color': '{pawn.color}', 'captured': {pawn.captured}, 'queen': {pawn.queen}}}\n"
+        save += (f"white_pawn[{i}] = "
+                 f"{{'x': {pawn.x}, "
+                 f"'y': {pawn.y}, "
+                 f"'color': "
+                 f"'{pawn.color}', "
+                 f"'captured': "
+                 f"{pawn.captured}, "
+                 f"'queen': {pawn.queen}}}\n")
+    return save
 
 
 def write_save_file():
     """
     write all save data in a text file
     """
-    get_save_data()
+    save = get_save_data()
     with open("save/save.txt", "w") as file:
         file.write(save)
 
@@ -2441,8 +2504,6 @@ def load_save_file():
             except Exception as e:
                 print(f"Error processing global variable line: {line} - {e}")
 
-
-save = ""
 
 black_pawn = [Pawn] * 20
 white_pawn = [Pawn] * 20

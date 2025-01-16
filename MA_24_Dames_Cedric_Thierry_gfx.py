@@ -271,6 +271,8 @@ def init():
 def select_pawns(event):
     """
     allow the player to select a pawn and draw the board after it
+
+    :param event: event from the mouse click location
     """
     bknd.select_pawns(event)
     draw_board()
@@ -279,6 +281,8 @@ def select_pawns(event):
 def move_pawns(event):
     """
     allow the player to move a pawn and draw the board after it
+
+    :param event: event from the mouse click location
     """
     bknd.move_pawns(event)
     draw_board()
@@ -333,6 +337,7 @@ def mainloop():
                 elif event.key == pygame.K_RETURN:
                     global konami
                     konami = bknd.detect_for_konami()
+                #debug command to remove later
                 elif event.key == pygame.K_p:
                     bknd.make_selected_to_queen()
                 elif event.key == pygame.K_o:
